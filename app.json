@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "fitness-app",
+    "slug": "fitness-app",
+    "version": "1.0.0",
+    "platforms": ["ios", "android", "web"],
+    "android": {
+      "permissions": ["CAMERA", "ACCESS_FINE_LOCATION"],
+      "package": "com.kaber.fitnessapp"
+    }
+  }
+}
