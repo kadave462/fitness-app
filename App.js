@@ -1,6 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import "react-native-polyfill-globals/auto";
+
+if (typeof global.setImmediate === "undefined") {
+  global.setImmediate = (callback, ...args) => {
+    return setTimeout(callback, 0, ...args);
+  };
+}
 
 export default function App() {
   return (

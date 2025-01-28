@@ -6,7 +6,8 @@
     "platforms": ["ios", "android", "web"],
     "android": {
       "permissions": ["CAMERA", "ACCESS_FINE_LOCATION"],
-      "package": "com.kaber.fitnessapp"
+      "package": "com.kaber.fitnessapp",
+      "newArchEnabled": true
     }
   }
 }
