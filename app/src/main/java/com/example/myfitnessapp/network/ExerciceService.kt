@@ -18,6 +18,12 @@ interface ExerciceService {
         @Query("limit") limit: Int = 0,
     ): List<ExerciceResponse>
 
+    @GET("/exercises")
+    suspend fun getExercisesWithoutEquipment(
+        @Query("limit") limit: Int = 0,
+        @Query("equipment") equipment: String = "body weight",
+    ): List<ExerciceResponse>
+
     @GET("exercises/name/{name}")
     suspend fun getExercisesByName(
         @Path("name") name: String
