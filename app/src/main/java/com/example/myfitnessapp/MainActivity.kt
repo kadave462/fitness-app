@@ -4,13 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.example.myfitnessapp.models.Exercise
+import com.example.myfitnessapp.models.ExerciseCategory
+import com.example.myfitnessapp.navigation.AppNavigation
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +20,31 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyFitnessAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                val navController = rememberNavController()
+                val userName = "Alex"
+                val categories = remember { mutableStateListOf<ExerciseCategory>() }
+                val selectedExercises = remember { mutableStateListOf<Exercise>() }
+
+                AppNavigation(navController, userName, categories, selectedExercises)
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun MainActivityPreview() {
     MyFitnessAppTheme {
-        Greeting("Android")
+        val navController = rememberNavController()
+        val userName = "Alex"
+        val categories = listOf(
+            ExerciseCategory("Cardio", listOf(Exercise("Jumping Jacks", "Full Body", "Cardio", ""), Exercise("Burpees", "Full Body", "Cardio", ""))),
+            ExerciseCategory("Musculation", listOf(Exercise("Pompes", "Pectoraux", "Force", ""), Exercise("Squats", "Jambes", "Force", "")))
+        )
+        val selectedExercises = remember { mutableStateListOf<Exercise>() }
+
+        AppNavigation(navController, userName, categories, selectedExercises)
     }
 }

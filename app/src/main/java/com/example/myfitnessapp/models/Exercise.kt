@@ -1,6 +1,6 @@
-package com.example.myfitnessapp.ui.models
+package com.example.myfitnessapp.models
 
-data class Exercice(
+data class Exercise(
     val name: String,
     val muscularGroup: String,
     val type: String,
