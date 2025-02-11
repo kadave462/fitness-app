@@ -1,10 +1,11 @@
 package com.example.myfitnessapp.network
 
-import com.example.myfitnessapp.models.ExerciceResponse
+import com.example.myfitnessapp.models.ExerciseResponse
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.io.File
 
 interface ExerciceService {
     @Headers(
@@ -16,17 +17,25 @@ interface ExerciceService {
     @GET("/exercises")
     suspend fun getExercises(
         @Query("limit") limit: Int = 0,
-    ): List<ExerciceResponse>
+    ): List<ExerciseResponse>
 
     @GET("/exercises")
     suspend fun getExercisesWithoutEquipment(
         @Query("limit") limit: Int = 0,
         @Query("equipment") equipment: String = "body weight",
-    ): List<ExerciceResponse>
+        @Query("sortMethod") sortMethod: String = "target"
+    ): List<ExerciseResponse>
 
     @GET("exercises/name/{name}")
     suspend fun getExercisesByName(
         @Path("name") name: String
-    ): List<ExerciceResponse>
+    ): List<ExerciseResponse>
+
+    @GET("/exercises/image/{id}")
+    suspend fun getGif(
+        @Path("id") id: String
+    ): File?
+
+
 
 }
