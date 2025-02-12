@@ -9,16 +9,32 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.example.myfitnessapp.database.AppDatabase // Import AppDatabase
+import com.example.myfitnessapp.database.MuscleDao // Import MuscleDao
+import com.example.myfitnessapp.database.populateDatabase // Import populateDatabase
 import com.example.myfitnessapp.models.Exercise
 import com.example.myfitnessapp.models.ExerciseCategory
 import com.example.myfitnessapp.navigation.AppNavigation
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
+import androidx.lifecycle.lifecycleScope // Import lifecycleScope
+import kotlinx.coroutines.launch // Import launch
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var muscleDao: MuscleDao // Declare MuscleDao
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
+
+        val database = AppDatabase.getDatabase(this) // Initialize database
+        muscleDao = database.muscleDao() // Get MuscleDao
+
+        lifecycleScope.launch { // Launch coroutine for database population
+            populateDatabase(this@MainActivity) // Call populateDatabase
+        }
+
+        setContent { // Keep your existing setContent block as is
             MyFitnessAppTheme {
                 val navController = rememberNavController()
                 val userName = "Alex"
@@ -30,8 +46,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
 
 @Preview(showBackground = true)
 @Composable

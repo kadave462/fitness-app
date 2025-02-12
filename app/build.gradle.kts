@@ -57,4 +57,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("androidx.room:room-runtime:2.6.1") // Use the latest version if available
+    implementation("androidx.room:room-ktx:2.6.0")     // Kotlin extensions (optional but recommended for Kotlin)
+    androidTestImplementation("androidx.room:room-testing:2.6.0")
+
+    //Lifecycle components (often used with Room - ensure these are also present)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2") // Use latest version
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")  // Use latest version
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")   // Use latest version
+
 }
