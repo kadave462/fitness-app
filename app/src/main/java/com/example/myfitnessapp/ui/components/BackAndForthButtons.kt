@@ -21,7 +21,8 @@ fun BackAndForthButtons(
     selectedExercises: List<Exercise>,
     currentIndex: Int,
     onIndexChange: (Int) -> Unit,
-    navController: NavController
+    navController: NavController,
+    navigation: String,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
@@ -42,7 +43,7 @@ fun BackAndForthButtons(
             }
         } else {
             Button(
-                onClick = { navController.navigate("endSessionScreen") },
+                onClick = { navController.navigate(navigation) },
             ) {
                 Text("Terminer")
             }
@@ -61,6 +62,7 @@ fun PreviewBackAndForthButtons() {
     )
     var currentIndex by remember { mutableIntStateOf(0) }
     val navController = rememberNavController()
+    val navigation = ""
 
-    BackAndForthButtons(sampleExercises, currentIndex, { currentIndex = it }, navController)
+    BackAndForthButtons(sampleExercises, currentIndex, { currentIndex = it }, navController, navigation)
 }

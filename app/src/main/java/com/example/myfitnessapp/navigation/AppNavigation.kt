@@ -8,6 +8,7 @@ import com.example.myfitnessapp.models.Exercise
 import com.example.myfitnessapp.models.ExerciseCategory
 import com.example.myfitnessapp.ui.screens.ExerciseScreen
 import com.example.myfitnessapp.ui.screens.HomeScreen
+import com.example.myfitnessapp.ui.screens.SessionEndScreen
 import com.example.myfitnessapp.ui.screens.SessionScreen
 
 @Composable
@@ -17,5 +18,6 @@ fun AppNavigation(navController: NavHostController, userName: String, categories
         composable("home_screen") { HomeScreen(navController, userName) }
         composable("exercise_screen") { ExerciseScreen(navController, categories, selectedExercises) }
         composable("session_screen") { SessionScreen(navController, selectedExercises) }
+        composable("session_end_screen") { SessionEndScreen(navController, userName, selectedExercises) }
     }
 }

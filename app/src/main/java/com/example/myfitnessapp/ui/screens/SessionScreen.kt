@@ -80,7 +80,8 @@ fun SessionScreen(navController: NavController, selectedExercises: List<Exercise
             selectedExercises = selectedExercises,
             currentIndex = currentIndex,
             onIndexChange = { newIndex -> currentIndex = newIndex },
-            navController = navController
+            navController = navController,
+            navigation = "session_end_screen"
         )
     }
 }

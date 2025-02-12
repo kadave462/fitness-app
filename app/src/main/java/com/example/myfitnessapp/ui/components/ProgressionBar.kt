@@ -77,10 +77,11 @@ fun PreviewProgressionBar() {
 
     var currentIndex by remember { mutableIntStateOf(0) }
     val navController = rememberNavController()
+    val navigation = ""
 
     ProgressionBar(sampleExercises, currentIndex)
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    BackAndForthButtons(sampleExercises, currentIndex, { currentIndex = it }, navController)
+    BackAndForthButtons(sampleExercises, currentIndex, { currentIndex = it }, navController, navigation)
 }
