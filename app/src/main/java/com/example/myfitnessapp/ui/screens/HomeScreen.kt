@@ -24,14 +24,14 @@ import java.io.File
 fun HomeScreen(modifier: Modifier){
     val scope = rememberCoroutineScope()
     var allExercices by remember { mutableStateOf<List<ExerciseResponse>>(emptyList()) }
-    //var test by remember { mutableStateOf<List<Exercise>>(emptyList()) }
+    var test by remember { mutableStateOf<List<Exercise>>(emptyList()) }
 
     LaunchedEffect(Unit) {
         try{
             scope.launch {
                 Log.d("MonTag", "Lancement du launched effect")
                 allExercices = fetchAllExercisesWithRetrofit() //N'arrive pas ici
-                //test = makeExercisesList(allExercices)
+                test = makeExercisesList(allExercices)
                 Log.d("MonTag", "Appel terminé")
             }
         } catch(e: Exception){
@@ -42,7 +42,7 @@ fun HomeScreen(modifier: Modifier){
     Text("Ceci est un test")
 
     LazyColumn(modifier = modifier) {
-        items(allExercices){
+        items(test){
             Text(it.name)
             Text(it.id,
                 fontStyle = FontStyle.Italic)
@@ -65,7 +65,7 @@ suspend fun fetchAllExercisesWithRetrofit(): List<ExerciseResponse> {
     }
 }
 
-/*suspend fun fetchGif(id: String): File? {
+suspend fun fetchGif(id: String): File? {
     Log.d("MonTag", "Appel de fetchGif cours ..")
     var gif: File? = null
     try {
@@ -77,7 +77,7 @@ suspend fun fetchAllExercisesWithRetrofit(): List<ExerciseResponse> {
         showError(e)
     }
     return gif
-} */
+}
 
 
 fun showError(e: Exception) {
@@ -89,16 +89,16 @@ suspend fun makeExercisesList(exerciseResponses: List<ExerciseResponse>): List<E
     val exercises = mutableListOf<Exercise>()
 
     for (exerciseResponse in exerciseResponses){
-        val id = exerciseResponse.urlGif.substringAfterLast("/")
-        //val gif = fetchGif(id)
+        val id = exerciseResponse.gifUrl.substringAfterLast("/")
+        val gif = fetchGif(id)
         exercises.add(Exercise(
             exerciseResponse.id,
             exerciseResponse.name,
             exerciseResponse.bodyPart,
             exerciseResponse.target,
             exerciseResponse.secondaryMuscles,
-            exerciseResponse.urlGif
-            //gif
+            exerciseResponse.gifUrl,
+            gif
         ))
     }
     return exercises;

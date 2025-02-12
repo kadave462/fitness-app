@@ -9,5 +9,5 @@ data class Exercise(
     val target: String,
     val secondaryMuscles: List<String>,
     val urlGif: String,
-    //val gif: File?
+    val gif: File?
 )
