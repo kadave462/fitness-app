@@ -20,10 +20,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.Exercise
+import com.example.myfitnessapp.models.ExerciseResponse
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 
 @Composable
-fun SessionEndScreen(navController: NavController, userName: String, selectedExercises: MutableList<Exercise>) {
+fun SessionEndScreen(navController: NavController, userName: String, selectedExercises: MutableList<ExerciseResponse>) {
 
     Box(
         modifier = Modifier
@@ -97,10 +98,10 @@ fun PreviewSessionEndScreen(){
     val navController = rememberNavController()
     val userName = "Alex"
     val sampleExercises = mutableListOf(
-        Exercise(name = "Pompes", muscularGroup = "Pectoraux", type = "Poids du corps", urlgif = ""),
-        Exercise(name = "Squats", muscularGroup = "Jambes", type = "Poids du corps", urlgif = ""),
-        Exercise(name = "Tractions", muscularGroup = "Dos", type = "Poids du corps", urlgif = ""),
-        Exercise(name = "Développé couché", muscularGroup = "Pectoraux", type = "Haltères", urlgif = "")
+        ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), urlGif = "https://example.com/pompes.gif"),
+        ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/squats.gif"),
+        ExerciseResponse(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/tractions.gif"),
+        ExerciseResponse(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), urlGif = "https://example.com/developpe.gif")
     )
 
     SessionEndScreen(navController, userName, sampleExercises)

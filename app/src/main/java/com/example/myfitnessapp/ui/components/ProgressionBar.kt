@@ -26,10 +26,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.Exercise
+import com.example.myfitnessapp.models.ExerciseResponse
 import com.example.myfitnessapp.ui.theme.Purple80
 
 @Composable
-fun ProgressionBar(selectedExercises: List<Exercise>, currentIndex: Int) {
+fun ProgressionBar(selectedExercises: List<ExerciseResponse>, currentIndex: Int) {
     val totalExercises = selectedExercises.size
     val progress = remember { Animatable(0f) }
 
@@ -69,10 +70,10 @@ fun ProgressionBar(selectedExercises: List<Exercise>, currentIndex: Int) {
 @Composable
 fun PreviewProgressionBar() {
     val sampleExercises = listOf(
-        Exercise(name = "Pompes", muscularGroup = "Pectoraux", type = "Poids du corps", urlgif = ""),
-        Exercise(name = "Squats", muscularGroup = "Jambes", type = "Poids du corps", urlgif = ""),
-        Exercise(name = "Tractions", muscularGroup = "Dos", type = "Poids du corps", urlgif = ""),
-        Exercise(name = "Développé couché", muscularGroup = "Pectoraux", type = "Haltères", urlgif = "")
+        ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), urlGif = "https://example.com/pompes.gif"),
+        ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/squats.gif"),
+        ExerciseResponse(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/tractions.gif"),
+        ExerciseResponse(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), urlGif = "https://example.com/developpe.gif")
     )
 
     var currentIndex by remember { mutableIntStateOf(0) }
