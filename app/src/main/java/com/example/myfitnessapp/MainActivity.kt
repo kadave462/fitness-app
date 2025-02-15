@@ -97,7 +97,7 @@ suspend fun makeExercisesList(exerciseResponses: List<ExerciseResponse>): List<E
     val exercises = mutableListOf<Exercise>()
 
     for (exerciseResponse in exerciseResponses){
-        val id = exerciseResponse.urlGif.substringAfterLast("/")
+        val id = exerciseResponse.gifUrl.substringAfterLast("/")
         //val gif = fetchGif(id)
         exercises.add(Exercise(
             exerciseResponse.id,
@@ -105,7 +105,7 @@ suspend fun makeExercisesList(exerciseResponses: List<ExerciseResponse>): List<E
             exerciseResponse.bodyPart,
             exerciseResponse.target,
             exerciseResponse.secondaryMuscles,
-            exerciseResponse.urlGif
+            exerciseResponse.gifUrl
             //gif
         ))
     }
@@ -121,12 +121,12 @@ fun MainActivityPreview() {
         val userName = "Alex"
         val categories = listOf(
             ExerciseCategory("Cardio", listOf(
-                ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), urlGif = "https://example.com/pompes.gif"),
-                ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/squats.gif"),),
+                ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif"),
+                ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/squats.gif"),),
             ),
             ExerciseCategory("Musculation", listOf(
-                ExerciseResponse(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/tractions.gif"),
-                ExerciseResponse(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), urlGif = "https://example.com/developpe.gif"),),
+                ExerciseResponse(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/tractions.gif"),
+                ExerciseResponse(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), gifUrl = "https://example.com/developpe.gif"),),
             )
         )
 

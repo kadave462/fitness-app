@@ -7,5 +7,5 @@ data class Exercise(
     val bodyPart: String,
     val target: String,
     val secondaryMuscles: List<String>,
-    val urlGif: String,
+    val gifUrl: String,
 )
