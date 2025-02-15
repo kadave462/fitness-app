@@ -15,9 +15,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.models.Exercise
+import com.example.myfitnessapp.models.ExerciseResponse
 
 @Composable
-fun ExerciseView(exercise: Exercise, isSelected: Boolean, index: Int?, onSelectionChange: (Boolean) -> Unit) {
+fun ExerciseView(exercise: ExerciseResponse, isSelected: Boolean, index: Int?, onSelectionChange: (Boolean) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -27,7 +28,7 @@ fun ExerciseView(exercise: Exercise, isSelected: Boolean, index: Int?, onSelecti
     ) {
         Column {
             Text(text = exercise.name, fontSize = 16.sp, fontWeight = FontWeight.Medium)
-            Text(text = exercise.muscularGroup, fontSize = 12.sp, color = Color.Gray)
+            Text(text = exercise.target, fontSize = 12.sp, color = Color.Gray)
         }
 
         Row(verticalAlignment = Alignment.CenterVertically) {

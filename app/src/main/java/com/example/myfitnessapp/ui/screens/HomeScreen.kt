@@ -52,7 +52,7 @@ fun HomeScreen(navController: NavController, userName: String, modifier: Modifie
             }
         }
 
-        Spacer(modifier = Modifier.height(400.dp))
+        Spacer(modifier = Modifier.weight(1f))
 
         FloatingButtonView(title = "Aller aux exercices") {
             navController.navigate("exercise_screen")
@@ -62,6 +62,6 @@ fun HomeScreen(navController: NavController, userName: String, modifier: Modifie
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewHomeScreen() {
+fun HomeScreenPreview() {
     HomeScreen(navController = rememberNavController(), userName = "Alex")
 }

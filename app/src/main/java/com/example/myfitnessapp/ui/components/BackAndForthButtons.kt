@@ -15,13 +15,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.Exercise
+import com.example.myfitnessapp.models.ExerciseResponse
 
 @Composable
 fun BackAndForthButtons(
-    selectedExercises: List<Exercise>,
+    selectedExercises: List<ExerciseResponse>,
     currentIndex: Int,
     onIndexChange: (Int) -> Unit,
-    navController: NavController
+    navController: NavController,
+    navigation: String,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
@@ -42,7 +44,7 @@ fun BackAndForthButtons(
             }
         } else {
             Button(
-                onClick = { navController.navigate("endSessionScreen") },
+                onClick = { navController.navigate(navigation) },
             ) {
                 Text("Terminer")
             }
@@ -54,13 +56,14 @@ fun BackAndForthButtons(
 @Composable
 fun PreviewBackAndForthButtons() {
     val sampleExercises = listOf(
-        Exercise(name = "Pompes", muscularGroup = "Pectoraux", type = "Poids du corps", urlgif = "https://example.com/pompes.gif"),
-        Exercise(name = "Squats", muscularGroup = "Jambes", type = "Poids du corps", urlgif = "https://example.com/squats.gif"),
-        Exercise(name = "Tractions", muscularGroup = "Dos", type = "Poids du corps", urlgif = "https://example.com/tractions.gif"),
-        Exercise(name = "Développé couché", muscularGroup = "Pectoraux", type = "Haltères", urlgif = "https://example.com/developpe.gif")
+        ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), urlGif = "https://example.com/pompes.gif"),
+        ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/squats.gif"),
+        ExerciseResponse(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/tractions.gif"),
+        ExerciseResponse(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), urlGif = "https://example.com/developpe.gif")
     )
     var currentIndex by remember { mutableIntStateOf(0) }
     val navController = rememberNavController()
+    val navigation = ""
 
-    BackAndForthButtons(sampleExercises, currentIndex, { currentIndex = it }, navController)
+    BackAndForthButtons(sampleExercises, currentIndex, { currentIndex = it }, navController, navigation)
 }

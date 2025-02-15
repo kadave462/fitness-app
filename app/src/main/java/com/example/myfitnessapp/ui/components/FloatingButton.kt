@@ -17,14 +17,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun FloatingButtonView(title: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun FloatingButtonView(title: String, modifier: Modifier = Modifier, enabled: Boolean = true, onClick: () -> Unit) {
     Box(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
         Button(
             onClick = onClick,
+            enabled = enabled,
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
                 .fillMaxWidth(0.75f)
@@ -32,7 +33,7 @@ fun FloatingButtonView(title: String, modifier: Modifier = Modifier, onClick: ()
                 .padding(16.dp)
         ) {
             Text(text = title,
-                fontSize = 20.sp,
+                fontSize = 16.sp,
                 maxLines = 1 )
         }
     }
