@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,12 +27,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
-import com.example.myfitnessapp.models.Exercise
 import com.example.myfitnessapp.models.ExerciseResponse
 import com.example.myfitnessapp.ui.components.BackAndForthButtons
 import com.example.myfitnessapp.ui.components.Chronometer
 import com.example.myfitnessapp.ui.components.ProgressionBar
 import com.example.myfitnessapp.utils.ChronometerUtils
+import com.example.myfitnessapp.utils.provideImageLoader
 
 @Composable
 fun SessionScreen(navController: NavController, selectedExercises: List<ExerciseResponse>) {
@@ -59,6 +60,7 @@ fun SessionScreen(navController: NavController, selectedExercises: List<Exercise
 
         AsyncImage(
             model = currentExercise.urlGif,
+            imageLoader = provideImageLoader(context = LocalContext.current),
             contentDescription = "GIF de ${currentExercise.name}",
             modifier = Modifier
                 .fillMaxWidth(0.9f)
@@ -92,10 +94,10 @@ fun SessionScreen(navController: NavController, selectedExercises: List<Exercise
 fun PreviewSessionScreen() {
     val navController = rememberNavController()
     val sampleExercises = listOf(
-        ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), urlGif = "https://example.com/pompes.gif"),
-        ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/squats.gif"),
-        ExerciseResponse(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/tractions.gif"),
-        ExerciseResponse(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), urlGif = "https://example.com/developpe.gif")
+        ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux", secondaryMuscles = listOf(), urlGif = "https://media.tenor.com/0sKxFzX_QpIAAAAC/push-up.gif"),
+        ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://media.tenor.com/Bzqv5io1K1YAAAAC/squat-workout.gif"),
+        ExerciseResponse(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://media.tenor.com/YX9Rs7yCr6EAAAAC/pull-up.gif"),
+        ExerciseResponse(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), urlGif = "https://media.tenor.com/6m8QHxdxRE4AAAAC/bench-press.gif")
     )
 
     SessionScreen(navController, sampleExercises)

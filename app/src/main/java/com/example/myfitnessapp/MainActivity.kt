@@ -21,6 +21,7 @@ import com.example.myfitnessapp.models.ExerciseResponse
 import com.example.myfitnessapp.navigation.AppNavigation
 import com.example.myfitnessapp.network.ExerciceClient
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
+import com.example.myfitnessapp.utils.ExerciseViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity() {
                 val userName = "Alex"
                 val categories = remember { mutableStateListOf<ExerciseCategory>() }
                 val selectedExercises = remember { mutableStateListOf<ExerciseResponse>() }
+                val viewModel = remember { ExerciseViewModel(categories) }
 
                 LaunchedEffect(Unit) {
                     try{
@@ -52,7 +54,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                AppNavigation(navController, userName, categories, selectedExercises)
+                AppNavigation(navController, userName, categories, viewModel, selectedExercises)
 
             }
         }
@@ -114,6 +116,8 @@ fun MainActivityPreview() {
 
         val selectedExercises = remember { mutableStateListOf<ExerciseResponse>() }
 
-        AppNavigation(navController, userName, categories, selectedExercises)
+        val viewModel = remember { ExerciseViewModel(categories) }
+
+        AppNavigation(navController, userName, categories, viewModel, selectedExercises)
     }
 }
