@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.Exercise
 import com.example.myfitnessapp.models.ExerciseCategory
 import com.example.myfitnessapp.models.ExerciseResponse
+import com.example.myfitnessapp.models.User
 import com.example.myfitnessapp.navigation.AppNavigation
 import com.example.myfitnessapp.network.ExerciceClient
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
@@ -34,7 +35,7 @@ class MainActivity : ComponentActivity() {
                 val scope = rememberCoroutineScope()
                 var allExercices by remember { mutableStateOf<List<ExerciseResponse>>(emptyList()) }
                 val navController = rememberNavController()
-                val userName = "Alex"
+                val user = User(1, "AlexL", "", "", "", 1.0, 1, 10, "", "")
                 val categories = remember { mutableStateListOf<ExerciseCategory>() }
                 val selectedExercises = remember { mutableStateListOf<ExerciseResponse>() }
                 val viewModel = remember { ExerciseViewModel(categories) }
@@ -54,7 +55,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                AppNavigation(navController, userName, categories, viewModel, selectedExercises)
+                AppNavigation(navController, user, categories, viewModel, selectedExercises)
 
             }
         }
@@ -102,7 +103,7 @@ suspend fun makeExercisesList(exerciseResponses: List<ExerciseResponse>): List<E
 fun MainActivityPreview() {
     MyFitnessAppTheme {
         val navController = rememberNavController()
-        val userName = "Alex"
+        val user = User(10, "AlexL","Alex", "Lafitte", "alex.lafitte@gmail.com", 83.2, 186, 21, "Homme", "Débutant")
         val categories = listOf(
             ExerciseCategory("Cardio", listOf(
                 ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), urlGif = "https://example.com/pompes.gif"),
@@ -118,6 +119,6 @@ fun MainActivityPreview() {
 
         val viewModel = remember { ExerciseViewModel(categories) }
 
-        AppNavigation(navController, userName, categories, viewModel, selectedExercises)
+        AppNavigation(navController, user, categories, viewModel, selectedExercises)
     }
 }
