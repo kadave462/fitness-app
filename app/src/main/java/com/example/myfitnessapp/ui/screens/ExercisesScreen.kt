@@ -12,8 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,15 +19,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.ExerciseCategory
 import com.example.myfitnessapp.models.Exercise
-import com.example.myfitnessapp.network.ExerciseRepository
+import com.example.myfitnessapp.ViewModel.ExerciseRepository
 import com.example.myfitnessapp.ui.views.CategoryView
 import com.example.myfitnessapp.ui.components.FloatingButtonView
-import com.example.myfitnessapp.utils.ExerciseViewModel
 
 @Composable
 fun ExerciseScreen(
     navController: NavController,
-
     repository: ExerciseRepository
 ) {
     val viewModel = repository.viewModel

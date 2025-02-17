@@ -14,9 +14,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.R
 import com.example.myfitnessapp.models.User
-import com.example.myfitnessapp.network.ExerciseRepository
 import com.example.myfitnessapp.ui.components.FloatingButtonView
-import com.example.myfitnessapp.utils.TimeUtils
+import com.example.myfitnessapp.ViewModel.utils.TimeUtils
 
 @Composable
 fun HomeScreen(navController: NavController, user: User) {
@@ -42,7 +41,7 @@ fun HomeScreen(navController: NavController, user: User) {
 
             Column {
                 Text(
-                    text = "Bonjour, $user.name",
+                    text = "Bonjour, ${user.name}",
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold
                 )

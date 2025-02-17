@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.network
+package com.example.myfitnessapp.models.network
 
 import com.example.myfitnessapp.models.ExerciseResponse
 import retrofit2.http.GET

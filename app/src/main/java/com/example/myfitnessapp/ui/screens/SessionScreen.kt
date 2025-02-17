@@ -21,20 +21,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
-import com.example.myfitnessapp.models.Exercise
-import com.example.myfitnessapp.models.ExerciseResponse
-import com.example.myfitnessapp.network.ExerciseRepository
+import com.example.myfitnessapp.ViewModel.ExerciseRepository
 import com.example.myfitnessapp.ui.components.BackAndForthButtons
 import com.example.myfitnessapp.ui.components.Chronometer
 import com.example.myfitnessapp.ui.components.ProgressionBar
-import com.example.myfitnessapp.utils.ChronometerUtils
-import com.example.myfitnessapp.utils.provideImageLoader
+import com.example.myfitnessapp.ViewModel.utils.ChronometerUtils
+import com.example.myfitnessapp.ViewModel.utils.provideImageLoader
 
 @Composable
 fun SessionScreen(navController: NavController, repository: ExerciseRepository) {

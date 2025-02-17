@@ -17,8 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myfitnessapp.utils.ChronometerUtils
-import com.example.myfitnessapp.utils.TimeUtils
+import com.example.myfitnessapp.ViewModel.utils.ChronometerUtils
+import com.example.myfitnessapp.ViewModel.utils.TimeUtils
 
 @Composable
 fun Chronometer(viewModel: ChronometerUtils) {

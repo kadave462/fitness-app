@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.utils
+package com.example.myfitnessapp.ViewModel.utils
 
 import android.os.Build.VERSION.SDK_INT
 import android.content.Context

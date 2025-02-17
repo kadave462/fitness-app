@@ -1,15 +1,11 @@
-package com.example.myfitnessapp.network
+package com.example.myfitnessapp.ViewModel
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.example.myfitnessapp.models.Exercise
 import com.example.myfitnessapp.models.ExerciseCategory
 import com.example.myfitnessapp.models.ExerciseResponse
-import com.example.myfitnessapp.utils.ExerciseViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import com.example.myfitnessapp.models.network.ExerciceClient
 import java.io.File
 
 
@@ -19,7 +15,6 @@ class ExerciseRepository() {
         var allCategories = mutableStateListOf<ExerciseCategory>()
         val viewModel = ExerciseViewModel(allCategories)
         val selectedExercises = mutableStateListOf<Exercise>()
-
 
 
         fun showError(e: Exception) {
@@ -40,9 +35,7 @@ class ExerciseRepository() {
                         showError(e)
                         return emptyList<ExerciseResponse>();
                 }
-
         }
-
 
         suspend fun fetchGif(gifUrl: String): File? {
                 val id: String = gifUrl.substringAfterLast("/")
@@ -103,10 +96,6 @@ class ExerciseRepository() {
                 allCategories.addAll(categories)
         }
 
-        suspend fun getAllCategories(): List<ExerciseCategory> {
-                makeCategories()
-                return allCategories
-        }
 }
 
 

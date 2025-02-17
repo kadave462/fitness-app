@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.utils
+package com.example.myfitnessapp.ViewModel.utils
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
