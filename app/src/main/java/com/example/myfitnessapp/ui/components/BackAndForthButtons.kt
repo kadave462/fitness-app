@@ -19,7 +19,7 @@ import com.example.myfitnessapp.models.ExerciseResponse
 
 @Composable
 fun BackAndForthButtons(
-    selectedExercises: List<ExerciseResponse>,
+    selectedExercises: MutableList<Exercise>,
     currentIndex: Int,
     onIndexChange: (Int) -> Unit,
     navController: NavController,
@@ -52,15 +52,15 @@ fun BackAndForthButtons(
     }
 }
 
-
+/*
 @Preview(showBackground = true)
 @Composable
 fun PreviewBackAndForthButtons() {
-    val sampleExercises = listOf(
-        ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif"),
-        ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/squats.gif"),
-        ExerciseResponse(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/tractions.gif"),
-        ExerciseResponse(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), gifUrl = "https://example.com/developpe.gif")
+    val sampleExercises = MutableListOf(
+        Exercise(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif"),
+        Exercise(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/squats.gif"),
+        Exercise(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/tractions.gif"),
+        Exercise(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), gifUrl = "https://example.com/developpe.gif")
     )
     var currentIndex by remember { mutableIntStateOf(0) }
     val navController = rememberNavController()
@@ -68,3 +68,4 @@ fun PreviewBackAndForthButtons() {
 
     BackAndForthButtons(sampleExercises, currentIndex, { currentIndex = it }, navController, navigation)
 }
+*/

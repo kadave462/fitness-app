@@ -27,11 +27,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myfitnessapp.models.Exercise
 import com.example.myfitnessapp.models.ExerciseCategory
 import com.example.myfitnessapp.models.ExerciseResponse
 
 @Composable
-fun CategoryView(category: ExerciseCategory, selectedExercises: MutableList<ExerciseResponse>) {
+fun CategoryView(category: ExerciseCategory, selectedExercises: MutableList<Exercise>) {
     var expanded by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
@@ -83,11 +84,11 @@ fun CategoryView(category: ExerciseCategory, selectedExercises: MutableList<Exer
 fun PreviewCategoryView() {
     val sampleCategory = ExerciseCategory(
         "Pectoraux", listOf(
-            ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif"),
-            ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/squats.gif"),
+            Exercise(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif", gif = null),
+            Exercise(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/squats.gif", gif = null),
         )
     )
-    val exercises = remember { mutableStateListOf<ExerciseResponse>() }
+    val exercises = remember { mutableStateListOf<Exercise>() }
 
     CategoryView(category = sampleCategory, exercises)
 }

@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.myfitnessapp.models.Exercise
 import com.example.myfitnessapp.models.ExerciseCategory
-import com.example.myfitnessapp.models.ExerciseResponse
 import com.example.myfitnessapp.ui.screens.ExerciseScreen
 import com.example.myfitnessapp.ui.screens.HomeScreen
 import com.example.myfitnessapp.ui.screens.SessionEndScreen
@@ -13,7 +13,7 @@ import com.example.myfitnessapp.ui.screens.SessionScreen
 import com.example.myfitnessapp.utils.ExerciseViewModel
 
 @Composable
-fun AppNavigation(navController: NavHostController, userName: String, categories: List<ExerciseCategory>, viewModel: ExerciseViewModel, selectedExercises: MutableList<ExerciseResponse>) {
+fun AppNavigation(navController: NavHostController, userName: String, categories: List<ExerciseCategory>, viewModel: ExerciseViewModel, selectedExercises: MutableList<Exercise>) {
 
     NavHost(navController = navController, startDestination = "home_screen") {
         composable("home_screen") { HomeScreen(navController, userName) }

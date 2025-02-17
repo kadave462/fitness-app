@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.example.myfitnessapp.models.Exercise
 import com.example.myfitnessapp.models.ExerciseResponse
 import com.example.myfitnessapp.ui.components.BackAndForthButtons
 import com.example.myfitnessapp.ui.components.Chronometer
@@ -35,7 +36,7 @@ import com.example.myfitnessapp.utils.ChronometerUtils
 import com.example.myfitnessapp.utils.provideImageLoader
 
 @Composable
-fun SessionScreen(navController: NavController, selectedExercises: List<ExerciseResponse>) {
+fun SessionScreen(navController: NavController, selectedExercises: MutableList<Exercise>) {
     var currentIndex by remember { mutableIntStateOf(0) }
     val currentExercise = selectedExercises[currentIndex]
 
@@ -89,6 +90,7 @@ fun SessionScreen(navController: NavController, selectedExercises: List<Exercise
     }
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun PreviewSessionScreen() {
@@ -101,4 +103,4 @@ fun PreviewSessionScreen() {
     )
 
     SessionScreen(navController, sampleExercises)
-}
+} */

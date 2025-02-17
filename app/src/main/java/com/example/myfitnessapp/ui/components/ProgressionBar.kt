@@ -30,7 +30,7 @@ import com.example.myfitnessapp.models.ExerciseResponse
 import com.example.myfitnessapp.ui.theme.Purple80
 
 @Composable
-fun ProgressionBar(selectedExercises: List<ExerciseResponse>, currentIndex: Int) {
+fun ProgressionBar(selectedExercises: MutableList<Exercise>, currentIndex: Int) {
     val totalExercises = selectedExercises.size
     val progress = remember { Animatable(0f) }
 
@@ -65,7 +65,7 @@ fun ProgressionBar(selectedExercises: List<ExerciseResponse>, currentIndex: Int)
         )
     }
 }
-
+/*
 @Preview(showBackground = true)
 @Composable
 fun PreviewProgressionBar() {
@@ -85,4 +85,4 @@ fun PreviewProgressionBar() {
     Spacer(modifier = Modifier.height(16.dp))
 
     BackAndForthButtons(sampleExercises, currentIndex, { currentIndex = it }, navController, navigation)
-}
+}*/

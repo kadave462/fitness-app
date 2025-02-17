@@ -2,10 +2,10 @@ package com.example.myfitnessapp.models
 
 data class ExerciseCategory(
     val category: String,
-    val exercises: List<ExerciseResponse>
+    val exercises: List<Exercise>
 ) {
     companion object {
-        fun groupByBodyPart(exercises: List<ExerciseResponse>): List<ExerciseCategory> {
+        fun groupByBodyPart(exercises: List<Exercise>): List<ExerciseCategory> {
             return exercises.groupBy { it.bodyPart }
                 .map { (bodyPart, exercises) ->
                     ExerciseCategory(

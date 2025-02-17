@@ -49,8 +49,8 @@ class ExerciseRepository() {
                 return gif
         }
 
-        suspend fun makeExercisesList(exerciseResponses: List<ExerciseResponse>): List<Exercise>{
-                //val exerciseResponses = fetchAllExercises()
+        suspend fun makeExercisesList(): List<Exercise>{
+                val exerciseResponses = fetchAllExercises()
                 val exercises = mutableListOf<Exercise>()
 
                 for (exerciseResponse in exerciseResponses){

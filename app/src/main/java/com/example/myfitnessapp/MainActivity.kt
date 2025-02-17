@@ -33,22 +33,25 @@ class MainActivity : ComponentActivity() {
             MyFitnessAppTheme {
 
                 val scope = rememberCoroutineScope()
-                var allExercicesResponses by remember { mutableStateOf<List<ExerciseResponse>>(emptyList()) }
-                var allExercises by remember { mutableStateOf<List<Exercise>>(emptyList()) }
                 val navController = rememberNavController()
                 val user = User()
+
+                var allExercises by remember { mutableStateOf<List<Exercise>>(emptyList()) }
                 val categories = remember { mutableStateListOf<ExerciseCategory>() }
-                val selectedExercises = remember { mutableStateListOf<ExerciseResponse>() }
+                val selectedExercises = remember { mutableStateListOf<Exercise>() }
+
                 val viewModel = remember { ExerciseViewModel(categories) }
                 val repository = remember { ExerciseRepository() }
 
+
+
+
                 LaunchedEffect(Unit) {
                     scope.launch {
-                        allExercicesResponses = repository.fetchAllExercises()
-                        Log.d("MonTag", "Nombre d'exercices : ${allExercicesResponses.size}")
-                        allExercises = repository.makeExercisesList(allExercicesResponses)
+                        Log.d("MonTag", "Nombre d'exercices : ${allExercises.size}")
+                        allExercises = repository.makeExercisesList()
                         categories.clear()
-                        categories.addAll(ExerciseCategory.groupByBodyPart(allExercicesResponses))
+                        categories.addAll(ExerciseCategory.groupByBodyPart(allExercises))
                     }
 
                 }

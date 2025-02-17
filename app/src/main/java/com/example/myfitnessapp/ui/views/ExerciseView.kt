@@ -20,11 +20,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.models.Exercise
-import com.example.myfitnessapp.models.ExerciseResponse
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ExerciseView(exercise: ExerciseResponse, isSelected: Boolean, index: Int?, onSelectionChange: (Boolean) -> Unit) {
+fun ExerciseView(exercise: Exercise, isSelected: Boolean, index: Int?, onSelectionChange: (Boolean) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
