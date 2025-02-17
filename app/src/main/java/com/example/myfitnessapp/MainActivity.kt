@@ -36,27 +36,17 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val user = User()
 
-                val categories = remember { mutableStateListOf<ExerciseCategory>() }
-                val selectedExercises = remember { mutableStateListOf<Exercise>() }
-
-                val viewModel = remember { ExerciseViewModel(categories) }
                 val repository = remember { ExerciseRepository() }
-
-
-
 
                 LaunchedEffect(Unit) {
                     scope.launch {
                         repository.makeExercisesList()
                         repository.makeCategories()
-                        categories.clear()
-                        categories.addAll(repository.getAllCategories())
-
                     }
 
                 }
 
-                AppNavigation(navController, user.name, categories, viewModel, selectedExercises)
+                AppNavigation(navController, user, repository)
 
             }
         }

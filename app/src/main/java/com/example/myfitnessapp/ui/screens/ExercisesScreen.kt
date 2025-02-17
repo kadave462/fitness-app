@@ -21,14 +21,21 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.ExerciseCategory
 import com.example.myfitnessapp.models.Exercise
+import com.example.myfitnessapp.network.ExerciseRepository
 import com.example.myfitnessapp.ui.views.CategoryView
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.utils.ExerciseViewModel
 
 @Composable
-fun ExerciseScreen(navController: NavController, categories: List<ExerciseCategory>, viewModel: ExerciseViewModel, selectedExercises: MutableList<Exercise>) {
+fun ExerciseScreen(
+    navController: NavController,
+
+    repository: ExerciseRepository
+) {
+    val viewModel = repository.viewModel
     val searchQuery by viewModel.searchQuery.collectAsState()
-    val filteredCategories by viewModel.filteredCategories.collectAsState(initial = categories)
+    val filteredCategories by viewModel.filteredCategories.collectAsState(initial = repository.allCategories)
+    val selectedExercises = repository.selectedExercises
 
     Box(
         modifier = Modifier.fillMaxSize().padding(16.dp)
@@ -77,9 +84,5 @@ fun ExerciseScreenPreview() {
         )
     )
 
-    val selectedExercises = remember { mutableStateListOf<Exercise>() }
-
-    val viewModel = remember { ExerciseViewModel(categories) }
-
-    ExerciseScreen(navController, categories, viewModel, selectedExercises)
+    ExerciseScreen(navController, ExerciseRepository())
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -20,11 +21,18 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.Exercise
-import com.example.myfitnessapp.models.ExerciseResponse
+import com.example.myfitnessapp.models.User
+import com.example.myfitnessapp.network.ExerciseRepository
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 
 @Composable
-fun SessionEndScreen(navController: NavController, userName: String, selectedExercises: MutableList<Exercise>) {
+fun SessionEndScreen(
+    navController: NavController,
+    user: User,
+    repository: ExerciseRepository
+) {
+    val userName = user.name
+    var selectedExercises = repository.selectedExercises
 
     Box(
         modifier = Modifier
@@ -96,7 +104,7 @@ fun SessionEndScreen(navController: NavController, userName: String, selectedExe
 @Composable
 fun PreviewSessionEndScreen(){
     val navController = rememberNavController()
-    val userName = "Alex"
+    val user = User()
     val sampleExercises = mutableListOf(
         Exercise(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif", gif = null),
         Exercise(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/squats.gif", gif = null),
@@ -104,5 +112,5 @@ fun PreviewSessionEndScreen(){
         Exercise(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), gifUrl = "https://example.com/developpe.gif", gif = null)
     )
 
-    SessionEndScreen(navController, userName, sampleExercises)
+    SessionEndScreen(navController, user, ExerciseRepository())
 }

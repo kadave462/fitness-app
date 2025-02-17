@@ -3,9 +3,11 @@ package com.example.myfitnessapp.network
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.example.myfitnessapp.models.Exercise
 import com.example.myfitnessapp.models.ExerciseCategory
 import com.example.myfitnessapp.models.ExerciseResponse
+import com.example.myfitnessapp.utils.ExerciseViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -14,8 +16,10 @@ import java.io.File
 class ExerciseRepository() {
         private val api = ExerciceClient.api
         private var allExercises: List<Exercise>? = null
-        var allCategories: List<ExerciseCategory> = emptyList()
-        val selectedExercises = { mutableStateListOf<Exercise>() }
+        var allCategories = mutableStateListOf<ExerciseCategory>()
+        val viewModel = ExerciseViewModel(allCategories)
+        val selectedExercises = mutableStateListOf<Exercise>()
+
 
 
         fun showError(e: Exception) {
@@ -94,7 +98,9 @@ class ExerciseRepository() {
         }
 
         suspend fun makeCategories(): Unit{
-                allCategories = groupByBodyPart(allExercises)
+                val categories = groupByBodyPart(allExercises)
+                allCategories.clear()
+                allCategories.addAll(categories)
         }
 
         suspend fun getAllCategories(): List<ExerciseCategory> {
