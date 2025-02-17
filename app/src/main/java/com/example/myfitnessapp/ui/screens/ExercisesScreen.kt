@@ -12,23 +12,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.ExerciseCategory
-import com.example.myfitnessapp.models.ExerciseResponse
+import com.example.myfitnessapp.models.Exercise
+import com.example.myfitnessapp.ViewModel.ExerciseRepository
 import com.example.myfitnessapp.ui.views.CategoryView
 import com.example.myfitnessapp.ui.components.FloatingButtonView
-import com.example.myfitnessapp.utils.ExerciseViewModel
 
 @Composable
-fun ExerciseScreen(navController: NavController, categories: List<ExerciseCategory>, viewModel: ExerciseViewModel, selectedExercises: MutableList<ExerciseResponse>) {
+fun ExerciseScreen(
+    navController: NavController,
+    repository: ExerciseRepository
+) {
+    val viewModel = repository.viewModel
     val searchQuery by viewModel.searchQuery.collectAsState()
-    val filteredCategories by viewModel.filteredCategories.collectAsState(initial = categories)
+    val filteredCategories by viewModel.filteredCategories.collectAsState(initial = repository.allCategories)
+    val selectedExercises = repository.selectedExercises
 
     Box(
         modifier = Modifier.fillMaxSize().padding(16.dp)
@@ -68,18 +71,14 @@ fun ExerciseScreenPreview() {
     val navController = rememberNavController()
     val categories = listOf(
         ExerciseCategory("Cardio", listOf(
-            ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), urlGif = "https://example.com/pompes.gif"),
-            ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/squats.gif"),),
+            Exercise(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif", gif = null),
+            Exercise(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/squats.gif", gif = null),),
         ),
         ExerciseCategory("Musculation", listOf(
-            ExerciseResponse(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/tractions.gif"),
-            ExerciseResponse(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), urlGif = "https://example.com/developpe.gif"),),
+            Exercise(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/tractions.gif", gif = null),
+            Exercise(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), gifUrl = "https://example.com/developpe.gif", gif = null),),
         )
     )
 
-    val selectedExercises = remember { mutableStateListOf<ExerciseResponse>() }
-
-    val viewModel = remember { ExerciseViewModel(categories) }
-
-    ExerciseScreen(navController, categories, viewModel, selectedExercises)
+    ExerciseScreen(navController, ExerciseRepository())
 }

@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.video
+package com.example.myfitnessapp.ViewModel.utils.video
 
 import android.webkit.WebView
 import androidx.compose.foundation.layout.fillMaxWidth

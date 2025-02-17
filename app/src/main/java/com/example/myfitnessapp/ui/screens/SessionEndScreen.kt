@@ -20,11 +20,18 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.Exercise
-import com.example.myfitnessapp.models.ExerciseResponse
+import com.example.myfitnessapp.models.User
+import com.example.myfitnessapp.ViewModel.ExerciseRepository
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 
 @Composable
-fun SessionEndScreen(navController: NavController, userName: String, selectedExercises: MutableList<ExerciseResponse>) {
+fun SessionEndScreen(
+    navController: NavController,
+    user: User,
+    repository: ExerciseRepository
+) {
+    val userName = user.firstName
+    var selectedExercises = repository.selectedExercises
 
     Box(
         modifier = Modifier
@@ -96,13 +103,13 @@ fun SessionEndScreen(navController: NavController, userName: String, selectedExe
 @Composable
 fun PreviewSessionEndScreen(){
     val navController = rememberNavController()
-    val userName = "Alex"
+    val user = User(10, "AlexL", "Alex", "Laffite", "alex.laffite@gmail.com", 80.0, 180, 25, "Homme", "Débutant")
     val sampleExercises = mutableListOf(
-        ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), urlGif = "https://example.com/pompes.gif"),
-        ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/squats.gif"),
-        ExerciseResponse(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/tractions.gif"),
-        ExerciseResponse(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), urlGif = "https://example.com/developpe.gif")
+        Exercise(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif", gif = null),
+        Exercise(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/squats.gif", gif = null),
+        Exercise(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/tractions.gif", gif = null),
+        Exercise(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), gifUrl = "https://example.com/developpe.gif", gif = null)
     )
 
-    SessionEndScreen(navController, userName, sampleExercises)
+    SessionEndScreen(navController, user, ExerciseRepository())
 }

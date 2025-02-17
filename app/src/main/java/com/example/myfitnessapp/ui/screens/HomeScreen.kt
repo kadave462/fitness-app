@@ -13,11 +13,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.R
+import com.example.myfitnessapp.models.User
 import com.example.myfitnessapp.ui.components.FloatingButtonView
-import com.example.myfitnessapp.utils.TimeUtils
+import com.example.myfitnessapp.ViewModel.utils.TimeUtils
 
 @Composable
-fun HomeScreen(navController: NavController, userName: String, modifier: Modifier = Modifier) {
+fun HomeScreen(navController: NavController, user: User) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -40,7 +41,7 @@ fun HomeScreen(navController: NavController, userName: String, modifier: Modifie
 
             Column {
                 Text(
-                    text = "Bonjour, $userName",
+                    text = "Bonjour, ${user.firstName}",
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -63,5 +64,6 @@ fun HomeScreen(navController: NavController, userName: String, modifier: Modifie
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(navController = rememberNavController(), userName = "Alex")
+    val user = User(10, "AlexL", "Alex", "Laffite", "alex.laffite@gmail.com", 80.0, 180, 25, "Homme", "Débutant")
+    HomeScreen(navController = rememberNavController(), user)
 }

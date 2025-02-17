@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.utils
+package com.example.myfitnessapp.ViewModel.utils
 
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
