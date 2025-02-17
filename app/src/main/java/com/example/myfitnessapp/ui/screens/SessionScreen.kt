@@ -59,7 +59,7 @@ fun SessionScreen(navController: NavController, selectedExercises: List<Exercise
         Spacer(modifier = Modifier.height(16.dp))
 
         AsyncImage(
-            model = currentExercise.urlGif,
+            model = currentExercise.gifUrl,
             imageLoader = provideImageLoader(context = LocalContext.current),
             contentDescription = "GIF de ${currentExercise.name}",
             modifier = Modifier
@@ -94,10 +94,10 @@ fun SessionScreen(navController: NavController, selectedExercises: List<Exercise
 fun PreviewSessionScreen() {
     val navController = rememberNavController()
     val sampleExercises = listOf(
-        ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux", secondaryMuscles = listOf(), urlGif = "https://media.tenor.com/0sKxFzX_QpIAAAAC/push-up.gif"),
-        ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://media.tenor.com/Bzqv5io1K1YAAAAC/squat-workout.gif"),
-        ExerciseResponse(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://media.tenor.com/YX9Rs7yCr6EAAAAC/pull-up.gif"),
-        ExerciseResponse(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), urlGif = "https://media.tenor.com/6m8QHxdxRE4AAAAC/bench-press.gif")
+        ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux", secondaryMuscles = listOf(), gifUrl = "https://media.tenor.com/0sKxFzX_QpIAAAAC/push-up.gif"),
+        ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://media.tenor.com/Bzqv5io1K1YAAAAC/squat-workout.gif"),
+        ExerciseResponse(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://media.tenor.com/YX9Rs7yCr6EAAAAC/pull-up.gif"),
+        ExerciseResponse(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), gifUrl = "https://media.tenor.com/6m8QHxdxRE4AAAAC/bench-press.gif")
     )
 
     SessionScreen(navController, sampleExercises)

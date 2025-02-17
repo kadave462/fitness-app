@@ -83,8 +83,8 @@ fun CategoryView(category: ExerciseCategory, selectedExercises: MutableList<Exer
 fun PreviewCategoryView() {
     val sampleCategory = ExerciseCategory(
         "Pectoraux", listOf(
-            ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), urlGif = "https://example.com/pompes.gif"),
-            ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), urlGif = "https://example.com/squats.gif"),
+            ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif"),
+            ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/squats.gif"),
         )
     )
     val exercises = remember { mutableStateListOf<ExerciseResponse>() }

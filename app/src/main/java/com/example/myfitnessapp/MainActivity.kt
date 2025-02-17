@@ -18,8 +18,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.Exercise
 import com.example.myfitnessapp.models.ExerciseCategory
 import com.example.myfitnessapp.models.ExerciseResponse
+import com.example.myfitnessapp.models.User
 import com.example.myfitnessapp.navigation.AppNavigation
-import com.example.myfitnessapp.network.ExerciceClient
+import com.example.myfitnessapp.network.ExerciseRepository
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.utils.ExerciseViewModel
 import kotlinx.coroutines.launch
@@ -32,71 +33,37 @@ class MainActivity : ComponentActivity() {
             MyFitnessAppTheme {
 
                 val scope = rememberCoroutineScope()
-                var allExercices by remember { mutableStateOf<List<ExerciseResponse>>(emptyList()) }
+                var allExercicesResponses by remember { mutableStateOf<List<ExerciseResponse>>(emptyList()) }
+                var allExercises by remember { mutableStateOf<List<Exercise>>(emptyList()) }
                 val navController = rememberNavController()
-                val userName = "Alex"
+                val user = User()
                 val categories = remember { mutableStateListOf<ExerciseCategory>() }
                 val selectedExercises = remember { mutableStateListOf<ExerciseResponse>() }
                 val viewModel = remember { ExerciseViewModel(categories) }
+                val repository = remember { ExerciseRepository() }
 
                 LaunchedEffect(Unit) {
-                    try{
-                        scope.launch {
-                            Log.d("MonTag", "Lancement du launched effect")
-                            allExercices = fetchAllExercisesWithRetrofit()
-                            categories.clear()
-                            categories.addAll(ExerciseCategory.groupByBodyPart(allExercices))
-                            //test = makeExercisesList(allExercices)
-                            Log.d("MonTag", "Appel terminé")
-                        }
-                    } catch(e: Exception){
-                        Log.d("MonTag", "Erreur : ${e.message}")
+                    scope.launch {
+                        allExercicesResponses = repository.fetchAllExercises()
+                        Log.d("MonTag", "Nombre d'exercices : ${allExercicesResponses.size}")
+                        allExercises = repository.makeExercisesList(allExercicesResponses)
+                        categories.clear()
+                        categories.addAll(ExerciseCategory.groupByBodyPart(allExercicesResponses))
                     }
+
                 }
 
-                AppNavigation(navController, userName, categories, viewModel, selectedExercises)
+                AppNavigation(navController, user.name, categories, viewModel, selectedExercises)
 
             }
         }
     }
 }
 
-suspend fun fetchAllExercisesWithRetrofit(): List<ExerciseResponse> {
-    Log.d("MonTag", "Appel en cours ..")
-    try {
-        val response = ExerciceClient.api.getExercises()
-        return response ;
-    } catch (e: Exception) {
-        Log.e("MonTag", "Erreur : ${e.message}")
-        Log.e("MonTag", "Erreur : ${Log.getStackTraceString(e)}")
-        return emptyList<ExerciseResponse>();
-    }
-}
 
-fun showError(e: Exception) {
-    Log.e("MonTag", "Erreur : ${e.message}")
-    Log.e("MonTag", "Erreur : ${Log.getStackTraceString(e)}")
-}
 
-suspend fun makeExercisesList(exerciseResponses: List<ExerciseResponse>): List<Exercise>{
-    val exercises = mutableListOf<Exercise>()
 
-    for (exerciseResponse in exerciseResponses){
-        val id = exerciseResponse.urlGif.substringAfterLast("/")
-        //val gif = fetchGif(id)
-        exercises.add(Exercise(
-            exerciseResponse.id,
-            exerciseResponse.name,
-            exerciseResponse.bodyPart,
-            exerciseResponse.target,
-            exerciseResponse.secondaryMuscles,
-            exerciseResponse.urlGif
-            //gif
-        ))
-    }
-    return exercises;
-}
-
+/*
 @Preview(showBackground = true)
 @Composable
 fun MainActivityPreview() {
@@ -120,4 +87,4 @@ fun MainActivityPreview() {
 
         AppNavigation(navController, userName, categories, viewModel, selectedExercises)
     }
-}
+} */
