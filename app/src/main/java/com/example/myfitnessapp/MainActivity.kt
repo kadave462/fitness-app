@@ -36,7 +36,6 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val user = User()
 
-                var allExercises by remember { mutableStateOf<List<Exercise>>(emptyList()) }
                 val categories = remember { mutableStateListOf<ExerciseCategory>() }
                 val selectedExercises = remember { mutableStateListOf<Exercise>() }
 
@@ -48,10 +47,11 @@ class MainActivity : ComponentActivity() {
 
                 LaunchedEffect(Unit) {
                     scope.launch {
-                        Log.d("MonTag", "Nombre d'exercices : ${allExercises.size}")
-                        allExercises = repository.makeExercisesList()
+                        repository.makeExercisesList()
+                        repository.makeCategories()
                         categories.clear()
-                        categories.addAll(ExerciseCategory.groupByBodyPart(allExercises))
+                        categories.addAll(repository.getAllCategories())
+
                     }
 
                 }

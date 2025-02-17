@@ -1,7 +1,10 @@
 package com.example.myfitnessapp.network
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import com.example.myfitnessapp.models.Exercise
+import com.example.myfitnessapp.models.ExerciseCategory
 import com.example.myfitnessapp.models.ExerciseResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -10,6 +13,10 @@ import java.io.File
 
 class ExerciseRepository() {
         private val api = ExerciceClient.api
+        private var allExercises: List<Exercise>? = null
+        var allCategories: List<ExerciseCategory> = emptyList()
+        val selectedExercises = { mutableStateListOf<Exercise>() }
+
 
         fun showError(e: Exception) {
                 Log.e("MonTag", "Erreur : ${e.message}")
@@ -49,24 +56,50 @@ class ExerciseRepository() {
                 return gif
         }
 
-        suspend fun makeExercisesList(): List<Exercise>{
-                val exerciseResponses = fetchAllExercises()
-                val exercises = mutableListOf<Exercise>()
+        suspend fun makeExercisesList(): Unit{
+                if (allExercises == null) {
+                        val exerciseResponses = fetchAllExercises()
+                        val exercises = mutableListOf<Exercise>()
 
-                for (exerciseResponse in exerciseResponses){
-                        val gif = fetchGif(exerciseResponse.id)
-                        exercises.add(Exercise(
-                                exerciseResponse.id,
-                                exerciseResponse.name,
-                                exerciseResponse.bodyPart,
-                                exerciseResponse.target,
-                                exerciseResponse.secondaryMuscles,
-                                exerciseResponse.gifUrl,
-                                gif,
-
-                        ))
+                        for (exerciseResponse in exerciseResponses) {
+                                val gif = fetchGif(exerciseResponse.id)
+                                exercises.add(
+                                        Exercise(
+                                                exerciseResponse.id,
+                                                exerciseResponse.name,
+                                                exerciseResponse.bodyPart,
+                                                exerciseResponse.target,
+                                                exerciseResponse.secondaryMuscles,
+                                                exerciseResponse.gifUrl,
+                                                gif,
+                                                )
+                                )
+                        }
+                        allExercises = exercises
                 }
-                return exercises;
+        }
+
+        suspend fun groupByBodyPart(exercises: List<Exercise>?): List<ExerciseCategory> {
+                if (exercises == null) {
+                        makeExercisesList()
+                        return groupByBodyPart(exercises)
+                }
+                return exercises.groupBy { it.bodyPart }
+                        .map { (bodyPart, exercises) ->
+                                ExerciseCategory(
+                                        category = bodyPart.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() },
+                                        exercises = exercises
+                                )
+                        }
+        }
+
+        suspend fun makeCategories(): Unit{
+                allCategories = groupByBodyPart(allExercises)
+        }
+
+        suspend fun getAllCategories(): List<ExerciseCategory> {
+                makeCategories()
+                return allCategories
         }
 }
 

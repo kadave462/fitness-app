@@ -5,14 +5,6 @@ data class ExerciseCategory(
     val exercises: List<Exercise>
 ) {
     companion object {
-        fun groupByBodyPart(exercises: List<Exercise>): List<ExerciseCategory> {
-            return exercises.groupBy { it.bodyPart }
-                .map { (bodyPart, exercises) ->
-                    ExerciseCategory(
-                        category = bodyPart.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() },
-                        exercises = exercises
-                    )
-                }
-        }
+
     }
 }
