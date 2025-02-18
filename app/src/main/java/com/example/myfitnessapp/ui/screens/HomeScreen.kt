@@ -42,12 +42,11 @@ fun HomeScreen(navController: NavController, user: User) {
             Column {
                 Text(
                     text = "Bonjour, ${user.name}",
-                    fontSize = 26.sp,
-                    fontWeight = FontWeight.Bold
+                    style = MaterialTheme.typography.titleMedium
                 )
                 Text(
                     text = "Il est ${TimeUtils().getCurrentTime()}",
-                    fontSize = 20.sp,
+                    style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -66,7 +67,7 @@ fun SessionEndScreen(
 
             Text(
                 text = "Vous avez réalisé les exercices suivants :",
-                fontSize = 20.sp,
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentWidth(Alignment.Start)
@@ -77,7 +78,7 @@ fun SessionEndScreen(
             selectedExercises.forEach { exercise ->
                 Text(
                     text = "- ${exercise.name}",
-                    fontSize = 20.sp,
+                    style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp)

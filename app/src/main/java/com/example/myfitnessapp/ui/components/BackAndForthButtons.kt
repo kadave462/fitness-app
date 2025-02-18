@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,20 +34,20 @@ fun BackAndForthButtons(
             onClick = { if (currentIndex > 0) onIndexChange(currentIndex - 1) },
             enabled = currentIndex > 0
         ) {
-            Text("Précédent")
+            Text("Précédent", style = MaterialTheme.typography.bodySmall)
         }
 
         if (currentIndex < selectedExercises.size - 1) {
             Button(
                 onClick = { onIndexChange(currentIndex + 1) },
             ) {
-                Text("Suivant")
+                Text("Suivant", style = MaterialTheme.typography.bodySmall)
             }
         } else {
             Button(
                 onClick = { navController.navigate(navigation) },
             ) {
-                Text("Terminer")
+                Text("Terminer", style = MaterialTheme.typography.bodySmall)
             }
         }
     }

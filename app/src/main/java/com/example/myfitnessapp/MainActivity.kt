@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.User
 import com.example.myfitnessapp.ViewModel.navigation.AppNavigation
@@ -25,6 +26,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val user = User()
                 val repository = remember { ExerciseRepository() }
+
 
                 LaunchedEffect(Unit) {
                     scope.launch {

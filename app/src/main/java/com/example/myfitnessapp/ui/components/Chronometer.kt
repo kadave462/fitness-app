@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,23 +31,25 @@ fun Chronometer(viewModel: ChronometerUtils) {
     ) {
         Text(
             text = TimeUtils.formatTime(time),
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold
+            style = MaterialTheme.typography.labelLarge
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Row {
             Button(onClick = { viewModel.startChronometer() }) {
-                Text("Démarrer")
+                Text("Démarrer",
+                    style = MaterialTheme.typography.bodySmall)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Button(onClick = { viewModel.stopChronometer() }) {
-                Text("Arrêter")
+                Text("Arrêter",
+                    style = MaterialTheme.typography.bodySmall)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Button(onClick = { viewModel.resetChronometer() }) {
-                Text("Réinitialiser")
+                Text("Réinitialiser",
+                    style = MaterialTheme.typography.bodySmall)
             }
         }
     }

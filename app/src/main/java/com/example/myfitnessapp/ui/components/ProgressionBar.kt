@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -48,7 +49,7 @@ fun ProgressionBar(selectedExercises: MutableList<Exercise>, currentIndex: Int) 
     ) {
         Text(
             text = "Progression : ${currentIndex + 1} / $totalExercises",
-            fontSize = 18.sp,
+            style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Bold
         )
 

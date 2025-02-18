@@ -26,14 +26,14 @@ fun FloatingButtonView(title: String, modifier: Modifier = Modifier, enabled: Bo
         Button(
             onClick = onClick,
             enabled = enabled,
-            shape = RoundedCornerShape(20.dp),
+            shape = MaterialTheme.shapes.medium,
             modifier = Modifier
                 .fillMaxWidth(0.75f)
                 .height(100.dp)
                 .padding(16.dp)
         ) {
             Text(text = title,
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.bodySmall,
                 maxLines = 1 )
         }
     }
