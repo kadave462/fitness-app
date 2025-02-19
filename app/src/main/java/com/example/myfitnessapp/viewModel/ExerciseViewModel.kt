@@ -1,8 +1,8 @@
-package com.example.myfitnessapp.ViewModel
+package com.example.myfitnessapp.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myfitnessapp.models.ExerciseCategory
+import com.example.myfitnessapp.models.datas.ExerciseCategory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

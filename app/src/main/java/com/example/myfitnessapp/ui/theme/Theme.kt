@@ -55,7 +55,6 @@ fun lightOrDarkColorScheme(
 @Composable
 fun MyFitnessAppTheme(
     content: @Composable () -> Unit
-
 ) {
     var colorScheme = lightOrDarkColorScheme()
 

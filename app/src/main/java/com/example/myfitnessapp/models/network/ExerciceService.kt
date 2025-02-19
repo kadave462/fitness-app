@@ -1,6 +1,6 @@
 package com.example.myfitnessapp.models.network
 
-import com.example.myfitnessapp.models.ExerciseResponse
+import com.example.myfitnessapp.models.datas.ExerciseResponse
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
@@ -21,11 +21,6 @@ interface ExerciceService {
         @Query("sortMethod") sortMethod: String = "target"
     ): List<ExerciseResponse>
 
-
-    @GET("exercises/name/{name}")
-    suspend fun getExercisesByName(
-        @Path("name") name: String
-    ): List<ExerciseResponse>
 
     @GET("/exercises/image/{id}")
     suspend fun getGif(

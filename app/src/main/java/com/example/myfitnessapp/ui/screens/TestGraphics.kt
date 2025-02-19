@@ -9,7 +9,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TestGraphics(){
-    val modifier = Modifier.padding(16.dp)
+    val modifier = Modifier.padding(16.dp)//grrrr
+
     /*MyFitnessAppTheme {
         Text("test", modifier.padding(paddingValues = Padding().innerPadding), textAlign = TextAlign.Center)
     }*/

@@ -21,29 +21,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.myfitnessapp.ViewModel.ExerciseRepository
+import com.example.myfitnessapp.viewModel.ExerciseRepository
 import com.example.myfitnessapp.ui.components.BackAndForthButtons
 import com.example.myfitnessapp.ui.components.Chronometer
 import com.example.myfitnessapp.ui.components.ProgressionBar
-import com.example.myfitnessapp.ViewModel.utils.ChronometerUtils
-import com.example.myfitnessapp.ViewModel.utils.provideImageLoader
+import com.example.myfitnessapp.ui.theme.Modifiers
+import com.example.myfitnessapp.viewModel.utils.ChronometerUtils
+import com.example.myfitnessapp.viewModel.utils.provideImageLoader
 
 @Composable
-fun SessionScreen(navController: NavController, repository: ExerciseRepository) {
+fun SessionScreen(modifiers: Modifiers, navController: NavController, repository: ExerciseRepository) {
     var selectedExercises = repository.selectedExercises
     var currentIndex by remember { mutableIntStateOf(0) }
     val currentExercise = selectedExercises[currentIndex]
 
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier = modifiers.bigPaddingModifier(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -56,7 +53,7 @@ fun SessionScreen(navController: NavController, repository: ExerciseRepository) 
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        modifiers.getMediumSpacer()
 
         AsyncImage(
             model = currentExercise.gifUrl,
@@ -65,7 +62,7 @@ fun SessionScreen(navController: NavController, repository: ExerciseRepository) 
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .height(200.dp)
-                .clip(RoundedCornerShape(16.dp)),
+                .clip(MaterialTheme.shapes.medium),
             contentScale = ContentScale.Crop
         )
 

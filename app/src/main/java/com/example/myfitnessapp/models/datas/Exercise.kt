@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.models
+package com.example.myfitnessapp.models.datas
 
 import java.io.File
 

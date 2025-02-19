@@ -1,19 +1,19 @@
-package com.example.myfitnessapp.ViewModel
+package com.example.myfitnessapp.viewModel
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
-import com.example.myfitnessapp.models.Exercise
-import com.example.myfitnessapp.models.ExerciseCategory
-import com.example.myfitnessapp.models.ExerciseResponse
+import com.example.myfitnessapp.models.datas.Exercise
+import com.example.myfitnessapp.models.datas.ExerciseCategory
+import com.example.myfitnessapp.models.datas.ExerciseResponse
 import com.example.myfitnessapp.models.network.ExerciceClient
 import java.io.File
 
 
-class ExerciseRepository() {
-        private val api = ExerciceClient.api
-        private var allExercises: List<Exercise>? = null
+class ExerciseRepository {
+        val api = ExerciceClient.api
+        var allExercises: List<Exercise>? = null //Metrre en mutable ?
         var allCategories = mutableStateListOf<ExerciseCategory>()
-        val viewModel = ExerciseViewModel(allCategories)
+        val exerciseViewModel = ExerciseViewModel(allCategories)
         val selectedExercises = mutableStateListOf<Exercise>()
 
 
@@ -33,7 +33,7 @@ class ExerciseRepository() {
 
                 } catch (e: Exception) {
                         showError(e)
-                        return emptyList<ExerciseResponse>();
+                        return response;
                 }
         }
 

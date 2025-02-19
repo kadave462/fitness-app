@@ -1,10 +1,8 @@
-package com.example.myfitnessapp.models
+package com.example.myfitnessapp.models.datas
 
 data class ExerciseCategory(
     val category: String,
     val exercises: List<Exercise>
 ) {
-    companion object {
 
-    }
 }

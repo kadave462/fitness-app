@@ -7,11 +7,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.example.myfitnessapp.models.User
-import com.example.myfitnessapp.ViewModel.navigation.AppNavigation
-import com.example.myfitnessapp.ViewModel.ExerciseRepository
+import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.viewModel.navigation.AppNavigation
+import com.example.myfitnessapp.viewModel.ExerciseRepository
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import kotlinx.coroutines.launch

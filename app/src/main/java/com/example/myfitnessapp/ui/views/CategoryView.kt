@@ -24,16 +24,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.myfitnessapp.models.Exercise
-import com.example.myfitnessapp.models.ExerciseCategory
-import com.example.myfitnessapp.models.ExerciseResponse
+import com.example.myfitnessapp.models.datas.Exercise
+import com.example.myfitnessapp.models.datas.ExerciseCategory
+import com.example.myfitnessapp.ui.theme.Modifiers
 
 @Composable
-fun CategoryView(category: ExerciseCategory, selectedExercises: MutableList<Exercise>) {
+fun CategoryView(modifiers: Modifiers, category: ExerciseCategory, selectedExercises: MutableList<Exercise>) {
     var expanded by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
@@ -65,7 +63,7 @@ fun CategoryView(category: ExerciseCategory, selectedExercises: MutableList<Exer
                 val index = selectedExercises.indexOf(exercise) + 1
                 val isSelected = selectedExercises.contains(exercise)
 
-                ExerciseView(exercise, isSelected, index) { isChecked ->
+                ExerciseView(modifiers, exercise, isSelected, index) { isChecked ->
                     if (isChecked) {
                         if (!selectedExercises.contains(exercise)) {
                             selectedExercises.add(exercise)
@@ -82,6 +80,7 @@ fun CategoryView(category: ExerciseCategory, selectedExercises: MutableList<Exer
 @Preview(showBackground = true)
 @Composable
 fun PreviewCategoryView() {
+    val modifiers = Modifiers()
     val sampleCategory = ExerciseCategory(
         "Pectoraux", listOf(
             Exercise(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif", gif = null),
@@ -90,6 +89,6 @@ fun PreviewCategoryView() {
     )
     val exercises = remember { mutableStateListOf<Exercise>() }
 
-    CategoryView(category = sampleCategory, exercises)
+    CategoryView(modifiers, category = sampleCategory, exercises)
 }
 
