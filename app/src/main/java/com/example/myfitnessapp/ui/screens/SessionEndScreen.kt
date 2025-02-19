@@ -49,7 +49,7 @@ fun SessionEndScreen(
                     .wrapContentWidth(Alignment.CenterHorizontally)
             )
 
-            Spacer(modifier = Modifier.height(modifiers.getBigSpacer))
+            modifiers.getBigSpacer()
 
             Text(
                 text = "Vous avez terminé la séance avec succès.",
