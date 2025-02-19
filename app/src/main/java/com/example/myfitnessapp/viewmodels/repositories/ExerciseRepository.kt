@@ -1,46 +1,47 @@
-package com.example.myfitnessapp.viewModel
+package com.example.myfitnessapp.viewmodels.repositories
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
+import com.example.myfitnessapp.models.ExerciseCategory
 import com.example.myfitnessapp.models.datas.Exercise
-import com.example.myfitnessapp.models.datas.ExerciseCategory
 import com.example.myfitnessapp.models.datas.ExerciseResponse
 import com.example.myfitnessapp.models.network.ExerciceClient
 import java.io.File
 
 
+
 class ExerciseRepository {
-        val api = ExerciceClient.api
-        var allExercises: List<Exercise>? = null //Metrre en mutable ?
+        private val api = ExerciceClient.api
+        private var allExercises: List<Exercise>? = null //Metrre en mutable ?
         var allCategories = mutableStateListOf<ExerciseCategory>()
         val exerciseViewModel = ExerciseViewModel(allCategories)
         val selectedExercises = mutableStateListOf<Exercise>()
 
 
-        fun showError(e: Exception) {
+        private fun showError(e: Exception) {
                 Log.e("MonTag", "Erreur : ${e.message}")
                 Log.e("MonTag", "Erreur : ${Log.getStackTraceString(e)}")
         }
 
-        suspend fun fetchAllExercises(): List<ExerciseResponse> {
+        private suspend fun fetchAllExercises(): List<ExerciseResponse> {
                 Log.d("MonTag", "Appel de fetchAllExercises cours ..")
                 var response = emptyList<ExerciseResponse>()
                 try {
                         Log.d("MonTag", "Lancement du launched effect")
                         response = api.getExercises()
                         Log.d("MonTag", "Appel terminé")
-                        return response;
+                        return response
 
                 } catch (e: Exception) {
                         showError(e)
-                        return response;
+                        return response
                 }
         }
 
-        suspend fun fetchGif(gifUrl: String): File? {
+        private suspend fun fetchGif(gifUrl: String): File? {
                 val id: String = gifUrl.substringAfterLast("/")
 
-                Log.d("MonTag", "Appel de fetchGif cours avec id :  ${id}")
+                Log.d("MonTag", "Appel de fetchGif cours avec id :  $id")
                 var gif: File? = null
                 try {
                         Log.d("MonTag", "Lancement du gif launched effect")
@@ -76,7 +77,7 @@ class ExerciseRepository {
                 }
         }
 
-        suspend fun groupByBodyPart(exercises: List<Exercise>?): List<ExerciseCategory> {
+        private suspend fun groupByBodyPart(exercises: List<Exercise>?): List<ExerciseCategory> {
                 if (exercises == null) {
                         makeExercisesList()
                         return groupByBodyPart(exercises)

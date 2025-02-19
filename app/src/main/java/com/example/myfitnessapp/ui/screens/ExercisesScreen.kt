@@ -19,7 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.ui.views.CategoryView
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.theme.Modifiers
-import com.example.myfitnessapp.viewModel.ExerciseRepository
+import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 
 
 @Composable

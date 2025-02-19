@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
@@ -18,7 +17,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.datas.Exercise
 import com.example.myfitnessapp.models.datas.User
-import com.example.myfitnessapp.viewModel.ExerciseRepository
+import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.theme.Modifiers
 
@@ -29,7 +28,7 @@ fun SessionEndScreen(
     user: User,
     repository: ExerciseRepository
 ) {
-    val userName = user.name
+    val userName = user.pseudonym
     var selectedExercises = repository.selectedExercises
 
     Box(
@@ -90,7 +89,7 @@ fun SessionEndScreen(
 @Composable
 fun PreviewSessionEndScreen(){
     val navController = rememberNavController()
-    val user = User()
+    val user = User(10, "AlexL", "Alex", "Laffite", "alex.laffite@gmail.com", 80.0, 180, 25, "Homme", "Débutant")
     val modifiers = Modifiers()
     val sampleExercises = mutableListOf(
         Exercise(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif", gif = null),

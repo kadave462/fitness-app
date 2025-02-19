@@ -19,12 +19,18 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.datas.Exercise
+import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.theme.Purple80
 
 @Composable
-fun ProgressionBar(selectedExercises: MutableList<Exercise>, currentIndex: Int) {
+fun ProgressionBar(modifiers: Modifiers, selectedExercises: MutableList<Exercise>, currentIndex: Int) {
     val totalExercises = selectedExercises.size
     val progress = remember { Animatable(0f) }
 
@@ -59,24 +65,62 @@ fun ProgressionBar(selectedExercises: MutableList<Exercise>, currentIndex: Int) 
         )
     }
 }
-/*
+
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewProgressionBar() {
-    val sampleExercises = listOf(
-        ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif"),
-        ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/squats.gif"),
-        ExerciseResponse(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/tractions.gif"),
-        ExerciseResponse(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), gifUrl = "https://example.com/developpe.gif")
+    val modifiers = Modifiers()
+
+    val sampleExercises = mutableListOf(
+        Exercise(
+            id = "",
+            name = "Pompes",
+            target = "Poids du corps",
+            bodyPart = "Pectoraux",
+            secondaryMuscles = listOf(),
+            gifUrl = "https://example.com/pompes.gif"
+        ),
+        Exercise(
+            id = "",
+            name = "Squats",
+            bodyPart = "Jambes",
+            target = "Poids du corps",
+            secondaryMuscles = listOf(),
+            gifUrl = "https://example.com/squats.gif"
+        ),
+        Exercise(
+            id = "",
+            name = "Tractions",
+            bodyPart = "Dos",
+            target = "Poids du corps",
+            secondaryMuscles = listOf(),
+            gifUrl = "https://example.com/tractions.gif"
+        ),
+        Exercise(
+            id = "",
+            name = "Développé couché",
+            bodyPart = "Pectoraux",
+            target = "Haltères",
+            secondaryMuscles = listOf(),
+            gifUrl = "https://example.com/developpe.gif"
+        )
     )
 
     var currentIndex by remember { mutableIntStateOf(0) }
     val navController = rememberNavController()
     val navigation = ""
 
-    ProgressionBar(sampleExercises, currentIndex)
+    ProgressionBar(modifiers, sampleExercises, currentIndex)
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    BackAndForthButtons(sampleExercises, currentIndex, { currentIndex = it }, navController, navigation)
-}*/
+    BackAndForthButtons(
+        modifiers = modifiers,
+        sampleExercises,
+        currentIndex,
+        { currentIndex = it },
+        navController,
+        navigation
+    )
+}

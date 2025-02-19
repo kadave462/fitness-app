@@ -7,12 +7,18 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.datas.Exercise
+import com.example.myfitnessapp.ui.theme.Modifiers
 
 @Composable
 fun BackAndForthButtons(
+    modifiers: Modifiers,
     selectedExercises: MutableList<Exercise>,
     currentIndex: Int,
     onIndexChange: (Int) -> Unit,
@@ -21,7 +27,7 @@ fun BackAndForthButtons(
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifiers.containerModifier
     ) {
         Button(
             onClick = { if (currentIndex > 0) onIndexChange(currentIndex - 1) },
@@ -50,16 +56,15 @@ fun BackAndForthButtons(
 @Preview(showBackground = true)
 @Composable
 fun PreviewBackAndForthButtons() {
-    val sampleExercises = MutableListOf(
+    val sampleExercises = mutableListOf(
         Exercise(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif"),
         Exercise(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/squats.gif"),
         Exercise(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/tractions.gif"),
         Exercise(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), gifUrl = "https://example.com/developpe.gif")
     )
-    var currentIndex by remember { mutableIntStateOf(0) }
+    //var currentIndex by remember { mutableIntStateOf(0) }
     val navController = rememberNavController()
     val navigation = ""
 
     BackAndForthButtons(sampleExercises, currentIndex, { currentIndex = it }, navController, navigation)
-}
-*/
+} */

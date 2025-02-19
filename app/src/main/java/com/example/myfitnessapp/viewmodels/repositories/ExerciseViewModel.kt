@@ -1,13 +1,14 @@
-package com.example.myfitnessapp.viewModel
+package com.example.myfitnessapp.viewmodels.repositories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myfitnessapp.models.datas.ExerciseCategory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import com.example.myfitnessapp.models.ExerciseCategory
+
 
 class ExerciseViewModel(categories: List<ExerciseCategory>) : ViewModel() {
     private val _searchQuery = MutableStateFlow("")

@@ -1,5 +1,6 @@
 package com.example.myfitnessapp
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,10 +10,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.datas.User
-import com.example.myfitnessapp.viewModel.navigation.AppNavigation
-import com.example.myfitnessapp.viewModel.ExerciseRepository
+
+
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
+import com.example.myfitnessapp.viewmodels.navigation.AppNavigation
+import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -24,7 +27,7 @@ class MainActivity : ComponentActivity() {
 
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
-                val user = User()
+                val user = User(10, "AlexL", "Alex", "Laffite", "alex.laffite@gmail.com", 80.0, 180, 25, "Homme", "Débutant")
                 val repository = remember { ExerciseRepository() }
                 val modifiers = Modifiers()
 

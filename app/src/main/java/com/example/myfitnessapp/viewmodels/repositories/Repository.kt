@@ -1,8 +1,8 @@
-package com.example.myfitnessapp.viewModel
+package com.example.myfitnessapp.viewmodels.repositories
 
-import androidx.compose.runtime.mutableStateListOf
+import com.example.myfitnessapp.models.ExerciseCategory
 import com.example.myfitnessapp.models.datas.Exercise
-import com.example.myfitnessapp.models.datas.ExerciseCategory
+
 import com.example.myfitnessapp.models.network.ExerciceClient
 
 interface Repository {

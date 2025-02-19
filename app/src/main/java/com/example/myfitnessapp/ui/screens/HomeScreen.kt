@@ -16,6 +16,7 @@ import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewModel.utils.TimeUtils
 
+
 @Composable
 fun HomeScreen(modifiers: Modifiers, navController: NavController, user: User) {
     Column(modifier = modifiers.bigPaddingModifier(true)) {
@@ -38,7 +39,7 @@ fun HomeScreen(modifiers: Modifiers, navController: NavController, user: User) {
                     verticalArrangement = Arrangement.Top) {
 
                     Text(
-                        text = "Bonjour, ${user.name}",
+                        text = "Bonjour, ${user.pseudonym}",
                         style = MaterialTheme.typography.titleLarge
                     )
                     Text(
@@ -66,7 +67,7 @@ fun HomeScreen(modifiers: Modifiers, navController: NavController, user: User) {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    val user = User()
+    val user = User(10, "AlexL", "Alex", "Laffite", "alex.laffite@gmail.com", 80.0, 180, 25, "Homme", "Débutant")
     val modifiers = Modifiers()
     HomeScreen(modifiers, navController = rememberNavController(), user)
 }
