@@ -14,7 +14,7 @@ class ChronometerUtils : ViewModel() {
     private var _time = mutableLongStateOf(0L)
     val time: State<Long> = _time
 
-    private var isRunning = mutableStateOf(false)
+    var isRunning = mutableStateOf(false)
     private var job: Job? = null
 
     fun startChronometer() {
