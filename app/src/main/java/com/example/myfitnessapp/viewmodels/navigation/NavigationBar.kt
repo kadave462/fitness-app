@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ViewModel.navigation
+package com.example.myfitnessapp.viewmodels.navigation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -17,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.myfitnessapp.R
-import com.example.myfitnessapp.ViewModel.utils.NavigationUtils
+import com.example.myfitnessapp.viewmodels.utils.NavigationUtils
 
 @Composable
 fun NavigationBar(navController: NavController){

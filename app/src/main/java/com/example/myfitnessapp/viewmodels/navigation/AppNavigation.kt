@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ViewModel.navigation
+package com.example.myfitnessapp.viewmodels.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -8,8 +8,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myfitnessapp.models.User
-import com.example.myfitnessapp.ViewModel.ExerciseRepository
-import com.example.myfitnessapp.ViewModel.utils.NavigationUtils
+import com.example.myfitnessapp.viewmodels.ExerciseRepository
+import com.example.myfitnessapp.viewmodels.utils.NavigationUtils
 import com.example.myfitnessapp.ui.screens.ExerciseScreen
 import com.example.myfitnessapp.ui.screens.HomeScreen
 import com.example.myfitnessapp.ui.screens.ProfileScreen

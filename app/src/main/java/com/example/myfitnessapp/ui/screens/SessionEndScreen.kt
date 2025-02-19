@@ -21,7 +21,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.Exercise
 import com.example.myfitnessapp.models.User
-import com.example.myfitnessapp.ViewModel.ExerciseRepository
+import com.example.myfitnessapp.viewmodels.ExerciseRepository
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 
 @Composable
@@ -30,7 +30,6 @@ fun SessionEndScreen(
     user: User,
     repository: ExerciseRepository
 ) {
-    val userName = user.firstName
     var selectedExercises = repository.selectedExercises
 
     Box(
@@ -44,7 +43,7 @@ fun SessionEndScreen(
                 .padding(top = 128.dp)
         ) {
             Text(
-                text = "Félicitations, $userName !",
+                text = "Félicitations, ${user.pseudonym} !",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier

@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ViewModel.utils
+package com.example.myfitnessapp.viewmodels.utils
 
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
@@ -15,10 +15,11 @@ class TimeUtils {
 
     companion object {
         @SuppressLint("DefaultLocale")
-        fun formatTime(seconds: Int): String {
-            val minutes = seconds / 60
-            val secs = seconds % 60
-            return String.format("%02d:%02d", minutes, secs)
+        fun formatTime(milliseconds: Long): String {
+            val minutes = (milliseconds / 60000) % 60
+            val seconds = (milliseconds / 1000) % 60
+            val centiseconds = (milliseconds % 1000) / 10
+            return String.format("%02d:%02d:%02d", minutes, seconds, centiseconds)
         }
     }
 }

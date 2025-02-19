@@ -9,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -37,7 +37,6 @@ import com.example.myfitnessapp.models.User
 
 @Composable
 fun ProfileScreen(navController: NavController, user: User) {
-    val context = LocalContext.current
     var profileImageUri by remember { mutableStateOf(user.profilePictureUri?.let { Uri.parse(it) }) }
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
@@ -62,7 +61,7 @@ fun ProfileScreen(navController: NavController, user: User) {
             fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
         )
 
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
         Box(
             modifier = Modifier
@@ -87,13 +86,13 @@ fun ProfileScreen(navController: NavController, user: User) {
             }
         }
 
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
         Button(onClick = { imagePickerLauncher.launch("image/*") }) {
             Text(text = "Changer la photo de profil")
         }
 
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.15f))
 
         Text(
             text = "Informations personnelles :",
@@ -102,42 +101,42 @@ fun ProfileScreen(navController: NavController, user: User) {
             )
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
         Text(
             text = "${user.firstName} ${user.lastName}",
             style = MaterialTheme.typography.headlineSmall
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
         Text(
             text = "Email : ${user.email}",
             style = MaterialTheme.typography.headlineSmall
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
         Text(
             text = "Poids : ${user.weight} kg",
             style = MaterialTheme.typography.headlineSmall
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
         Text(
             text = "Taille : ${user.height} cm",
             style = MaterialTheme.typography.headlineSmall
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
         Text(
             text = "Âge : ${user.age} ans",
             style = MaterialTheme.typography.headlineSmall
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
         Text(
             text = "Niveau : ${user.level}",

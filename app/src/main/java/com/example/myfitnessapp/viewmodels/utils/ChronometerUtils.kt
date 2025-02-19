@@ -1,6 +1,8 @@
-package com.example.myfitnessapp.ViewModel.utils
+package com.example.myfitnessapp.viewmodels.utils
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,8 +11,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ChronometerUtils : ViewModel() {
-    private var _time = mutableStateOf(0)
-    val time: State<Int> = _time
+    private var _time = mutableLongStateOf(0L)
+    val time: State<Long> = _time
 
     private var isRunning = mutableStateOf(false)
     private var job: Job? = null
@@ -20,8 +22,8 @@ class ChronometerUtils : ViewModel() {
             isRunning.value = true
             job = viewModelScope.launch {
                 while (isRunning.value) {
-                    delay(1000L)
-                    _time.value += 1
+                    delay(10L)
+                    _time.value += 10
                 }
             }
         }
@@ -34,6 +36,6 @@ class ChronometerUtils : ViewModel() {
 
     fun resetChronometer() {
         stopChronometer()
-        _time.value = 0
+        _time.longValue = 0L
     }
 }

@@ -4,9 +4,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -25,12 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.myfitnessapp.ViewModel.ExerciseRepository
+import com.example.myfitnessapp.viewmodels.ExerciseRepository
 import com.example.myfitnessapp.ui.components.BackAndForthButtons
 import com.example.myfitnessapp.ui.components.Chronometer
 import com.example.myfitnessapp.ui.components.ProgressionBar
-import com.example.myfitnessapp.ViewModel.utils.ChronometerUtils
-import com.example.myfitnessapp.ViewModel.utils.provideImageLoader
+import com.example.myfitnessapp.viewmodels.utils.ChronometerUtils
+import com.example.myfitnessapp.viewmodels.utils.provideImageLoader
 
 @Composable
 fun SessionScreen(navController: NavController, repository: ExerciseRepository) {
@@ -45,13 +47,15 @@ fun SessionScreen(navController: NavController, repository: ExerciseRepository) 
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
+        Row(modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 60.dp),
             horizontalArrangement = Arrangement.Start
         ) {
             Text(
                 text = currentExercise.name,
                 fontSize = 24.sp,
+                maxLines = 2,
                 fontWeight = FontWeight.Bold
             )
         }
@@ -64,20 +68,20 @@ fun SessionScreen(navController: NavController, repository: ExerciseRepository) 
             contentDescription = "GIF de ${currentExercise.name}",
             modifier = Modifier
                 .fillMaxWidth(0.9f)
-                .height(200.dp)
+                .fillMaxHeight(0.45f)
                 .clip(RoundedCornerShape(16.dp)),
             contentScale = ContentScale.Crop
         )
 
-        Spacer(modifier = Modifier.height(64.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
         ProgressionBar(selectedExercises, currentIndex)
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.1f))
 
         Chronometer(viewModel = ChronometerUtils())
 
-        Spacer(modifier = Modifier.height(192.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.6f))
 
         BackAndForthButtons(
             selectedExercises = selectedExercises,

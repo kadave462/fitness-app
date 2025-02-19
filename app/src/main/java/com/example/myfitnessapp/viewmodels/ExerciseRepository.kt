@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ViewModel
+package com.example.myfitnessapp.viewmodels
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf

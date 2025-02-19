@@ -3,7 +3,6 @@ package com.example.myfitnessapp.ui.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -17,8 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myfitnessapp.ViewModel.utils.ChronometerUtils
-import com.example.myfitnessapp.ViewModel.utils.TimeUtils
+import com.example.myfitnessapp.viewmodels.utils.ChronometerUtils
+import com.example.myfitnessapp.viewmodels.utils.TimeUtils
 
 @Composable
 fun Chronometer(viewModel: ChronometerUtils) {

@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ViewModel
+package com.example.myfitnessapp.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

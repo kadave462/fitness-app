@@ -8,8 +8,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.rememberNavController
-import com.example.myfitnessapp.ViewModel.ExerciseRepository
-import com.example.myfitnessapp.ViewModel.navigation.AppNavigation
+import com.example.myfitnessapp.viewmodels.ExerciseRepository
+import com.example.myfitnessapp.viewmodels.navigation.AppNavigation
 import com.example.myfitnessapp.models.User
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import kotlinx.coroutines.launch

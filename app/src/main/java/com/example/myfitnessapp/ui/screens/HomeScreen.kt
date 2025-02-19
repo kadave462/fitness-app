@@ -15,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.R
 import com.example.myfitnessapp.models.User
 import com.example.myfitnessapp.ui.components.FloatingButtonView
-import com.example.myfitnessapp.ViewModel.utils.TimeUtils
+import com.example.myfitnessapp.viewmodels.utils.TimeUtils
 
 @Composable
 fun HomeScreen(navController: NavController, user: User) {
@@ -25,7 +25,7 @@ fun HomeScreen(navController: NavController, user: User) {
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.2f))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -37,11 +37,11 @@ fun HomeScreen(navController: NavController, user: User) {
                 modifier = Modifier.size(140.dp)
             )
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.fillMaxWidth(0.1f))
 
             Column {
                 Text(
-                    text = "Bonjour, ${user.firstName}",
+                    text = "Bonjour, ${user.pseudonym}",
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold
                 )
