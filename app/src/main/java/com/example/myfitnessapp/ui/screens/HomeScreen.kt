@@ -6,63 +6,58 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.R
 import com.example.myfitnessapp.models.User
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ViewModel.utils.TimeUtils
+import com.example.myfitnessapp.ui.theme.Modifiers
 
 @Composable
-fun HomeScreen(navController: NavController, user: User) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center
-    ) {
-        Spacer(modifier = Modifier.height(100.dp))
+fun HomeScreen(modifiers: Modifiers, navController: NavController, user: User) {
+    Row(
+        modifier = modifiers.screenModifier,
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.fitness_illustration),
-                contentDescription = "Fitness Image",
-                modifier = Modifier.size(140.dp)
+        Image(
+            painter = painterResource(id = R.drawable.fitness_illustration),
+            contentDescription = "Fitness Image",
+            modifier = Modifier.size((modifiers.getScreenWidth()/2) - modifiers.outerPadding)
+        )
+
+        Spacer(modifier = Modifier.width(modifiers.innerPadding))
+
+        Column(modifier = modifiers.containerModifier) {
+            Text(
+                text = "Bonjour, ${user.name}",
+                style = MaterialTheme.typography.titleLarge
             )
-
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Column {
-                Text(
-                    text = "Bonjour, ${user.name}",
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    text = "Il est ${TimeUtils().getCurrentTime()}",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-            }
+            Text(
+                text = "Il est ${TimeUtils().getCurrentTime()}",
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
-
-        Spacer(modifier = Modifier.weight(1f))
-
+    }
+    Box(
+        modifier = modifiers.screenModifier,
+        contentAlignment = Alignment.BottomCenter,
+    ) {
         FloatingButtonView(title = "Aller aux exercices") {
             navController.navigate("exercise_screen")
         }
     }
+
 }
 
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
     val user = User()
-    HomeScreen(navController = rememberNavController(), user)
+    val modifiers = Modifiers()
+    HomeScreen(modifiers, navController = rememberNavController(), user)
 }

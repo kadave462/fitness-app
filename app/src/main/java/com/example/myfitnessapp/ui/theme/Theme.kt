@@ -58,7 +58,6 @@ fun MyFitnessAppTheme(
 
 ) {
     var colorScheme = lightOrDarkColorScheme()
-    val padding = Padding()
 
     MaterialTheme(
         colorScheme = colorScheme,

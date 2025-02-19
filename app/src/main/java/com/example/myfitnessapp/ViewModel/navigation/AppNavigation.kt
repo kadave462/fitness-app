@@ -10,12 +10,13 @@ import com.example.myfitnessapp.ui.screens.ExerciseScreen
 import com.example.myfitnessapp.ui.screens.HomeScreen
 import com.example.myfitnessapp.ui.screens.SessionEndScreen
 import com.example.myfitnessapp.ui.screens.SessionScreen
+import com.example.myfitnessapp.ui.theme.Modifiers
 
 @Composable
-fun AppNavigation(navController: NavHostController, user: User, repository: ExerciseRepository) {
+fun AppNavigation(modifiers: Modifiers, navController: NavHostController, user: User, repository: ExerciseRepository) {
 
     NavHost(navController = navController, startDestination = "home_screen") {
-        composable("home_screen") { HomeScreen(navController, user) }
+        composable("home_screen") { HomeScreen(modifiers, navController, user) }
         composable("exercise_screen") { ExerciseScreen(navController, repository) }
         composable("session_screen") { SessionScreen(navController, repository) }
         composable("session_end_screen") { SessionEndScreen(navController, user, repository) }

@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.User
 import com.example.myfitnessapp.ViewModel.navigation.AppNavigation
 import com.example.myfitnessapp.ViewModel.ExerciseRepository
+import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import kotlinx.coroutines.launch
 
@@ -26,6 +27,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val user = User()
                 val repository = remember { ExerciseRepository() }
+                val modifiers = Modifiers()
 
 
                 LaunchedEffect(Unit) {
@@ -35,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                AppNavigation(navController, user, repository)
+                AppNavigation(modifiers, navController, user, repository)
 
             }
         }
