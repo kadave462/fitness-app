@@ -86,6 +86,7 @@ fun PreviewCategoryView() {
         "Pectoraux", listOf(
             Exercise(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif", gif = null),
             Exercise(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/squats.gif", gif = null),
+
         )
     )
     val exercises = remember { mutableStateListOf<Exercise>() }

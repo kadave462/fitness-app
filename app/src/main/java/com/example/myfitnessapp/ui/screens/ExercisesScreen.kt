@@ -72,4 +72,5 @@ fun ExerciseScreenPreview() {
     val modifiers = Modifiers()
     val repository = ExerciseRepository()
     ExerciseScreen(modifiers, navController, repository)
+
 }
