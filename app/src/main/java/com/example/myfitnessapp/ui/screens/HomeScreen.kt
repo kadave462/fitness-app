@@ -14,7 +14,7 @@ import com.example.myfitnessapp.R
 import com.example.myfitnessapp.models.datas.User
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.theme.Modifiers
-import com.example.myfitnessapp.viewModel.utils.TimeUtils
+import com.example.myfitnessapp.viewmodels.utils.TimeUtils
 
 
 @Composable

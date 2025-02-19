@@ -24,16 +24,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.myfitnessapp.ui.components.BackAndForthButtons
 import com.example.myfitnessapp.ui.components.Chronometer
 import com.example.myfitnessapp.ui.components.ProgressionBar
 import com.example.myfitnessapp.ui.theme.Modifiers
-import com.example.myfitnessapp.viewModel.utils.provideImageLoader
+import com.example.myfitnessapp.viewmodels.utils.provideImageLoader
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 import com.example.myfitnessapp.viewmodels.utils.ChronometerUtils
 
