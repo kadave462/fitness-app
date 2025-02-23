@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.models.database // Make sure this is your correct package name
+package com.example.myfitnessapp.models.database
 
 import android.content.Context
 import androidx.room.Database
@@ -6,9 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(entities = [Muscle::class], version = 1, exportSchema = false)
-abstract class AppDatabase : RoomDatabase() { // 2. abstract class AppDatabase
+abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun muscleDao(): MuscleDao // 3. abstract fun muscleDao()
+    abstract fun muscleDao(): MuscleDao
 
     companion object { // 4. companion object
         @Volatile // 5. @Volatile

@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.datas.Exercise
 import com.example.myfitnessapp.ui.theme.Modifiers
-import com.example.myfitnessapp.ui.theme.Purple80
+
 
 @Composable
 fun ProgressionBar(modifiers: Modifiers, selectedExercises: MutableList<Exercise>, currentIndex: Int) {
@@ -60,7 +60,7 @@ fun ProgressionBar(modifiers: Modifiers, selectedExercises: MutableList<Exercise
                 .fillMaxWidth()
                 .height(8.dp)
                 .clip(RoundedCornerShape(10.dp)),
-            color = Purple80,
+            color = Color.Black,
             trackColor = Color.Gray,
         )
     }

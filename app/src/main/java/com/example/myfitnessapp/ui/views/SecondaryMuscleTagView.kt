@@ -9,19 +9,28 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myfitnessapp.ui.theme.Modifiers
 
 
 @Composable
-fun SecondaryMuscleTagView(muscle: String){
+fun SecondaryMuscleTagView(modifiers: Modifiers, muscle: String){
     Box(
-        modifier = Modifier
-            .padding(end = 4.dp, bottom = 4.dp)
-            .background(Color.LightGray, shape = RoundedCornerShape(8.dp))
-            .padding(horizontal = 8.dp, vertical = 4.dp)
+        modifier = modifiers
+            .onContainerModifier
+            .background(MaterialTheme.colorScheme.tertiaryContainer
+                , shape = MaterialTheme.shapes.medium),
     ) {
         Text(text = muscle,
-            style = MaterialTheme.typography.labelMedium)
+            style = MaterialTheme.typography.labelMedium,
+            modifier = modifiers.onContainerModifier)
     }
+}
+
+@Preview
+@Composable
+fun PreviewSecondaryMuscleTagView() {
+        SecondaryMuscleTagView(modifiers = Modifiers(), muscle = "Biceps")
 
 }

@@ -18,6 +18,8 @@ class ExerciseRepository {
         val selectedExercises = mutableStateListOf<Exercise>()
 
 
+
+
         private fun showError(e: Exception) {
                 Log.e("MonTag", "Erreur : ${e.message}")
                 Log.e("MonTag", "Erreur : ${Log.getStackTraceString(e)}")

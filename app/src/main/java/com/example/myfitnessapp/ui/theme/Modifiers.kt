@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 class Modifiers {
+    val onContainerPadding: Dp = 4.dp
     val innerPadding: Dp = 8.dp
     val bigPadding: Dp = 16.dp
 
@@ -19,7 +20,7 @@ class Modifiers {
     val mediumSeparation: Dp = 16.dp
 
 
-    fun bigPaddingModifier(isFullHeight: Boolean = false): Modifier{
+    fun bigPaddingModifier(isFullHeight: Boolean = false): Modifier{ //ca je suis pas convaincue
         if(isFullHeight){
             return Modifier
                 .fillMaxSize()
@@ -35,6 +36,8 @@ class Modifiers {
     val containerModifier = Modifier
         .fillMaxWidth()
         .padding(innerPadding)
+
+    val onContainerModifier = Modifier.padding(onContainerPadding)
 
 
     @Composable

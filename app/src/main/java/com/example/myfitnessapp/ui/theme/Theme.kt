@@ -10,8 +10,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+
 
 private val DarkColorScheme = darkColorScheme(
     primary = acidGreen,
@@ -66,6 +65,7 @@ private val LightColorScheme = lightColorScheme(
     onError = lightGrey,
     errorContainer = lightRed,
     onErrorContainer = darkRed
+
 )
 
 @Composable

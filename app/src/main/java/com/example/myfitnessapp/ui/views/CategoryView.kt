@@ -35,12 +35,11 @@ import com.example.myfitnessapp.ui.theme.Modifiers
 fun CategoryView(modifiers: Modifiers, category: ExerciseCategory, selectedExercises: MutableList<Exercise>) {
     var expanded by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+    Column(modifier = modifiers.containerModifier) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { expanded = !expanded }
-                .padding(vertical = 8.dp),
+            modifier = modifiers.containerModifier
+                .clickable { expanded = !expanded },
+
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -53,7 +52,8 @@ fun CategoryView(modifiers: Modifiers, category: ExerciseCategory, selectedExerc
 
             Text(
                 text = category.category,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                modifier = modifiers.containerModifier
             )
         }
 

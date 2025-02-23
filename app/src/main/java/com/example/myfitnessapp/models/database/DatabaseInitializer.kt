@@ -26,7 +26,7 @@ suspend fun populateDatabase(context: Context) { // 1. suspend fun populateDatab
                 Muscle(muscleName = "pectorals", defaultSets = 3, defaultReps = 10),
                 Muscle(muscleName = "quads", defaultSets = 3, defaultReps = 12),
                 Muscle(muscleName = "serratus anterior", defaultSets = 2, defaultReps = 15),
-                Muscle(muscleName = "spine", defaultSets = 1, defaultReps = 1), // Adjust as needed
+                Muscle(muscleName = "spine", defaultSets = 1, defaultReps = 10), // Adjust as needed
                 Muscle(muscleName = "traps", defaultSets = 3, defaultReps = 10),
                 Muscle(muscleName = "triceps", defaultSets = 3, defaultReps = 10),
                 Muscle(muscleName = "upper back", defaultSets = 3, defaultReps = 10)
