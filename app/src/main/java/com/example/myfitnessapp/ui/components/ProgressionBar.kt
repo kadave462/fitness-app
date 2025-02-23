@@ -30,13 +30,21 @@ import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.theme.Purple80
 
 @Composable
-fun ProgressionBar(modifiers: Modifiers, selectedExercises: MutableList<Exercise>, currentIndex: Int) {
+fun ProgressionBar(
+    modifiers: Modifiers,
+    selectedExercises: MutableList<Exercise>,
+    currentIndex: Int,
+    currentSetIndex: Int,
+    totalSets: Int
+) {
     val totalExercises = selectedExercises.size
+    val totalSteps = totalExercises * totalSets
+    val currentStep = (currentIndex * totalSets) + currentSetIndex
+
     val progress = remember { Animatable(0f) }
 
-    LaunchedEffect(currentIndex) {
-        val targetProgress =
-            if (totalExercises > 1) currentIndex.toFloat() / (totalExercises - 1) else 0f
+    LaunchedEffect(currentStep) {
+        val targetProgress = if (totalSteps > 1) currentStep.toFloat() / (totalSteps - 1) else 0f
         progress.animateTo(targetProgress, animationSpec = tween(durationMillis = 500))
     }
 
@@ -47,7 +55,7 @@ fun ProgressionBar(modifiers: Modifiers, selectedExercises: MutableList<Exercise
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Progression : ${currentIndex + 1} / $totalExercises",
+            text = "Progression : ${currentStep + 1} / $totalSteps",
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Bold
         )
@@ -66,7 +74,7 @@ fun ProgressionBar(modifiers: Modifiers, selectedExercises: MutableList<Exercise
     }
 }
 
-
+/*
 @Preview(showBackground = true)
 @Composable
 fun PreviewProgressionBar() {
@@ -124,3 +132,4 @@ fun PreviewProgressionBar() {
         navigation
     )
 }
+*/

@@ -25,7 +25,7 @@ class Modifiers {
                 .fillMaxSize()
                 .padding(bigPadding)
         }
-        return return Modifier
+        return Modifier
             .fillMaxWidth()
             .padding(bigPadding)
 

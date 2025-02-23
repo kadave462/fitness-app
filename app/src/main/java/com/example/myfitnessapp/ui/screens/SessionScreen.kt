@@ -43,41 +43,29 @@ import com.example.myfitnessapp.viewmodels.utils.ChronometerUtils
 fun SessionScreen(modifiers: Modifiers, navController: NavController, repository: ExerciseRepository) {
     var selectedExercises = repository.selectedExercises
     var currentIndex by remember { mutableIntStateOf(0) }
+    var currentSetIndex by remember { mutableIntStateOf(0) }
     val currentExercise = selectedExercises[currentIndex]
 
-
-    //added Database State Variables:
     val context = LocalContext.current
     var defaultSets by remember { mutableStateOf<Int?>(null) }
     var defaultReps by remember { mutableStateOf<Int?>(null) }
     val database = AppDatabase.getDatabase(context)
     val muscleDao = database.muscleDao()
 
-    //end of  Database State Variables:
 
-    // Block to Fetch default sets and reps from database
-    LaunchedEffect(currentExercise.name) { // Keyed by exercise name
-        val targetMuscleNameFromApi = currentExercise.target // Use target from ExerciseResponse
+    LaunchedEffect(currentExercise.name) {
+        val targetMuscleNameFromApi = currentExercise.target
 
         if (targetMuscleNameFromApi != null) {
             val muscle = muscleDao.getMuscleByName(targetMuscleNameFromApi)
-            if (muscle != null) {
-                defaultSets = muscle.defaultSets
-                defaultReps = muscle.defaultReps
-            } else {
-//                Log.e("SessionScreen", "Muscle '$targetMuscleNameFromApi' not found in database for exercise '${currentExercise.name}'!")
-                defaultSets = 0
-                defaultReps = 0
-            }
+            defaultSets = muscle?.defaultSets ?: 0
+            defaultReps = muscle?.defaultReps ?: 0
         } else {
-//            Log.e("SessionScreen", "API Exercise data does not provide target muscle for '${currentExercise.name}'!")
             defaultSets = 0
             defaultReps = 0
         }
+        currentSetIndex = 0
     }
-    // end of Block to Fetch default sets and reps from database
-
-
 
     Column(
         modifier = modifiers.bigPaddingModifier(true),
@@ -85,13 +73,24 @@ fun SessionScreen(modifiers: Modifiers, navController: NavController, repository
     ) {
         Row(modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 60.dp),
+                .heightIn(min = 80.dp),
             horizontalArrangement = Arrangement.Start
         ) {
             Text(
-                text = currentExercise.name,
-                style = MaterialTheme.typography.titleSmall,
+                text = currentExercise.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() },
+                style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,
+            )
+        }
+
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 10.dp),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Text(
+                text = "Série ${currentSetIndex + 1} / $defaultSets",
+                style = MaterialTheme.typography.titleSmall
             )
         }
 
@@ -110,27 +109,32 @@ fun SessionScreen(modifiers: Modifiers, navController: NavController, repository
 
         Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
-        ProgressionBar(modifiers, selectedExercises, currentIndex)
+        ProgressionBar(modifiers, selectedExercises, currentIndex, currentSetIndex, defaultSets ?: 1)
 
-        Spacer(modifier = Modifier.fillMaxHeight(0.1f))
-
-
-        Text(text = "Repetitions: ${defaultReps ?: "-"}")
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-
-        Text(text = "Series: ${defaultSets ?: "-"}")
+        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
         Chronometer(viewModel = ChronometerUtils())
 
-        Spacer(modifier = Modifier.fillMaxHeight(0.6f))
+        Spacer(modifier = Modifier.fillMaxHeight(0.2f))
+
+        Text(
+            text = "Répétez l'exercice affiché à l'écran ci-dessus $defaultReps fois",
+            style = MaterialTheme.typography.bodyLarge
+        )
+
+        Spacer(modifier = Modifier.fillMaxHeight(0.3f))
 
         BackAndForthButtons(
             modifiers = modifiers,
             selectedExercises = selectedExercises,
             currentIndex = currentIndex,
-            onIndexChange = { newIndex -> currentIndex = newIndex },
+            currentSetIndex = currentSetIndex,
+            totalSets = defaultSets ?: 1,
+            onIndexChange = { newIndex ->
+                currentIndex = newIndex
+                currentSetIndex = 0
+            },
+            onSetChange = { newSetIndex -> currentSetIndex = newSetIndex },
             navController = navController,
             navigation = "session_end_screen"
         )

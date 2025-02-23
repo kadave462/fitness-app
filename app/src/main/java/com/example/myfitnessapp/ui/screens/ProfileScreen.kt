@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.myfitnessapp.R
 import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.theme.Modifiers
 
 @Composable
@@ -89,8 +90,8 @@ fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User
 
         Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
-        Button(onClick = { imagePickerLauncher.launch("image/*") }) {
-            Text(text = "Changer la photo de profil")
+        FloatingButtonView(title = "Changer la photo de profil") {
+            imagePickerLauncher.launch("image/*")
         }
 
         Spacer(modifier = Modifier.fillMaxHeight(0.15f))

@@ -21,7 +21,7 @@ fun SecondaryMuscleTagView(muscle: String){
             .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
         Text(text = muscle,
-            style = MaterialTheme.typography.labelMedium)
+            style = MaterialTheme.typography.bodyLarge)
     }
 
 }

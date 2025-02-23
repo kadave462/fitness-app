@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
@@ -21,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.datas.Exercise
 import com.example.myfitnessapp.models.datas.User
 import com.example.myfitnessapp.ui.theme.Modifiers
+import com.example.myfitnessapp.ui.theme.titleXSmall
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -31,10 +33,11 @@ fun ExerciseView(modifiers: Modifiers, exercise: Exercise, isSelected: Boolean, 
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(0.7f)
         ) {
             Text(
                 text = exercise.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() },
+                maxLines = 2,
                 style = MaterialTheme.typography.titleSmall)
 
             Box(modifier = modifiers.containerModifier,
@@ -52,9 +55,13 @@ fun ExerciseView(modifiers: Modifiers, exercise: Exercise, isSelected: Boolean, 
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier
+                .weight(0.3f)
+                .fillMaxWidth()
         ) {
             if (isSelected) {
-                Text(text = index.toString(), style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(modifiers.innerPadding) )
+                Text(text = index.toString(), style = MaterialTheme.typography.titleXSmall, modifier = Modifier.padding(modifiers.innerPadding) )
             }
             Checkbox(
                 checked = isSelected,

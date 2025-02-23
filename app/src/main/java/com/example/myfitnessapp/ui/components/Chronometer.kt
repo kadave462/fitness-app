@@ -6,7 +6,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Replay
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +29,7 @@ import com.example.myfitnessapp.viewmodels.utils.ChronometerUtils
 
 @Composable
 fun Chronometer(viewModel: ChronometerUtils) {
+    val isRunning by viewModel.isRunning
     val time by viewModel.time
 
     Column(
@@ -39,17 +45,29 @@ fun Chronometer(viewModel: ChronometerUtils) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Row {
-            Button(onClick = { viewModel.startChronometer() }) {
-                Text("Démarrer", style = MaterialTheme.typography.bodySmall)
+            Button(
+                onClick = {
+                    if (isRunning) {
+                        viewModel.stopChronometer()
+                    } else {
+                        viewModel.startChronometer()
+                    }
+                }
+            ) {
+                Icon(
+                    imageVector = if (isRunning) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                    contentDescription = if (isRunning) "Arrêter" else "Démarrer"
+                )
             }
-                Spacer(modifier = Modifier.width(8.dp))
 
-            Button(onClick = { viewModel.stopChronometer() }) {
-                Text("Arrêter", style = MaterialTheme.typography.bodySmall)
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            Button(onClick = { viewModel.resetChronometer() }) {
-                Text("Réinitialiser", style = MaterialTheme.typography.bodySmall)
+            Button(
+                onClick = { viewModel.resetChronometer() },
+                enabled = time > 0
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Replay,
+                    contentDescription = "Réinitialiser"
+                )
             }
         }
     }

@@ -37,7 +37,6 @@ fun ExerciseScreen(
         modifier = modifiers.bigPaddingModifier()
     ) {
         Column() {
-            modifiers.getBigSpacer()
 
             OutlinedTextField(
                 value = searchQuery,

@@ -19,12 +19,15 @@ import com.example.myfitnessapp.viewmodels.utils.TimeUtils
 
 @Composable
 fun HomeScreen(modifiers: Modifiers, navController: NavController, user: User) {
-    Column(modifier = modifiers.bigPaddingModifier(true)) {
-        Box(Modifier.weight(1f)){
+    Column(modifier = modifiers.bigPaddingModifier(false)) {
+
+        Spacer(modifier = Modifier.height(modifiers.getScreenHeight() / 5f))
+
+        Box(Modifier.weight(1f)
+        ){
             Row(
                 horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.Top,
-                modifier = Modifier.align(Alignment.Center)
+                verticalAlignment = Alignment.Top
 
             ) {
                 Image(
@@ -44,7 +47,7 @@ fun HomeScreen(modifiers: Modifiers, navController: NavController, user: User) {
                     )
                     Text(
                         text = "Il est ${TimeUtils().getCurrentTime()}",
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.titleSmall
                     )
                 }
             }

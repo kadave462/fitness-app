@@ -67,3 +67,11 @@ val Typography = Typography(
     )
 
 )
+
+val Typography.titleXSmall: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 20.sp,
+        lineHeight = 28.sp
+    )

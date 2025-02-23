@@ -53,8 +53,7 @@ fun CategoryView(modifiers: Modifiers, category: ExerciseCategory, selectedExerc
 
             Text(
                 text = category.category,
-                style = MaterialTheme.typography.titleMedium
-            )
+                style = MaterialTheme.typography.titleMedium          )
         }
 
         HorizontalDivider(thickness = 1.dp, color = Color.Gray)

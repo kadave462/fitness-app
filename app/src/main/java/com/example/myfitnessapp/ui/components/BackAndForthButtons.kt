@@ -21,7 +21,10 @@ fun BackAndForthButtons(
     modifiers: Modifiers,
     selectedExercises: MutableList<Exercise>,
     currentIndex: Int,
+    currentSetIndex: Int,
+    totalSets: Int,
     onIndexChange: (Int) -> Unit,
+    onSetChange: (Int) -> Unit,
     navController: NavController,
     navigation: String,
 ) {
@@ -30,15 +33,28 @@ fun BackAndForthButtons(
         modifier = modifiers.containerModifier
     ) {
         Button(
-            onClick = { if (currentIndex > 0) onIndexChange(currentIndex - 1) },
-            enabled = currentIndex > 0
+            onClick = {
+                if (currentSetIndex > 0) {
+                    onSetChange(currentSetIndex - 1)
+                } else if (currentIndex > 0) {
+                    onIndexChange(currentIndex - 1)
+                }
+            },
+            enabled = currentIndex > 0 || currentSetIndex > 0
         ) {
             Text("Précédent", style = MaterialTheme.typography.bodySmall)
         }
 
-        if (currentIndex < selectedExercises.size - 1) {
+        if (currentIndex < selectedExercises.size - 1 || currentSetIndex < totalSets - 1) {
             Button(
-                onClick = { onIndexChange(currentIndex + 1) },
+                onClick = {
+                    if (currentSetIndex < totalSets - 1) {
+                        onSetChange(currentSetIndex + 1)
+                    } else {
+                        onSetChange(0)
+                        onIndexChange(currentIndex + 1)
+                    }
+                }
             ) {
                 Text("Suivant", style = MaterialTheme.typography.bodySmall)
             }
