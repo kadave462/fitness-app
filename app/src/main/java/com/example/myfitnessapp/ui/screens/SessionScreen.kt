@@ -6,11 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,36 +34,25 @@ import com.example.myfitnessapp.ui.components.ProgressionBar
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.utils.provideImageLoader
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
+import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
 import com.example.myfitnessapp.viewmodels.utils.ChronometerUtils
 
 
 @Composable
 fun SessionScreen(modifiers: Modifiers, navController: NavController, repository: ExerciseRepository) {
     var selectedExercises = repository.selectedExercises
-    var currentIndex by remember { mutableIntStateOf(0) }
+    val sessionRepository = SessionRepository(LocalContext.current, selectedExercises)
+
+    var currentIndex by remember { mutableIntStateOf(0) } //In the list
+    val currentExercise = selectedExercises[currentIndex] //In the list
+    var defaultSets = sessionRepository.totalSets
     var currentSetIndex by remember { mutableIntStateOf(0) }
-    val currentExercise = selectedExercises[currentIndex]
-
-    val context = LocalContext.current
-    var defaultSets by remember { mutableStateOf<Int?>(null) }
     var defaultReps by remember { mutableStateOf<Int?>(null) }
-    val database = AppDatabase.getDatabase(context)
-    val muscleDao = database.muscleDao()
-
 
     LaunchedEffect(currentExercise.name) {
-        val targetMuscleNameFromApi = currentExercise.target
-
-        if (targetMuscleNameFromApi != null) {
-            val muscle = muscleDao.getMuscleByName(targetMuscleNameFromApi)
-            defaultSets = muscle?.defaultSets ?: 0
-            defaultReps = muscle?.defaultReps ?: 0
-        } else {
-            defaultSets = 0
-            defaultReps = 0
-        }
-        currentSetIndex = 0
+        defaultReps = sessionRepository.getNumberOfReps(currentExercise)
     }
+
 
     Column(
         modifier = modifiers.bigPaddingModifier(true),
@@ -129,7 +116,7 @@ fun SessionScreen(modifiers: Modifiers, navController: NavController, repository
             selectedExercises = selectedExercises,
             currentIndex = currentIndex,
             currentSetIndex = currentSetIndex,
-            totalSets = defaultSets ?: 1,
+            totalSets = sessionRepository.totalSets,
             onIndexChange = { newIndex ->
                 currentIndex = newIndex
                 currentSetIndex = 0

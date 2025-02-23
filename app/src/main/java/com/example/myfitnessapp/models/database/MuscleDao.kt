@@ -8,17 +8,19 @@ import androidx.room.Query
 @Dao // 1. @Dao annotation
 interface MuscleDao { // 2. interface MuscleDao
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE) // 3. @Insert annotation
-    suspend fun insertMuscle(muscle: Muscle) // 4. insertMuscle function
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMuscle(muscle: Muscle)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE) // 5. @Insert for insertMuscles
-    suspend fun insertMuscles(muscles: List<Muscle>) // 6. insertMuscles function
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMuscles(muscles: List<Muscle>)
 
-    @Query("SELECT * FROM muscles WHERE muscle_name = :muscleName") // 7. @Query for getMuscleByName
-    suspend fun getMuscleByName(muscleName: String): Muscle? // 8. getMuscleByName function
+    @Query("SELECT * FROM muscles WHERE muscle_name = :muscleName")
+    suspend fun getMuscleByName(muscleName: String): Muscle?
 
-    @Query("SELECT * FROM muscles") // 9. @Query for getAllMuscles
-    suspend fun getAllMuscles(): List<Muscle> // 10. getAllMuscles function
+    @Query("SELECT default_reps FROM muscles WHERE muscle_name = :muscleName")
+    suspend fun getNumberOfReps(muscleName: String): Int?
 
-    // You can add more DAO functions here as needed for updating, deleting, etc.
+    @Query("SELECT * FROM muscles")
+    suspend fun getAllMuscles(): List<Muscle>
+
 }

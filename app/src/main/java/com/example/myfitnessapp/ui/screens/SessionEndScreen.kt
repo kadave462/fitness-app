@@ -84,7 +84,7 @@ fun SessionEndScreen(
         }
     }
 }
-
+/*
 @Preview(showBackground = true)
 @Composable
 fun PreviewSessionEndScreen(){
@@ -100,4 +100,4 @@ fun PreviewSessionEndScreen(){
     )
 
     SessionEndScreen(modifiers, navController, user, ExerciseRepository())
-}
+} */

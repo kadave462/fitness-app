@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.ui.screens
 
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 
@@ -63,13 +64,13 @@ fun ExerciseScreen(
     }
 }
 
-
+/*
 @Preview(showBackground = true)
 @Composable
 fun ExerciseScreenPreview() {
     val navController = rememberNavController()
     val modifiers = Modifiers()
-    val repository = ExerciseRepository()
+    val repository = ExerciseRepository(Context())
     ExerciseScreen(modifiers, navController, repository)
 
-}
+} */

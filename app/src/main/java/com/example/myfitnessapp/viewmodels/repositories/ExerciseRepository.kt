@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.viewmodels.repositories
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import com.example.myfitnessapp.models.ExerciseCategory
@@ -10,9 +11,11 @@ import java.io.File
 
 
 
-class ExerciseRepository {
+class ExerciseRepository(context: Context) {
         private val api = ExerciceClient.api
         private var allExercises: List<Exercise>? = null //Metrre en mutable ?
+
+
         var allCategories = mutableStateListOf<ExerciseCategory>()
         val exerciseViewModel = ExerciseViewModel(allCategories)
         val selectedExercises = mutableStateListOf<Exercise>()
