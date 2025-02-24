@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.ui.views.CategoryView
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.theme.Modifiers
+import com.example.myfitnessapp.viewmodels.repositories.ExerciseFilter
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 
 
@@ -29,9 +30,10 @@ fun ExerciseScreen(
     navController: NavController,
     repository: ExerciseRepository
 ) {
-    val viewModel = repository.exerciseViewModel
-    val searchQuery by viewModel.searchQuery.collectAsState()
-    val filteredCategories by viewModel.filteredCategories.collectAsState(initial = repository.allCategories)
+    val filter = ExerciseFilter(repository.allCategories)
+    val searchQuery by filter.searchQuery.collectAsState()
+    val filteredCategories by filter.filteredCategories.collectAsState(initial = repository.allCategories)
+
     val selectedExercises = repository.selectedExercises
 
     Box(
@@ -41,7 +43,7 @@ fun ExerciseScreen(
 
             OutlinedTextField(
                 value = searchQuery,
-                onValueChange = { viewModel.updateSearchQuery(it) },
+                onValueChange = { filter.updateSearchQuery(it) },
                 label = { Text("Rechercher un muscle",
                     style = MaterialTheme.typography.bodyMedium) },
                 modifier = modifiers.containerModifier,
@@ -73,4 +75,4 @@ fun ExerciseScreenPreview() {
     val repository = ExerciseRepository(Context())
     ExerciseScreen(modifiers, navController, repository)
 
-} */
+}

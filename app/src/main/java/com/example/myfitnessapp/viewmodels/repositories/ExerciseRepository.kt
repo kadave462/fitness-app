@@ -17,8 +17,8 @@ class ExerciseRepository(context: Context) {
 
 
         var allCategories = mutableStateListOf<ExerciseCategory>()
-        val exerciseViewModel = ExerciseViewModel(allCategories)
         val selectedExercises = mutableStateListOf<Exercise>()
+
 
 
         private fun showError(e: Exception) {
