@@ -17,7 +17,7 @@ suspend fun populateDatabase(context: Context) {
         val cardio = listOf("cardiovascular system")
 
 
-        if (muscleDao.getAllMuscles().isEmpty()) { // 5. Check if database is empty
+        if (muscleDao.getAllMuscles().isEmpty()) {
             for(muscleName in bigMuscles){
                 val muscle = Muscle(muscleName = muscleName, defaultSets = 3, defaultReps = defaultReps)
                 muscleDao.insertMuscle(muscle)
