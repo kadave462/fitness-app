@@ -75,4 +75,4 @@ fun ExerciseScreenPreview() {
     val repository = ExerciseRepository(Context())
     ExerciseScreen(modifiers, navController, repository)
 
-}
+}*/
