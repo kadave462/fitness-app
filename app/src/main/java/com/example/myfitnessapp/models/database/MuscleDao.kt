@@ -5,8 +5,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
-@Dao // 1. @Dao annotation
-interface MuscleDao { // 2. interface MuscleDao
+@Dao
+interface MuscleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMuscle(muscle: Muscle)

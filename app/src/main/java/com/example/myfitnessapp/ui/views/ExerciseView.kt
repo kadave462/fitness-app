@@ -46,7 +46,7 @@ fun ExerciseView(modifiers: Modifiers, exercise: Exercise, isSelected: Boolean, 
                     modifier = Modifier.padding(modifiers.innerPadding),
                 ) {
                     exercise.secondaryMuscles.forEach { muscle ->
-                        SecondaryMuscleTagView(muscle)
+                        SecondaryMuscleTagView(modifiers, muscle)
                     }
                 }
 
