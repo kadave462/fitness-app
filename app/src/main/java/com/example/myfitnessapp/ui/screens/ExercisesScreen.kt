@@ -1,6 +1,7 @@
 package com.example.myfitnessapp.ui.screens
 
 import android.content.Context
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 
@@ -30,14 +31,14 @@ fun ExerciseScreen(
     navController: NavController,
     repository: ExerciseRepository
 ) {
-    val filter = ExerciseFilter(repository.allCategories)
+    val filter = repository.filter
     val searchQuery by filter.searchQuery.collectAsState()
     val filteredCategories by filter.filteredCategories.collectAsState(initial = repository.allCategories)
 
     val selectedExercises = repository.selectedExercises
 
     Box(
-        modifier = modifiers.bigPaddingModifier()
+        modifier = modifiers.bigPaddingModifier().background(MaterialTheme.colorScheme.background)
     ) {
         Column() {
 

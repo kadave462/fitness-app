@@ -16,7 +16,9 @@ class ExerciseRepository(context: Context) {
         private var allExercises: List<Exercise>? = null //Metrre en mutable ?
 
 
+
         var allCategories = mutableStateListOf<ExerciseCategory>()
+        val filter = ExerciseFilter(allCategories)
         val selectedExercises = mutableStateListOf<Exercise>()
 
 

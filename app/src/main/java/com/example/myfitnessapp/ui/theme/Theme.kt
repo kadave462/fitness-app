@@ -71,7 +71,7 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun lightOrDarkColorScheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true): ColorScheme {
+    dynamicColor: Boolean = false): ColorScheme {
 
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
