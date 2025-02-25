@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.ui.screens.BreakScreen
 import com.example.myfitnessapp.viewmodels.utils.NavigationUtils
 import com.example.myfitnessapp.ui.screens.ExerciseScreen
 import com.example.myfitnessapp.ui.screens.HomeScreen
@@ -18,8 +19,13 @@ import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 
 @Composable
-fun AppNavigation(modifiers: Modifiers, navController: NavHostController, user: User, repository: ExerciseRepository) {
-
+fun AppNavigation(
+    modifiers: Modifiers,
+                  navController: NavHostController,
+                  user: User, repository: ExerciseRepository,
+                  currentIndex: Int,
+                  onIndexChange: (Int) -> Unit
+) {
     val currentRoute = NavigationUtils().currentRoute(navController)
 
     Scaffold(
@@ -36,8 +42,9 @@ fun AppNavigation(modifiers: Modifiers, navController: NavHostController, user: 
         ) {
             composable("home_screen") { HomeScreen(modifiers,navController, user) }
             composable("exercise_screen") { ExerciseScreen(modifiers, navController, repository) }
-            composable("session_screen") { SessionScreen(modifiers, navController, user, repository) }
-            composable("session_end_screen") { SessionEndScreen(modifiers, navController, user, repository) }
+            composable("session_screen") { SessionScreen(modifiers, navController, user, repository, currentIndex, onIndexChange) }
+            composable("break_screen") { BreakScreen(modifiers,navController, repository, currentIndex, onIndexChange) }
+            composable("session_end_screen") { SessionEndScreen(modifiers, navController, user, repository, currentIndex, onIndexChange) }
             composable("profile_screen") { ProfileScreen(modifiers, navController, user) }
         }
     }

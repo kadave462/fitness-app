@@ -40,11 +40,16 @@ import com.example.myfitnessapp.viewmodels.utils.ChronometerUtils
 
 
 @Composable
-fun SessionScreen(modifiers: Modifiers, navController: NavController, user: User, repository: ExerciseRepository) {
+fun SessionScreen(
+    modifiers: Modifiers,
+    navController: NavController,
+    user: User, repository: ExerciseRepository,
+    currentIndex: Int,
+    onIndexChange: (Int) -> Unit
+) {
     val selectedExercises = repository.selectedExercises
     val sessionRepository = SessionRepository(LocalContext.current, selectedExercises)
 
-    var currentIndex by remember { mutableIntStateOf(0) }
     val currentExercise = selectedExercises[currentIndex]
     val defaultSets = sessionRepository.totalSets
     var currentSetIndex by remember { mutableIntStateOf(0) }
@@ -54,14 +59,13 @@ fun SessionScreen(modifiers: Modifiers, navController: NavController, user: User
         defaultReps = sessionRepository.getNumberOfReps(currentExercise, user)
     }
 
-
     Column(
         modifier = modifiers.bigPaddingModifier(true),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = 80.dp),
+            .fillMaxWidth()
+            .heightIn(min = 80.dp),
             horizontalArrangement = Arrangement.Start
         ) {
             Text(
@@ -97,7 +101,15 @@ fun SessionScreen(modifiers: Modifiers, navController: NavController, user: User
 
         Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
-        ProgressionBar(modifiers, selectedExercises, currentIndex, currentSetIndex, defaultSets ?: 1)
+        ProgressionBar(
+            modifiers = modifiers,
+            selectedExercises = selectedExercises,
+            currentIndex = currentIndex,
+            currentSetIndex = currentSetIndex,
+            totalSets = sessionRepository.totalSets,
+            isBreak = false,
+            showPauseMarkers = true
+        )
 
         Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
@@ -119,12 +131,12 @@ fun SessionScreen(modifiers: Modifiers, navController: NavController, user: User
             currentSetIndex = currentSetIndex,
             totalSets = sessionRepository.totalSets,
             onIndexChange = { newIndex ->
-                currentIndex = newIndex
+                onIndexChange(newIndex)
                 currentSetIndex = 0
             },
             onSetChange = { newSetIndex -> currentSetIndex = newSetIndex },
             navController = navController,
-            navigation = "session_end_screen"
+            navigation = "break_screen"
         )
     }
 }

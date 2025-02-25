@@ -38,8 +38,7 @@ fun Chronometer(viewModel: ChronometerUtils) {
     ) {
         Text(
             text = TimeUtils.formatTime(time),
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold
+            style = MaterialTheme.typography.titleMedium
         )
 
         Spacer(modifier = Modifier.height(16.dp))

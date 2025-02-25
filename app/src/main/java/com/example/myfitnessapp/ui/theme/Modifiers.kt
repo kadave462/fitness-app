@@ -59,9 +59,6 @@ class Modifiers {
     fun getMediumSpacer(){
         return Spacer(modifier = Modifier.height(mediumSeparation))
     }
-
-
-
 }
 
 

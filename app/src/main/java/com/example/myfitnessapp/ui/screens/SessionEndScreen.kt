@@ -26,7 +26,9 @@ fun SessionEndScreen(
     modifiers: Modifiers,
     navController: NavController,
     user: User,
-    repository: ExerciseRepository
+    repository: ExerciseRepository,
+    currentIndex: Int,
+    onIndexChange: (Int) -> Unit
 ) {
     val userName = user.pseudonym
     var selectedExercises = repository.selectedExercises
@@ -78,12 +80,14 @@ fun SessionEndScreen(
             FloatingButtonView(
                 title = "Revenir à l'écran d'accueil",
             ) {
+                repository.selectedExercises.clear()
+                onIndexChange(0)
                 navController.navigate("home_screen")
-                selectedExercises.clear()
             }
         }
     }
 }
+
 /*
 @Preview(showBackground = true)
 @Composable

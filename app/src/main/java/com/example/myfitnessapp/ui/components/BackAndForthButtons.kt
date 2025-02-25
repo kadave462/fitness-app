@@ -51,8 +51,9 @@ fun BackAndForthButtons(
                     if (currentSetIndex < totalSets - 1) {
                         onSetChange(currentSetIndex + 1)
                     } else {
-                        onSetChange(0)
-                        onIndexChange(currentIndex + 1)
+                        navController.navigate("break_screen") {
+                            launchSingleTop = true
+                        }
                     }
                 }
             ) {

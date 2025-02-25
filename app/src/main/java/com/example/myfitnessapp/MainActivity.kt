@@ -6,8 +6,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.datas.User
 import com.example.myfitnessapp.ui.theme.Modifiers
@@ -44,6 +47,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val user = User(10, "AlexL", "Alex", "Laffite", "alex.laffite@gmail.com", 80.0, 180, LocalDate.of(1999, 2, 25), "Homme", "Débutant")
                 val repository = remember { ExerciseRepository(this) }
+                var currentIndex by remember { mutableIntStateOf(0) }
                 val modifiers = Modifiers()
 
 
@@ -54,8 +58,10 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                AppNavigation(modifiers, navController, user, repository)
-
+                AppNavigation(
+                    modifiers, navController, user, repository, currentIndex,
+                    onIndexChange = { newIndex -> currentIndex = newIndex }
+                )
             }
         }
     }
