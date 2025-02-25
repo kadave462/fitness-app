@@ -41,7 +41,7 @@ import com.example.myfitnessapp.viewmodels.utils.ChronometerUtils
 @Composable
 fun SessionScreen(modifiers: Modifiers, navController: NavController, repository: ExerciseRepository, user: User) {
     var selectedExercises = repository.selectedExercises
-    val sessionRepository = SessionRepository(LocalContext.current, selectedExercises)
+    val sessionRepository = SessionRepository(user, LocalContext.current, selectedExercises)
 
     var currentIndex by remember { mutableIntStateOf(0) } //In the list
     val currentExercise = selectedExercises[currentIndex] //In the list
