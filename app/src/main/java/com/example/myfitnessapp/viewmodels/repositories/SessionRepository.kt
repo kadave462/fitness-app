@@ -31,9 +31,9 @@ class SessionRepository(user: User, context: Context, val session: SnapshotState
         var reps = muscleDAO.getNumberOfReps(exercise.target)
         val level = user.level
         if(reps != null){
-            if(level == "Intermédiaire")
+            if(level == "Intermediate")
                 return reps * 1.5 as Int
-            if(level == "Avancé")
+            if(level == "Advanced")
                 return reps * 2 as Int
             return reps as Int
         }
