@@ -19,6 +19,7 @@ import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.database.MuscleDao
 import com.example.myfitnessapp.models.database.populateDatabase
 import androidx.lifecycle.lifecycleScope
+import java.time.LocalDate
 
 
 class MainActivity : ComponentActivity() {
@@ -30,7 +31,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         val database = AppDatabase.getDatabase(this)
-        muscleDao = database.muscleDao()
+        muscleDao = database.getMuscleDao()
 
         lifecycleScope.launch { // Launch coroutine for database population
             populateDatabase(this@MainActivity)
@@ -41,7 +42,8 @@ class MainActivity : ComponentActivity() {
 
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
-                val user = User(10, "AlexL", "Alex", "Laffite", "alex.laffite@gmail.com", 80.0, 180, 25, "Homme", "Débutant")
+                val date = LocalDate.of(2024, 4, 16)
+                val user = User(1, "alex.laffite@gmail.com", "AlexL", "Alex", "Laffite", 80.0, 180, 10, "Homme", "Débutant")
                 val repository = remember { ExerciseRepository(this) }
                 val modifiers = Modifiers()
 

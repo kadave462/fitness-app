@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.myfitnessapp.models.database.AppDatabase
+import com.example.myfitnessapp.models.datas.User
 import com.example.myfitnessapp.ui.components.BackAndForthButtons
 import com.example.myfitnessapp.ui.components.Chronometer
 import com.example.myfitnessapp.ui.components.ProgressionBar
@@ -39,7 +40,7 @@ import com.example.myfitnessapp.viewmodels.utils.ChronometerUtils
 
 
 @Composable
-fun SessionScreen(modifiers: Modifiers, navController: NavController, repository: ExerciseRepository) {
+fun SessionScreen(modifiers: Modifiers, navController: NavController, repository: ExerciseRepository, user: User) {
     var selectedExercises = repository.selectedExercises
     val sessionRepository = SessionRepository(LocalContext.current, selectedExercises)
 
@@ -50,7 +51,7 @@ fun SessionScreen(modifiers: Modifiers, navController: NavController, repository
     var defaultReps by remember { mutableStateOf<Int?>(null) }
 
     LaunchedEffect(currentExercise.name) {
-        defaultReps = sessionRepository.getNumberOfReps(currentExercise)
+        defaultReps = sessionRepository.getNumberOfReps(currentExercise, user)
     }
 
 

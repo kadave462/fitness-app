@@ -1,9 +1,7 @@
 package com.example.myfitnessapp.viewmodels.repositories
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.room.Room
 import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.datas.Exercise
 import com.example.myfitnessapp.models.datas.User
@@ -15,7 +13,7 @@ class SessionRepository(context: Context, val session: SnapshotStateList<Exercis
     val totalSets = 3
 
     private val database = AppDatabase.getDatabase(context)
-    val muscleDAO = database.muscleDao()
+    val muscleDAO = database.getMuscleDao()
 
 
     suspend fun getNumberOfReps(exercise: Exercise, user: User): Int {

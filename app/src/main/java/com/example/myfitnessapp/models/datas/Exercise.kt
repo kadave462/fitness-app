@@ -1,10 +1,12 @@
 package com.example.myfitnessapp.models.datas
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.io.File
 
-
+@Entity(tableName = "exercises")
 data class Exercise(
-    val id: String,
+    @PrimaryKey val id: String,
     val name: String,
     val bodyPart: String,
     val target: String,

@@ -1,21 +1,12 @@
 package com.example.myfitnessapp.models.datas
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "sessions", primaryKeys = ["id", "exerciseId"])
 data class Session (
-    val selectedExercises: MutableList<Exercise> = mutableListOf(),
-) {
-    fun addExercise(exercise: Exercise) {
-        if (!selectedExercises.contains(exercise)) {
-            selectedExercises.add(exercise)
-        }
-    }
-
-    fun removeExercise(exercise: Exercise) {
-        if (selectedExercises.contains(exercise)) {
-            selectedExercises.remove(exercise)
-        }
-    }
-
-    fun getExerciseOrder(exercise: Exercise): Int {
-        return selectedExercises.indexOf(exercise) + 1
-    }
-}
+    val id: Int,
+    val exerciseId: Int,
+    var name: String?,
+    val totalSets: Int
+)
