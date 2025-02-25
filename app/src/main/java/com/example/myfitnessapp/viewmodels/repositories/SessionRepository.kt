@@ -4,9 +4,10 @@ import android.content.Context
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.entities.Exercise
+import com.example.myfitnessapp.models.entities.Session
 import com.example.myfitnessapp.models.entities.User
 
-class SessionRepository(context: Context, val session: SnapshotStateList<Exercise>) {
+class SessionRepository(user: User, context: Context, val session: SnapshotStateList<Exercise>) {
     private val _selectedExercises = mutableListOf<Exercise>()
     val selectedExercises: List<Exercise> = _selectedExercises
 
@@ -14,6 +15,8 @@ class SessionRepository(context: Context, val session: SnapshotStateList<Exercis
 
     private val database = AppDatabase.getDatabase(context)
     val muscleDAO = database.getMuscleDao()
+    val sessionDAO = database.getSessionDao()
+    private var name = "SansNom"
 
 
     suspend fun getNumberOfReps(exercise: Exercise, user: User): Int {
@@ -35,6 +38,22 @@ class SessionRepository(context: Context, val session: SnapshotStateList<Exercis
             return reps as Int
         }
         return 10
+    }
+
+    suspend fun setName(name: String){
+        this.name = name
+    }
+
+    suspend fun saveSession(){
+        var sessionId = sessionDAO.getLastSessionId()?: 0
+        if(sessionId != 0){
+            sessionId ++
+        }
+
+        val sessions = selectedExercises.map { exercise ->
+            Session(sessionId, exercise.id, name, totalSets)
+        }
+        sessionDAO.insertAll(sessions)
     }
 
 }
