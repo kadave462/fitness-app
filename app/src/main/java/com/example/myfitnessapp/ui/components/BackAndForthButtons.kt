@@ -2,18 +2,12 @@ package com.example.myfitnessapp.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.myfitnessapp.models.datas.Exercise
+import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.ui.theme.Modifiers
 
 @Composable

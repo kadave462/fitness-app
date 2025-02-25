@@ -1,11 +1,12 @@
-package com.example.myfitnessapp.models.database // Make sure this is your correct package name
+package com.example.myfitnessapp.models.database.utils // Make sure this is your correct package name
 
 import android.content.Context
-import com.example.myfitnessapp.models.datas.Muscle
+import com.example.myfitnessapp.models.database.AppDatabase
+import com.example.myfitnessapp.models.entities.Muscle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-suspend fun populateDatabase(context: Context) {
+suspend fun populateMusclesDatabase(context: Context) {
     withContext(Dispatchers.IO) {
         val database = AppDatabase.getDatabase(context)
         val muscleDao = database.getMuscleDao()

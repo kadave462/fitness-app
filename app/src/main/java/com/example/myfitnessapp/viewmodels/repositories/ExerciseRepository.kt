@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import com.example.myfitnessapp.models.ExerciseCategory
-import com.example.myfitnessapp.models.datas.Exercise
-import com.example.myfitnessapp.models.datas.ExerciseResponse
+import com.example.myfitnessapp.models.entities.Exercise
+import com.example.myfitnessapp.models.entities.ExerciseResponse
 import com.example.myfitnessapp.models.network.ExerciceClient
 import java.io.File
 

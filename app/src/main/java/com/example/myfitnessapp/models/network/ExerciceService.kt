@@ -1,6 +1,6 @@
 package com.example.myfitnessapp.models.network
 
-import com.example.myfitnessapp.models.datas.ExerciseResponse
+import com.example.myfitnessapp.models.entities.ExerciseResponse
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path

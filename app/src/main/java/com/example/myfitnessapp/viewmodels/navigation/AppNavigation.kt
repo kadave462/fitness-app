@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.viewmodels.utils.NavigationUtils
 import com.example.myfitnessapp.ui.screens.ExerciseScreen
 import com.example.myfitnessapp.ui.screens.HomeScreen

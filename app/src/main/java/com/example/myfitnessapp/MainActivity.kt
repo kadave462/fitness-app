@@ -9,17 +9,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.rememberNavController
-import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.viewmodels.navigation.AppNavigation
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 import kotlinx.coroutines.launch
 import com.example.myfitnessapp.models.database.AppDatabase
-import com.example.myfitnessapp.models.database.MuscleDao
-import com.example.myfitnessapp.models.database.populateDatabase
+import com.example.myfitnessapp.models.database.daos.MuscleDao
+import com.example.myfitnessapp.models.database.utils.populateMusclesDatabase
 import androidx.lifecycle.lifecycleScope
 import java.time.LocalDate
+import java.util.Calendar
+import java.util.Date
 
 
 class MainActivity : ComponentActivity() {
@@ -34,7 +36,7 @@ class MainActivity : ComponentActivity() {
         muscleDao = database.getMuscleDao()
 
         lifecycleScope.launch { // Launch coroutine for database population
-            populateDatabase(this@MainActivity)
+            populateMusclesDatabase(this@MainActivity)
         }
 
         setContent { // Keep your existing setContent block as is
@@ -42,8 +44,7 @@ class MainActivity : ComponentActivity() {
 
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
-                val date = LocalDate.of(2024, 4, 16)
-                val user = User(1, "alex.laffite@gmail.com", "AlexL", "Alex", "Laffite", 80.0, 180, 10, "Homme", "Débutant")
+                val user = User(1, "alex.laffite@gmail.com", "AlexL", "Alex", "Laffite", 80.0, 180, "10/10/2001", "Homme", "Beginner")
                 val repository = remember { ExerciseRepository(this) }
                 val modifiers = Modifiers()
 

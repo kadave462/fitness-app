@@ -1,7 +1,6 @@
-package com.example.myfitnessapp.models.datas
+package com.example.myfitnessapp.models.entities
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
 @Entity(tableName = "sessions", primaryKeys = ["id", "exerciseId"])
 data class Session (

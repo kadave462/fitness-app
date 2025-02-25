@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
@@ -16,11 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.rememberNavController
-import com.example.myfitnessapp.models.datas.Exercise
-import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.theme.titleXSmall
 

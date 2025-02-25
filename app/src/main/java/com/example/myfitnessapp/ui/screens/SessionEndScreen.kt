@@ -12,11 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.myfitnessapp.models.datas.Exercise
-import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.theme.Modifiers

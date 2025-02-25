@@ -1,6 +1,6 @@
 package com.example.myfitnessapp.models
 
-import com.example.myfitnessapp.models.datas.Exercise
+import com.example.myfitnessapp.models.entities.Exercise
 
 data class ExerciseCategory(
     val category: String,

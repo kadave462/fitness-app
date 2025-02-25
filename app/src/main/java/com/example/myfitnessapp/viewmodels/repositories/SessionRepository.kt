@@ -3,8 +3,8 @@ package com.example.myfitnessapp.viewmodels.repositories
 import android.content.Context
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.example.myfitnessapp.models.database.AppDatabase
-import com.example.myfitnessapp.models.datas.Exercise
-import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.models.entities.Exercise
+import com.example.myfitnessapp.models.entities.User
 
 class SessionRepository(context: Context, val session: SnapshotStateList<Exercise>) {
     private val _selectedExercises = mutableListOf<Exercise>()

@@ -27,8 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.myfitnessapp.models.database.AppDatabase
-import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.components.BackAndForthButtons
 import com.example.myfitnessapp.ui.components.Chronometer
 import com.example.myfitnessapp.ui.components.ProgressionBar
