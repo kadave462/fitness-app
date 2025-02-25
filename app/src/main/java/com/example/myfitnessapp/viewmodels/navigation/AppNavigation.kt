@@ -36,7 +36,7 @@ fun AppNavigation(modifiers: Modifiers, navController: NavHostController, user: 
         ) {
             composable("home_screen") { HomeScreen(modifiers,navController, user) }
             composable("exercise_screen") { ExerciseScreen(modifiers, navController, repository) }
-            composable("session_screen") { SessionScreen(modifiers, navController, repository) }
+            composable("session_screen") { SessionScreen(modifiers, navController, user, repository) }
             composable("session_end_screen") { SessionEndScreen(modifiers, navController, user, repository) }
             composable("profile_screen") { ProfileScreen(modifiers, navController, user) }
         }

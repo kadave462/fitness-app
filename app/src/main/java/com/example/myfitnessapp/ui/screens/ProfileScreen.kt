@@ -132,7 +132,7 @@ fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User
         Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
         Text(
-            text = "Âge : ${user.birthdate} ans",
+            text = "Âge : ${user.getAge()} ans",
             style = MaterialTheme.typography.headlineSmall
         )
 
