@@ -33,11 +33,11 @@ class MainActivity : ComponentActivity() {
         val database = AppDatabase.getDatabase(this)
         muscleDao = database.muscleDao()
 
-        lifecycleScope.launch { // Launch coroutine for database population
+        lifecycleScope.launch {
             populateDatabase(this@MainActivity)
         }
 
-        setContent { // Keep your existing setContent block as is
+        setContent {
             MyFitnessAppTheme {
 
                 val scope = rememberCoroutineScope()
