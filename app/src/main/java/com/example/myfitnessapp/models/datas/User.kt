@@ -11,7 +11,7 @@ data class User(
     val email: String,
     val weight: Double,
     val height: Int,
-    val birthdate: LocalDate?,
+    val birthdate: Int,
     val gender: String,
     val level: String,
     var profilePictureUri: String? = null
