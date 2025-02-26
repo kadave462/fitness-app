@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.ui.views
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,12 +24,12 @@ import com.example.myfitnessapp.ui.theme.titleXSmall
 @Composable
 fun ExerciseView(modifiers: Modifiers, exercise: Exercise, isSelected: Boolean, index: Int?, onSelectionChange: (Boolean) -> Unit) {
     Row(
-        modifier = modifiers.containerModifier,
+        modifier = modifiers.containerModifier.background(color = MaterialTheme.colorScheme.tertiary, shape = MaterialTheme.shapes.medium),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
-            modifier = Modifier.weight(0.7f)
+            modifier = modifiers.onContainerModifier.weight(0.7f)
         ) {
             Text(
                 text = exercise.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() },
