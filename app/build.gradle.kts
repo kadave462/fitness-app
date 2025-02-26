@@ -5,7 +5,6 @@ plugins {
 
     id("com.google.devtools.ksp")
     id("com.google.gms.google-services")
-
 }
 
 android {
@@ -76,13 +75,19 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
 
-    implementation("com.google.android.gms:play-services-auth:21.2.0")
-    implementation("androidx.credentials:credentials:1.2.2")
-    implementation("androidx.credentials:credentials-play-services-auth:1.2.2")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
 
+    // Firebase Authentication
+    implementation("com.google.firebase:firebase-auth-ktx")
 
-    implementation(libs.jbcrypt)
+    // Firebase Analytics
+    implementation("com.google.firebase:firebase-analytics-ktx")
+
+    // Firebase Firestore (Example)
+    implementation("com.google.firebase:firebase-firestore-ktx")
+
+    // Google Play Services Auth
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     ksp("androidx.room:room-compiler:2.6.1")
 }
