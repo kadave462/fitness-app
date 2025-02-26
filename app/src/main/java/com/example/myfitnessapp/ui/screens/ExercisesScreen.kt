@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -30,7 +31,7 @@ fun ExerciseScreen(
     navController: NavController,
     repository: ExerciseRepository
 ) {
-    val filter = ExerciseFilter(repository.allCategories)
+    val filter = remember { ExerciseFilter(repository.allCategories) }
     val searchQuery by filter.searchQuery.collectAsState()
     val filteredCategories by filter.filteredCategories.collectAsState(initial = repository.allCategories)
 
