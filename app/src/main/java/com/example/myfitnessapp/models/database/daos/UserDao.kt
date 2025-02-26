@@ -10,13 +10,11 @@ import java.util.Date
 @Dao
 interface UserDao {
 
-    /*suspend fun getAge(userId: Int){
-        val user = getUserById(userId)
-        val birthdate = user.birthdate
-        val today = LocalDate.now()
-        val period = Period.between(birthdate, today)
-        return period.years
-    }*/
+    @Update
+    suspend fun updateUser(user: User)
+
+    @Update
+    suspend fun updatePseudo(userId: Int, pseudo: String)
 
     @Query("SELECT * FROM users WHERE id = :userId")
     suspend fun getUserById(userId: Int): User

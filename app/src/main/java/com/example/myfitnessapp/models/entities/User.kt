@@ -12,15 +12,15 @@ import java.util.Date
 @Entity(tableName = "users")
 data class User(
     @PrimaryKey(autoGenerate = true) val id: Int,
-    val email: String,
-    val pseudonym: String,
+    var email: String,
+    var pseudonym: String,
     val firstName: String,
     val lastName: String,
-    val weight: Double,
-    val height: Int,
-    val birthdate: String,
-    val gender: String,
-    val level: String = "Beginner",
+    var weight: Double,
+    var height: Int,
+    var birthdate: String,
+    var gender: String,
+    var level: String = "Beginner",
     var profilePictureUri: String? = null
 ) {
     fun getAge(): Int {

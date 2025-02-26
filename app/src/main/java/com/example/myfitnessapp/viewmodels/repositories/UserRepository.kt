@@ -24,4 +24,39 @@ class UserRepository(context: Context, private val user: User) {
         val period = Period.between(birthDate, today)
         return period.years
     }
+
+    suspend fun setPseudonyme(pseudo: String){
+        dao.updatePseudo(user.id, pseudo)
+    }
+
+    suspend fun setWeight(weight: Double){
+        user.weight = weight
+        dao.updateUser(user)
+    }
+
+    suspend fun setEmail(email: String){
+        user.email = email
+        dao.updateUser(user)
+    }
+
+    suspend fun setHeight(height: Int){
+        user.height = height
+        dao.updateUser(user)
+    }
+
+    suspend fun setGender(gender: String){
+        user.gender = gender
+        dao.updateUser(user)
+    }
+
+    suspend fun setBirthDate(birthDate: String){
+        user.birthdate = birthDate
+        dao.updateUser(user)
+    }
+
+    suspend fun setProfilePictureUri(uri: String){
+        user.profilePictureUri = uri
+        dao.updateUser(user)
+    }
+
 }
