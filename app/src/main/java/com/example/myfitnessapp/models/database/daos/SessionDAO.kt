@@ -21,6 +21,9 @@ interface SessionDAO {
     @Query("SELECT MAX(id) FROM sessions")
     suspend fun getLastSessionId(): Int?
 
+    @Query("SELECT * FROM sessions")
+    suspend fun getAllSessions(): List<Session>
+
 
 
 

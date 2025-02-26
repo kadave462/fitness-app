@@ -11,6 +11,8 @@ class SessionRepository(user: User, context: Context, val session: SnapshotState
     private val _selectedExercises = mutableListOf<Exercise>()
     val selectedExercises: List<Exercise> = _selectedExercises
 
+    val savedSessions = mutableListOf<List<Session>>()
+
     val totalSets = 3
 
     private val database = AppDatabase.getDatabase(context)
@@ -25,6 +27,16 @@ class SessionRepository(user: User, context: Context, val session: SnapshotState
 
     fun getNumberOfSet(): Int{
         return totalSets
+    }
+
+    suspend fun getAllSavedSessions():List<List<Session>>{
+        val sessions = sessionDAO.getAllSessions()
+        val sessionsCount = sessionDAO.getLastSessionId()
+
+        if(sessionsCount != null){
+            return sessions.groupBy { it.id }.values.toList()
+        }
+        return emptyList()
     }
 
     suspend fun calculateNumberOfReps(exercise: Exercise, user: User): Int {
