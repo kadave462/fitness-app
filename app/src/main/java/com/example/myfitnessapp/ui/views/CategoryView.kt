@@ -30,7 +30,7 @@ import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.ui.theme.Modifiers
 
 @Composable
-fun CategoryView(modifiers: Modifiers, category: ExerciseCategory, selectedExercises: MutableList<Exercise>) {
+fun CategoryView(modifiers: Modifiers, category: ExerciseCategory, selectedExercises: MutableList<Exercise>, searchQuery: String) {
     var expanded by remember { mutableStateOf(false) }
 
     Column(modifier = modifiers.containerModifier) {
@@ -63,7 +63,7 @@ fun CategoryView(modifiers: Modifiers, category: ExerciseCategory, selectedExerc
                 val index = selectedExercises.indexOf(exercise) + 1
                 val isSelected = selectedExercises.contains(exercise)
 
-                ExerciseView(modifiers, exercise, isSelected, index) { isChecked ->
+                ExerciseView(modifiers, exercise, isSelected, searchQuery, index) { isChecked ->
                     if (isChecked) {
                         if (!selectedExercises.contains(exercise)) {
                             selectedExercises.add(exercise)
@@ -89,7 +89,8 @@ fun PreviewCategoryView() {
         )
     )
     val exercises = remember { mutableStateListOf<Exercise>() }
+    val searchQuery = ""
 
-    CategoryView(modifiers, category = sampleCategory, exercises)
+    CategoryView(modifiers, category = sampleCategory, exercises, searchQuery)
 }
 

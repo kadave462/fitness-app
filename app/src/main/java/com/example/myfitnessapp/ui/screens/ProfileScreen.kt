@@ -55,7 +55,7 @@ fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(modifiers.bigPadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(

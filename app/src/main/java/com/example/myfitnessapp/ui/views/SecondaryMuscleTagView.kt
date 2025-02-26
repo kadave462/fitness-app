@@ -15,15 +15,29 @@ import com.example.myfitnessapp.ui.theme.Modifiers
 
 
 @Composable
-fun SecondaryMuscleTagView(modifiers: Modifiers, muscle: String){
+fun SecondaryMuscleTagView(
+    modifiers: Modifiers,
+    muscle: String,
+    searchQuery: String,
+    isSelected: Boolean
+){
+    val isHighlighted = searchQuery.isNotBlank() && muscle.contains(searchQuery, ignoreCase = true)
+
     Box(
         modifier = modifiers
             .onContainerModifier
-            .background(MaterialTheme.colorScheme.tertiaryContainer
-                , shape = MaterialTheme.shapes.medium),
+            .background(
+                if (isHighlighted) MaterialTheme.colorScheme.primary
+                else if (isSelected) MaterialTheme.colorScheme.secondaryContainer
+                else MaterialTheme.colorScheme.tertiaryContainer,
+                shape = MaterialTheme.shapes.medium
+            )
     ) {
         Text(text = muscle,
             style = MaterialTheme.typography.labelMedium,
+            color = if (isHighlighted) MaterialTheme.colorScheme.onPrimary
+            else if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer
+            else MaterialTheme.colorScheme.onTertiaryContainer,
             modifier = modifiers.onContainerModifier)
     }
 }
@@ -31,6 +45,6 @@ fun SecondaryMuscleTagView(modifiers: Modifiers, muscle: String){
 @Preview
 @Composable
 fun PreviewSecondaryMuscleTagView() {
-        SecondaryMuscleTagView(modifiers = Modifiers(), muscle = "Biceps")
+        SecondaryMuscleTagView(modifiers = Modifiers(), muscle = "Biceps", searchQuery = "", isSelected = false)
 
 }

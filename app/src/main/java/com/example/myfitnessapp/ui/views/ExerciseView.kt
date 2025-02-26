@@ -36,6 +36,7 @@ fun ExerciseView(
     modifiers: Modifiers,
     exercise: Exercise,
     isSelected: Boolean,
+    searchQuery: String,
     index: Int?,
     onSelectionChange: (Boolean) -> Unit
 ) {
@@ -44,7 +45,11 @@ fun ExerciseView(
     Row(
         modifier = modifiers
             .containerModifier
-            .background(MaterialTheme.colorScheme.primary, shape = shapes.medium)
+            .background(
+                if (isSelected) MaterialTheme.colorScheme.secondary
+                else MaterialTheme.colorScheme.tertiary,
+                shape = shapes.medium
+            )
             .clickable { onSelectionChange(!isSelected) }
             .padding(modifiers.innerPadding),
         verticalAlignment = Alignment.CenterVertically,
@@ -68,7 +73,7 @@ fun ExerciseView(
                 text = exercise.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() },
                 maxLines = 2,
                 style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onPrimary
+                color = if (isSelected) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onTertiary
             )
             Box(
                 modifier = modifiers.containerModifier,
@@ -79,7 +84,7 @@ fun ExerciseView(
                         .horizontalScroll(rememberScrollState())
                 ) {
                     exercise.secondaryMuscles.forEach { muscle ->
-                        SecondaryMuscleTagView(modifiers, muscle)
+                        SecondaryMuscleTagView(modifiers, muscle, searchQuery, isSelected)
                     }
                 }
 
@@ -98,16 +103,16 @@ fun ExerciseView(
                     text = index.toString(),
                     style = MaterialTheme.typography.titleXSmall,
                     modifier = Modifier.padding(modifiers.innerPadding),
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = MaterialTheme.colorScheme.onSecondary
                 )
             }
             Checkbox(
                 checked = isSelected,
                 onCheckedChange = { onSelectionChange(it) },
                 colors = CheckboxDefaults.colors(
-                    checkedColor = MaterialTheme.colorScheme.onPrimary,
-                    uncheckedColor = MaterialTheme.colorScheme.onPrimary,
-                    checkmarkColor = MaterialTheme.colorScheme.primary
+                    checkedColor = MaterialTheme.colorScheme.onSecondary,
+                    uncheckedColor = MaterialTheme.colorScheme.onTertiary,
+                    checkmarkColor = MaterialTheme.colorScheme.secondary
                 )
             )
         }
@@ -119,9 +124,10 @@ fun ExerciseView(
 fun ExerciseViewPreview() {
 
     val modifiers = Modifiers()
+    val searchQuery = ""
 
     val exercise =  Exercise(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf("test", "test"), gifUrl = "https://example.com/pompes.gif", gif = null)
     val test: (isS: Boolean) -> Unit = {}
 
-    ExerciseView(modifiers, exercise, true, 1, test)
+    ExerciseView(modifiers, exercise, true, searchQuery, 1, test)
 }
