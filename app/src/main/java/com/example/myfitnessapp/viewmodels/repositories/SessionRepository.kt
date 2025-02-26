@@ -1,42 +1,46 @@
 package com.example.myfitnessapp.viewmodels.repositories
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.room.Room
 import com.example.myfitnessapp.models.database.AppDatabase
-import com.example.myfitnessapp.models.datas.Exercise
-import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.models.entities.Exercise
+import com.example.myfitnessapp.models.entities.Session
+import com.example.myfitnessapp.models.entities.User
 
-class SessionRepository(context: Context, val session: SnapshotStateList<Exercise>) {
+class SessionRepository(user: User, context: Context, val session: SnapshotStateList<Exercise>) {
     private val _selectedExercises = mutableListOf<Exercise>()
     val selectedExercises: List<Exercise> = _selectedExercises
 
-    val totalSets = 3
-
+    private val totalSets = 3
     private val database = AppDatabase.getDatabase(context)
-    val muscleDAO = database.muscleDao()
+    private val muscleDAO = database.getMuscleDao()
+    private val sessionDAO = database.getSessionDao()
+    private var name = "SansNom"
 
+    fun getNumberOfSet(): Int = totalSets
 
     suspend fun getNumberOfReps(exercise: Exercise, user: User): Int {
-        return calculateNumberOfReps(exercise, user)
-    }
-
-    fun getNumberOfSet(): Int{
-        return totalSets
-    }
-
-    suspend fun calculateNumberOfReps(exercise: Exercise, user: User): Int {
-        var reps = muscleDAO.getNumberOfReps(exercise.target)
-        val level = user.level
-        if(reps != null){
-            if(level == "Intermédiaire")
-                return reps * 1.5 as Int
-            if(level == "Avancé")
-                return reps * 2 as Int
-            return reps as Int
+        val reps = muscleDAO.getNumberOfReps(exercise.target) ?: 10
+        return when (user.level) {
+            "Intermediate" -> (reps * 1.5).toInt()
+            "Advanced" -> (reps * 2).toInt()
+            else -> reps
         }
-        return 10
     }
 
+    suspend fun setName(name: String) {
+        this.name = name
+    }
+
+    suspend fun saveSession() {
+        var sessionId = sessionDAO.getLastSessionId() ?: 0
+        if (sessionId != 0) {
+            sessionId++
+        }
+
+        val sessions = selectedExercises.map { exercise ->
+            Session(sessionId, exercise.id, name, totalSets)
+        }
+        sessionDAO.insertAll(sessions)
+    }
 }

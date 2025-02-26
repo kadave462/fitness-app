@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.models.database
+package com.example.myfitnessapp.models.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

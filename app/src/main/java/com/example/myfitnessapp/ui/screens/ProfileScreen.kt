@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.myfitnessapp.R
-import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.theme.Modifiers
 

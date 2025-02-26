@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.screens.BreakScreen
 import com.example.myfitnessapp.viewmodels.utils.NavigationUtils
 import com.example.myfitnessapp.ui.screens.ExerciseScreen
@@ -21,11 +21,13 @@ import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 @Composable
 fun AppNavigation(
     modifiers: Modifiers,
-                  navController: NavHostController,
-                  user: User, repository: ExerciseRepository,
-                  currentIndex: Int,
-                  onIndexChange: (Int) -> Unit
+    navController: NavHostController,
+    user: User,
+    repository: ExerciseRepository,
+    currentIndex: Int,
+    onIndexChange: (Int) -> Unit
 ) {
+
     val currentRoute = NavigationUtils().currentRoute(navController)
 
     Scaffold(

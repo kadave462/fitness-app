@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.myfitnessapp.models.database.AppDatabase
-import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.components.BackAndForthButtons
 import com.example.myfitnessapp.ui.components.Chronometer
 import com.example.myfitnessapp.ui.components.ProgressionBar
@@ -48,10 +48,10 @@ fun SessionScreen(
     onIndexChange: (Int) -> Unit
 ) {
     val selectedExercises = repository.selectedExercises
-    val sessionRepository = SessionRepository(LocalContext.current, selectedExercises)
+    val sessionRepository = SessionRepository(user, LocalContext.current, selectedExercises)
 
     val currentExercise = selectedExercises[currentIndex]
-    val defaultSets = sessionRepository.totalSets
+    val defaultSets = sessionRepository.getNumberOfSet()
     var currentSetIndex by remember { mutableIntStateOf(0) }
     var defaultReps by remember { mutableStateOf<Int?>(null) }
 
@@ -106,7 +106,7 @@ fun SessionScreen(
             selectedExercises = selectedExercises,
             currentIndex = currentIndex,
             currentSetIndex = currentSetIndex,
-            totalSets = sessionRepository.totalSets,
+            totalSets = sessionRepository.getNumberOfSet(),
             isBreak = false,
             showPauseMarkers = true
         )
@@ -129,7 +129,7 @@ fun SessionScreen(
             selectedExercises = selectedExercises,
             currentIndex = currentIndex,
             currentSetIndex = currentSetIndex,
-            totalSets = sessionRepository.totalSets,
+            totalSets = sessionRepository.getNumberOfSet(),
             onIndexChange = { newIndex ->
                 onIndexChange(newIndex)
                 currentSetIndex = 0

@@ -26,7 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
-import com.example.myfitnessapp.models.datas.Exercise
+import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.theme.titleXSmall
 

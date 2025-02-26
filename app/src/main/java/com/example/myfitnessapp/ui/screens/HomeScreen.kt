@@ -11,11 +11,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.R
-import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.utils.TimeUtils
 import java.time.LocalDate
+import java.util.Date
 
 
 @Composable
@@ -71,7 +72,7 @@ fun HomeScreen(modifiers: Modifiers, navController: NavController, user: User) {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    val user = User(10, "AlexL", "Alex", "Laffite", "alex.laffite@gmail.com", 80.0, 180, LocalDate.of(1999, 2, 25), "Homme", "Débutant")
+    val user = User(10, "AlexL", "Alex", "Laffite", "alex.laffite@gmail.com", 80.0, 180, "1995-06-15", "Homme", "Débutant")
     val modifiers = Modifiers()
     HomeScreen(modifiers, navController = rememberNavController(), user)
 }

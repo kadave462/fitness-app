@@ -32,7 +32,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.example.myfitnessapp.models.datas.Exercise
+import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.ui.theme.Modifiers
 
 @Composable

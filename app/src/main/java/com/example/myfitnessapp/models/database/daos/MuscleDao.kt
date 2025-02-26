@@ -1,9 +1,10 @@
-package com.example.myfitnessapp.models.database // Make sure this is your correct package name
+package com.example.myfitnessapp.models.database.daos // Make sure this is your correct package name
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.myfitnessapp.models.entities.Muscle
 
 @Dao
 interface MuscleDao {
