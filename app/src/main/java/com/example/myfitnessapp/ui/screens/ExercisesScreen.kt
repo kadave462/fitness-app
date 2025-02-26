@@ -1,7 +1,6 @@
 package com.example.myfitnessapp.ui.screens
 
 import android.content.Context
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 
@@ -13,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -31,14 +31,14 @@ fun ExerciseScreen(
     navController: NavController,
     repository: ExerciseRepository
 ) {
-    val filter = repository.filter
+    val filter = remember { ExerciseFilter(repository.allCategories) }
     val searchQuery by filter.searchQuery.collectAsState()
     val filteredCategories by filter.filteredCategories.collectAsState(initial = repository.allCategories)
 
     val selectedExercises = repository.selectedExercises
 
     Box(
-        modifier = modifiers.bigPaddingModifier().background(MaterialTheme.colorScheme.background)
+        modifier = modifiers.bigPaddingModifier()
     ) {
         Column() {
 
@@ -46,7 +46,7 @@ fun ExerciseScreen(
                 value = searchQuery,
                 onValueChange = { filter.updateSearchQuery(it) },
                 label = { Text("Rechercher un muscle",
-                    style = MaterialTheme.typography.bodyMedium) },
+                    style = MaterialTheme.typography.bodyMedium,) },
                 modifier = modifiers.containerModifier,
                 singleLine = true
             )

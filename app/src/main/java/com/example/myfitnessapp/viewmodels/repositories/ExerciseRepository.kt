@@ -6,60 +6,47 @@ import androidx.compose.runtime.mutableStateListOf
 import com.example.myfitnessapp.models.ExerciseCategory
 import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.models.entities.ExerciseResponse
+import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.models.network.ExerciceClient
 import java.io.File
 
-
-
 class ExerciseRepository(context: Context) {
         private val api = ExerciceClient.api
-        private var allExercises: List<Exercise>? = null //Metrre en mutable ?
-
-
+        private var allExercises: List<Exercise>? = null
 
         var allCategories = mutableStateListOf<ExerciseCategory>()
         val filter = ExerciseFilter(allCategories)
         val selectedExercises = mutableStateListOf<Exercise>()
 
-
-
         private fun showError(e: Exception) {
-                Log.e("MonTag", "Erreur : ${e.message}")
-                Log.e("MonTag", "Erreur : ${Log.getStackTraceString(e)}")
+                Log.e("ExerciseRepository", "Erreur : ${e.message}")
+                Log.e("ExerciseRepository", Log.getStackTraceString(e))
         }
 
         private suspend fun fetchAllExercises(): List<ExerciseResponse> {
-                Log.d("MonTag", "Appel de fetchAllExercises cours ..")
-                var response = emptyList<ExerciseResponse>()
-                try {
-                        Log.d("MonTag", "Lancement du launched effect")
-                        response = api.getExercises()
-                        Log.d("MonTag", "Appel terminé")
-                        return response
-
+                return try {
+                        Log.d("ExerciseRepository", "Fetching all exercises...")
+                        api.getExercises().also {
+                                Log.d("ExerciseRepository", "Fetch successful")
+                        }
                 } catch (e: Exception) {
                         showError(e)
-                        return response
+                        emptyList()
                 }
         }
 
         private suspend fun fetchGif(gifUrl: String): File? {
-                val id: String = gifUrl.substringAfterLast("/")
-
-                Log.d("MonTag", "Appel de fetchGif cours avec id :  $id")
-                var gif: File? = null
-                try {
-                        Log.d("MonTag", "Lancement du gif launched effect")
-                        gif = api.getGif(id)
-                        Log.d("MonTag", "Appel de gif terminé")
-
+                val id = gifUrl.substringAfterLast("/")
+                return try {
+                        Log.d("ExerciseRepository", "Fetching GIF with ID: $id")
+                        api.getGif(id)
                 } catch (e: Exception) {
                         showError(e)
+                        null
                 }
-                return gif
         }
 
-        suspend fun makeExercisesList(): Unit{
+        suspend fun makeExercisesList() {
                 if (allExercises == null) {
                         val exerciseResponses = fetchAllExercises()
                         val exercises = mutableListOf<Exercise>()
@@ -74,8 +61,8 @@ class ExerciseRepository(context: Context) {
                                                 exerciseResponse.target,
                                                 exerciseResponse.secondaryMuscles,
                                                 exerciseResponse.gifUrl,
-                                                gif,
-                                                )
+                                                gif
+                                        )
                                 )
                         }
                         allExercises = exercises
@@ -83,25 +70,35 @@ class ExerciseRepository(context: Context) {
         }
 
         private suspend fun groupByBodyPart(exercises: List<Exercise>?): List<ExerciseCategory> {
-                if (exercises == null) {
+                val validExercises = exercises ?: run {
                         makeExercisesList()
-                        return groupByBodyPart(exercises)
+                        allExercises ?: emptyList()
                 }
-                return exercises.groupBy { it.bodyPart }
+
+                return validExercises.groupBy { it.bodyPart }
                         .map { (bodyPart, exercises) ->
                                 ExerciseCategory(
-                                        category = bodyPart.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() },
+                                        category = bodyPart.replaceFirstChar { it.uppercaseChar() },
                                         exercises = exercises
                                 )
                         }
         }
 
-        suspend fun makeCategories(): Unit{
+        suspend fun makeCategories() {
                 val categories = groupByBodyPart(allExercises)
                 allCategories.clear()
                 allCategories.addAll(categories)
         }
 
+        suspend fun getExerciseSetsAndReps(exercise: Exercise, user: User): Pair<Int, Int> {
+                val reps = when (user.level) {
+                        "Intermediate" -> (10 * 1.5).toInt()
+                        "Advanced" -> (10 * 2).toInt()
+                        else -> 10
+                }
+                val sets = 3
+                return sets to reps
+        }
 }
 
 

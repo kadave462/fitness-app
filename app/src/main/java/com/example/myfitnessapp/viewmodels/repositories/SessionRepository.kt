@@ -11,13 +11,11 @@ class SessionRepository(user: User, context: Context, val session: SnapshotState
     private val _selectedExercises = mutableListOf<Exercise>()
     val selectedExercises: List<Exercise> = _selectedExercises
 
-    val savedSessions = mutableListOf<List<Session>>()
-
     val totalSets = 3
 
     private val database = AppDatabase.getDatabase(context)
-    val muscleDAO = database.getMuscleDao()
-    val sessionDAO = database.getSessionDao()
+    private val muscleDAO = database.getMuscleDao()
+    private val sessionDAO = database.getSessionDao()
     private var name = "SansNom"
 
 
@@ -52,14 +50,14 @@ class SessionRepository(user: User, context: Context, val session: SnapshotState
         return 10
     }
 
-    suspend fun setName(name: String){
+    suspend fun setName(name: String) {
         this.name = name
     }
 
-    suspend fun saveSession(){
-        var sessionId = sessionDAO.getLastSessionId()?: 0
-        if(sessionId != 0){
-            sessionId ++
+    suspend fun saveSession() {
+        var sessionId = sessionDAO.getLastSessionId() ?: 0
+        if (sessionId != 0) {
+            sessionId++
         }
 
         val sessions = selectedExercises.map { exercise ->

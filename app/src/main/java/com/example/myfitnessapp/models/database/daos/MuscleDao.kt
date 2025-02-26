@@ -21,7 +21,9 @@ interface MuscleDao {
     @Query("SELECT default_reps FROM muscles WHERE muscle_name = :muscleName")
     suspend fun getNumberOfReps(muscleName: String): Int?
 
+    @Query("SELECT default_sets FROM muscles WHERE muscle_name = :muscleName")
+    suspend fun getNumberOfSets(muscleName: String): Int?
+
     @Query("SELECT * FROM muscles")
     suspend fun getAllMuscles(): List<Muscle>
-
 }

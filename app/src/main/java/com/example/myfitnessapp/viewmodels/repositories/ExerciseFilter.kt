@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import com.example.myfitnessapp.models.ExerciseCategory
 
-
 class ExerciseFilter(categories: List<ExerciseCategory>) : ViewModel() {
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery

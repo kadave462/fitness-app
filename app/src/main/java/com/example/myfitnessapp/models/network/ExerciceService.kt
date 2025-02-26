@@ -27,6 +27,4 @@ interface ExerciceService {
         @Path("id") id: String
     ): File?
 
-
-
 }

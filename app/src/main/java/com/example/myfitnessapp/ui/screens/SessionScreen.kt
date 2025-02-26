@@ -27,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.components.BackAndForthButtons
 import com.example.myfitnessapp.ui.components.Chronometer
@@ -39,13 +40,18 @@ import com.example.myfitnessapp.viewmodels.utils.ChronometerUtils
 
 
 @Composable
-fun SessionScreen(modifiers: Modifiers, navController: NavController, repository: ExerciseRepository, user: User) {
-    var selectedExercises = repository.selectedExercises
+fun SessionScreen(
+    modifiers: Modifiers,
+    navController: NavController,
+    user: User, repository: ExerciseRepository,
+    currentIndex: Int,
+    onIndexChange: (Int) -> Unit
+) {
+    val selectedExercises = repository.selectedExercises
     val sessionRepository = SessionRepository(user, LocalContext.current, selectedExercises)
 
-    var currentIndex by remember { mutableIntStateOf(0) } //In the list
-    val currentExercise = selectedExercises[currentIndex] //In the list
-    var defaultSets = sessionRepository.totalSets
+    val currentExercise = selectedExercises[currentIndex]
+    val defaultSets = sessionRepository.getNumberOfSet()
     var currentSetIndex by remember { mutableIntStateOf(0) }
     var defaultReps by remember { mutableStateOf<Int?>(null) }
 
@@ -53,14 +59,13 @@ fun SessionScreen(modifiers: Modifiers, navController: NavController, repository
         defaultReps = sessionRepository.getNumberOfReps(currentExercise, user)
     }
 
-
     Column(
         modifier = modifiers.bigPaddingModifier(true),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = 80.dp),
+            .fillMaxWidth()
+            .heightIn(min = 80.dp),
             horizontalArrangement = Arrangement.Start
         ) {
             Text(
@@ -96,7 +101,15 @@ fun SessionScreen(modifiers: Modifiers, navController: NavController, repository
 
         Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
-        ProgressionBar(modifiers, selectedExercises, currentIndex, currentSetIndex, defaultSets ?: 1)
+        ProgressionBar(
+            modifiers = modifiers,
+            selectedExercises = selectedExercises,
+            currentIndex = currentIndex,
+            currentSetIndex = currentSetIndex,
+            totalSets = sessionRepository.getNumberOfSet(),
+            isBreak = false,
+            showPauseMarkers = true
+        )
 
         Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
@@ -116,14 +129,14 @@ fun SessionScreen(modifiers: Modifiers, navController: NavController, repository
             selectedExercises = selectedExercises,
             currentIndex = currentIndex,
             currentSetIndex = currentSetIndex,
-            totalSets = sessionRepository.totalSets,
+            totalSets = sessionRepository.getNumberOfSet(),
             onIndexChange = { newIndex ->
-                currentIndex = newIndex
+                onIndexChange(newIndex)
                 currentSetIndex = 0
             },
             onSetChange = { newSetIndex -> currentSetIndex = newSetIndex },
             navController = navController,
-            navigation = "session_end_screen"
+            navigation = "break_screen"
         )
     }
 }

@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -32,6 +35,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.myfitnessapp.R
 import com.example.myfitnessapp.models.entities.User
+import com.example.myfitnessapp.ui.components.EditableTextField
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.theme.Modifiers
 
@@ -51,7 +55,6 @@ fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -66,6 +69,7 @@ fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User
         Box(
             modifier = Modifier
                 .size(120.dp)
+                .clip(CircleShape)
                 .background(Color.Gray, shape = CircleShape)
                 .clickable { imagePickerLauncher.launch("image/*") },
             contentAlignment = Alignment.Center
@@ -92,7 +96,7 @@ fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User
             imagePickerLauncher.launch("image/*")
         }
 
-        Spacer(modifier = Modifier.fillMaxHeight(0.15f))
+        Spacer(modifier = Modifier.fillMaxHeight(0.02f))
 
         Text(
             text = "Informations personnelles :",
@@ -103,44 +107,15 @@ fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User
 
         Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
-        Text(
-            text = "${user.firstName} ${user.lastName}",
-            style = MaterialTheme.typography.headlineSmall
-        )
-
-        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
-
-        Text(
-            text = "Email : ${user.email}",
-            style = MaterialTheme.typography.headlineSmall
-        )
-
-        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
-
-        Text(
-            text = "Poids : ${user.weight} kg",
-            style = MaterialTheme.typography.headlineSmall
-        )
-
-        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
-
-        Text(
-            text = "Taille : ${user.height} cm",
-            style = MaterialTheme.typography.headlineSmall
-        )
-
-        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
-
-        Text(
-            text = "Âge : ${user.birthdate} ans",
-            style = MaterialTheme.typography.headlineSmall
-        )
-
-        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
-
-        Text(
-            text = "Niveau : ${user.level}",
-            style = MaterialTheme.typography.headlineSmall
-        )
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            item { EditableTextField("Prénom et Nom", "${user.firstName} ${user.lastName}") {} }
+            item { EditableTextField("Email", user.email) {} }
+            item { EditableTextField("Poids (kg)", user.weight.toString()) {} }
+            item { EditableTextField("Taille (cm)", user.height.toString()) {} }
+            item { EditableTextField("Âge", user.getAge().toString()) {} }
+            item { EditableTextField("Niveau", user.level) {} }
+        }
     }
 }

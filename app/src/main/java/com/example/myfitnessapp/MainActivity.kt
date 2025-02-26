@@ -6,8 +6,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.theme.Modifiers
@@ -35,18 +38,20 @@ class MainActivity : ComponentActivity() {
         val database = AppDatabase.getDatabase(this)
         muscleDao = database.getMuscleDao()
 
-        lifecycleScope.launch { // Launch coroutine for database population
+        lifecycleScope.launch {
             populateMusclesDatabase(this@MainActivity)
         }
 
-        setContent { // Keep your existing setContent block as is
+        setContent {
             MyFitnessAppTheme {
 
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
-                val user = User(1, "alex.laffite@gmail.com", "AlexL", "Alex", "Laffite", 80.0, 180, "10/10/2001", "Homme", "Beginner")
+                val user = User(1, "alex.laffite@gmail.com", "AlexL", "Alex", "Laffite", 80.0, 180, "1995-06-15", "Homme", "Beginner")
                 val repository = remember { ExerciseRepository(this) }
                 val modifiers = Modifiers()
+
+                var currentIndex by remember { mutableIntStateOf(0) }
 
 
                 LaunchedEffect(Unit) {
@@ -56,7 +61,10 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                AppNavigation(modifiers, navController, user, repository)
+                AppNavigation(
+                    modifiers, navController, user, repository, currentIndex,
+                    onIndexChange = { newIndex -> currentIndex = newIndex }
+                )
 
             }
         }

@@ -4,4 +4,5 @@ import com.example.myfitnessapp.models.entities.Exercise
 
 data class ExerciseCategory(
     val category: String,
-    val exercises: List<Exercise>)
+    val exercises: List<Exercise>
+)
