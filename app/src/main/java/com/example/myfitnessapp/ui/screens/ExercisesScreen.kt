@@ -46,7 +46,7 @@ fun ExerciseScreen(
                 value = searchQuery,
                 onValueChange = { filter.updateSearchQuery(it) },
                 label = { Text("Rechercher un muscle",
-                    style = MaterialTheme.typography.bodyMedium) },
+                    style = MaterialTheme.typography.bodyMedium,) },
                 modifier = modifiers.containerModifier,
                 singleLine = true
             )

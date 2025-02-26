@@ -48,6 +48,7 @@ fun ProgressionBar(
     val totalExercises = selectedExercises.size
     val totalSteps = totalExercises * totalSets
     val currentStep = (currentIndex * totalSets) + currentSetIndex + 1
+    val primaryColor = MaterialTheme.colorScheme.primary
 
     val progress = remember { Animatable(1f / totalSteps) }
 
@@ -84,7 +85,7 @@ fun ProgressionBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(10.dp),
-                color = if (isBreak) Color.Transparent else Color.Black,
+                color = if (isBreak) Color.Transparent else MaterialTheme.colorScheme.primary,
                 trackColor = Color.Gray,
             )
 
@@ -97,8 +98,9 @@ fun ProgressionBar(
 
                     var currentX = 0f
                     while (currentX < totalWidth) {
+
                         drawLine(
-                            color = Color.White,
+                            color = primaryColor,
                             start = Offset(currentX, size.height / 2),
                             end = Offset(currentX + dashWidth, size.height / 2),
                             strokeWidth = strokeWidth

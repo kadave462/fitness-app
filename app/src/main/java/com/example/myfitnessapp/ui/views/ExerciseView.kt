@@ -67,7 +67,8 @@ fun ExerciseView(
             Text(
                 text = exercise.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() },
                 maxLines = 2,
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onPrimary
             )
             Box(
                 modifier = modifiers.containerModifier,
@@ -97,15 +98,15 @@ fun ExerciseView(
                     text = index.toString(),
                     style = MaterialTheme.typography.titleXSmall,
                     modifier = Modifier.padding(modifiers.innerPadding),
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
             Checkbox(
                 checked = isSelected,
                 onCheckedChange = { onSelectionChange(it) },
                 colors = CheckboxDefaults.colors(
-                    checkedColor = Color.White,
-                    uncheckedColor = Color.White,
+                    checkedColor = MaterialTheme.colorScheme.onPrimary,
+                    uncheckedColor = MaterialTheme.colorScheme.onPrimary,
                     checkmarkColor = MaterialTheme.colorScheme.primary
                 )
             )
