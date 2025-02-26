@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.models.database // Make sure this is your correct package name
+package com.example.myfitnessapp.models.database
 
 import android.content.Context
 import kotlinx.coroutines.Dispatchers

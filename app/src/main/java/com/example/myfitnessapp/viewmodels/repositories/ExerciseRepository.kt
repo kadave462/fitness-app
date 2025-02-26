@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import com.example.myfitnessapp.models.ExerciseCategory
+import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.datas.Exercise
 import com.example.myfitnessapp.models.datas.ExerciseResponse
 import com.example.myfitnessapp.models.network.ExerciceClient
@@ -14,6 +15,8 @@ import java.io.File
 class ExerciseRepository(context: Context) {
         private val api = ExerciceClient.api
         private var allExercises: List<Exercise>? = null //Metrre en mutable ?
+        private val database = AppDatabase.getDatabase(context)
+
 
 
         var allCategories = mutableStateListOf<ExerciseCategory>()
@@ -98,6 +101,12 @@ class ExerciseRepository(context: Context) {
                 val categories = groupByBodyPart(allExercises)
                 allCategories.clear()
                 allCategories.addAll(categories)
+        }
+
+        suspend fun getExerciseSetsAndReps(exercise: Exercise): Pair<Int, Int> {
+                val sets = database.muscleDao().getNumberOfSets(exercise.target) ?: 3
+                val reps = database.muscleDao().getNumberOfReps(exercise.target) ?: 10
+                return sets to reps
         }
 
 }

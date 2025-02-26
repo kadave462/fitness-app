@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +34,7 @@ import com.example.myfitnessapp.ui.components.TimerDisplay
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 import com.example.myfitnessapp.viewmodels.utils.TimerViewModel
+import kotlinx.coroutines.delay
 
 @Composable
 fun BreakScreen(
@@ -44,6 +46,13 @@ fun BreakScreen(
 ) {
     val timerViewModel: TimerViewModel = viewModel()
     val shapes = Shapes()
+
+    LaunchedEffect(Unit) {
+        if (!timerViewModel.isRunning.value) {
+            delay(1000)
+            timerViewModel.toggleTimer()
+        }
+    }
 
     Column(
         modifier = modifiers.bigPaddingModifier(true),
@@ -83,11 +92,20 @@ fun BreakScreen(
 
         Spacer(modifier = Modifier.fillMaxHeight(0.02f))
 
-        Text("Veuillez prendre une pause avant de lancer le prochain exercice",
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = modifiers.containerModifier
-                .wrapContentWidth(Alignment.CenterHorizontally)
-        )
+        if (currentIndex + 1 == repository.selectedExercises.size) {
+            Text("Vous venez de terminer la séance, prenez une dernière pause !",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = modifiers.containerModifier
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+            )
+        } else {
+            Text(
+                "Veuillez prendre une pause avant de lancer le prochain exercice.",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = modifiers.containerModifier
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+            )
+        }
 
         Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 

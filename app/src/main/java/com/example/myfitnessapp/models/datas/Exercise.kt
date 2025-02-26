@@ -2,7 +2,6 @@ package com.example.myfitnessapp.models.datas
 
 import java.io.File
 
-
 data class Exercise(
     val id: String,
     val name: String,
@@ -10,5 +9,6 @@ data class Exercise(
     val target: String,
     val secondaryMuscles: List<String>,
     val gifUrl: String,
-    var gif: File? = null)
+    var gif: File? = null
+)
 

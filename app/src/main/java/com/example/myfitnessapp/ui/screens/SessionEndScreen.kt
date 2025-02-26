@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,6 +23,7 @@ import com.example.myfitnessapp.models.datas.User
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.theme.Modifiers
+import com.example.myfitnessapp.ui.theme.titleXSmall
 
 @Composable
 fun SessionEndScreen(
@@ -32,16 +36,25 @@ fun SessionEndScreen(
 ) {
     val userName = user.pseudonym
     var selectedExercises = repository.selectedExercises
+    val setsAndRepsMap = remember { mutableStateMapOf<String, Pair<Int, Int>>() }
+
+    LaunchedEffect(selectedExercises) {
+        selectedExercises.forEach { exercise ->
+            val (sets, reps) = repository.getExerciseSetsAndReps(exercise)
+            setsAndRepsMap[exercise.name] = sets to reps
+        }
+    } // Pas optimal, réfléchir à une solution pour obtenir directement le nombre de reps à partir du repository ou de la classe Exercice
 
     Box(
-        modifier = modifiers.bigPaddingModifier(false),
-        contentAlignment = Alignment.Center
+        modifier = modifiers.bigPaddingModifier(true),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .padding(top = modifiers.getScreenHeight()/3)
+
         ) {
+            modifiers.getBigSpacer()
+
             Text(
                 text = "Félicitations, $userName !",
                 style = MaterialTheme.typography.titleLarge,
@@ -54,22 +67,25 @@ fun SessionEndScreen(
 
             Text(
                 text = "Vous avez terminé la séance avec succès.",
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.titleMedium,
                 modifier = modifiers.containerModifier
                     .wrapContentWidth(Alignment.Start)
             )
 
+            modifiers.getBigSpacer()
+
             Text(
                 text = "Vous avez réalisé les exercices suivants :",
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.titleSmall,
                 modifier = modifiers.containerModifier
                     .wrapContentWidth(Alignment.Start)
             )
 
             selectedExercises.forEach { exercise ->
+                val (sets, reps) = setsAndRepsMap[exercise.name] ?: (0 to 0)
                 Text(
-                    text = "- ${exercise.name}",
-                    style = MaterialTheme.typography.bodyLarge,
+                    text = "- ${exercise.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString()}} : $sets séries de $reps répétitions",
+                    style = MaterialTheme.typography.titleXSmall,
                     modifier = modifiers.containerModifier
                         .wrapContentWidth(Alignment.Start)
                 )
