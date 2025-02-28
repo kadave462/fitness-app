@@ -37,7 +37,7 @@ fun AppNavigation(modifiers: Modifiers, navController: NavHostController, user: 
             startDestination = "sign_up_with_google_screen", // New start destination
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable("sign_up_with_google_screen") { SignUpWithGoogleScreen(modifiers, navController, user, repository) } // New screen
+           composable("sign_up_with_google_screen") { SignUpWithGoogleScreen() } // New screen
             composable("home_screen") { HomeScreen(modifiers,navController, user) }
             composable("exercise_screen") { ExerciseScreen(modifiers, navController, repository) }
             composable("session_screen") { SessionScreen(modifiers, navController, user, repository) }
