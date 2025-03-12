@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 val acidGreen = Color(0xFF87F414)
 val lightAcidGreen = Color(0xFFC5D9AA)
 
-val darkBlue = Color(0xFF07141A)
+val darkBlue = Color(0xFF23232A)
 val mediumDarkBlue = Color(0xFF162F33)
 val mediumBlue = Color(0xFF2C525D)
 val lightBlue = Color(0xFFA1B6C2)

@@ -75,4 +75,10 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
 
     ksp("androidx.room:room-compiler:2.6.1")
+
+    //Authentification
+    implementation("androidx.credentials:credentials:<latest version>")
+    implementation("androidx.credentials:credentials-play-services-auth:<latest version>")
+    implementation("com.google.android.libraries.identity.googleid:googleid:<latest version>")
+
 }
