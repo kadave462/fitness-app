@@ -26,7 +26,8 @@ class UserRepository(context: Context, private val user: User) {
     }
 
     suspend fun setPseudonyme(pseudo: String){
-        dao.updatePseudo(user.id, pseudo)
+        user.pseudonym = pseudo
+        dao.updateUser(user)
     }
 
     suspend fun setWeight(weight: Double){
