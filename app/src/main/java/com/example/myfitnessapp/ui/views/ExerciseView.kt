@@ -30,7 +30,6 @@ import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.theme.titleXSmall
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ExerciseView(
     modifiers: Modifiers,
@@ -65,7 +64,7 @@ fun ExerciseView(
         )
 
         Column(
-            modifier = Modifier
+            modifier = modifiers.onContainerModifier
                 .weight(0.7f)
                 .padding(start = modifiers.bigPadding),
         ) {
@@ -84,7 +83,7 @@ fun ExerciseView(
                         .horizontalScroll(rememberScrollState())
                 ) {
                     exercise.secondaryMuscles.forEach { muscle ->
-                        SecondaryMuscleTagView(modifiers, muscle, searchQuery, isSelected)
+                        TagView(modifiers, muscle, searchQuery, isSelected)
                     }
                 }
 

@@ -11,21 +11,43 @@ class SessionRepository(user: User, context: Context, val session: SnapshotState
     private val _selectedExercises = mutableListOf<Exercise>()
     val selectedExercises: List<Exercise> = _selectedExercises
 
-    private val totalSets = 3
+    val totalSets = 3
+
     private val database = AppDatabase.getDatabase(context)
     private val muscleDAO = database.getMuscleDao()
     private val sessionDAO = database.getSessionDao()
     private var name = "SansNom"
 
-    fun getNumberOfSet(): Int = totalSets
 
     suspend fun getNumberOfReps(exercise: Exercise, user: User): Int {
-        val reps = muscleDAO.getNumberOfReps(exercise.target) ?: 10
-        return when (user.level) {
-            "Intermediate" -> (reps * 1.5).toInt()
-            "Advanced" -> (reps * 2).toInt()
-            else -> reps
+        return calculateNumberOfReps(exercise, user)
+    }
+
+    fun getNumberOfSet(): Int{
+        return totalSets
+    }
+
+    suspend fun getAllSavedSessions():List<List<Session>>{
+        val sessions = sessionDAO.getAllSessions()
+        val sessionsCount = sessionDAO.getLastSessionId()
+
+        if(sessionsCount != null){
+            return sessions.groupBy { it.id }.values.toList()
         }
+        return emptyList()
+    }
+
+    suspend fun calculateNumberOfReps(exercise: Exercise, user: User): Int {
+        var reps = muscleDAO.getNumberOfReps(exercise.target)
+        val level = user.level
+        if(reps != null){
+            if(level == "Intermediate")
+                return reps * 1.5 as Int
+            if(level == "Advanced")
+                return reps * 2 as Int
+            return reps as Int
+        }
+        return 10
     }
 
     suspend fun setName(name: String) {
@@ -43,4 +65,5 @@ class SessionRepository(user: User, context: Context, val session: SnapshotState
         }
         sessionDAO.insertAll(sessions)
     }
+
 }

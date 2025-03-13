@@ -15,7 +15,7 @@ import com.example.myfitnessapp.models.entities.Session
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.models.entities.UserSession
 
-@Database(entities = [Muscle::class, User::class, Session::class, UserSession::class], version = 3)
+@Database(entities = [Muscle::class, User::class, Session::class, UserSession::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
