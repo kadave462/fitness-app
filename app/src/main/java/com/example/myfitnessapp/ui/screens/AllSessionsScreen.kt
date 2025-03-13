@@ -9,7 +9,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.entities.Session
 import com.example.myfitnessapp.ui.theme.Modifiers
-import com.example.myfitnessapp.ui.views.CategoryView
 import com.example.myfitnessapp.ui.views.SessionView
 import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
 
