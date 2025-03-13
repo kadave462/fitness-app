@@ -25,7 +25,7 @@ class UserRepository(context: Context, private val user: User) {
         return period.years
     }
 
-    suspend fun setPseudonyme(pseudo: String){
+    suspend fun setPseudonym(pseudo: String){
         user.pseudonym = pseudo
         dao.updateUser(user)
     }

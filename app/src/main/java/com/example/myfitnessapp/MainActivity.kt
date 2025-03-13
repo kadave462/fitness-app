@@ -5,12 +5,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.theme.Modifiers
@@ -44,28 +51,50 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MyFitnessAppTheme {
-
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
-                val user = User(1, "alex.laffite@gmail.com", "AlexL", "Alex", "Laffite", 80.0, 180, "1995-06-15", "Homme", "Beginner")
-                val repository = remember { ExerciseRepository(this) }
-                val modifiers = Modifiers()
-
-                var currentIndex by remember { mutableIntStateOf(0) }
-
+                val database = AppDatabase.getDatabase(LocalContext.current)
+                var user by remember { mutableStateOf<User?>(null) }
 
                 LaunchedEffect(Unit) {
-                    scope.launch {
-                        repository.makeExercisesList()
-                        repository.makeCategories()
+                    val userDao = database.getUserDao()
+                    val loadedUser = userDao.getUserById(1)
+                    if (loadedUser == null) {
+                        val defaultUser = User(
+                            1, "alex.laffite@gmail.com", "AlexL", "Alex", "Laffite",
+                            80.0, 180, "1995-06-15", "Homme", "Beginner"
+                        )
+                        userDao.insertUser(defaultUser)
+                        user = defaultUser
+                    } else {
+                        user = loadedUser
                     }
                 }
 
-                AppNavigation(
-                    modifiers, navController, user, repository, currentIndex,
-                    onIndexChange = { newIndex -> currentIndex = newIndex }
-                )
+                if (user != null) {
+                    val repository = remember { ExerciseRepository(this) }
+                    var currentIndex by remember { mutableIntStateOf(0) }
 
+                    LaunchedEffect(Unit) {
+                        scope.launch {
+                            repository.makeExercisesList()
+                            repository.makeCategories()
+                        }
+                    }
+
+                    AppNavigation(
+                        modifiers = Modifiers(),
+                        navController = navController,
+                        user = user!!,
+                        repository = repository,
+                        currentIndex = currentIndex,
+                        onIndexChange = { newIndex -> currentIndex = newIndex }
+                    )
+                } else {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator()
+                    }
+                }
             }
         }
     }
