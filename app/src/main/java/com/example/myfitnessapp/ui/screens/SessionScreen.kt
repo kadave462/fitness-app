@@ -48,7 +48,7 @@ fun SessionScreen(
     onIndexChange: (Int) -> Unit
 ) {
     val selectedExercises = repository.selectedExercises
-    val sessionRepository = SessionRepository(user, LocalContext.current, selectedExercises)
+    val sessionRepository = SessionRepository(LocalContext.current)
 
     val currentExercise = selectedExercises[currentIndex]
     val defaultSets = sessionRepository.getNumberOfSet()

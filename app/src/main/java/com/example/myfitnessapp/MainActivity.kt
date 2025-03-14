@@ -22,6 +22,7 @@ import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.database.daos.MuscleDao
 import com.example.myfitnessapp.models.database.utils.populateMusclesDatabase
 import androidx.lifecycle.lifecycleScope
+import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
 import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
@@ -48,7 +49,7 @@ class MainActivity : ComponentActivity() {
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
                 val user = User(1, "alex.laffite@gmail.com", "AlexL", "Alex", "Laffite", 80.0, 180, "1995-06-15", "Homme", "Beginner")
-                val repository = remember { ExerciseRepository(this) }
+                val repository = remember { ExerciseRepository(this, SessionRepository(this)) }
                 val modifiers = Modifiers()
 
                 var currentIndex by remember { mutableIntStateOf(0) }

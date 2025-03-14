@@ -15,7 +15,6 @@ import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
 @Composable
 fun SessionsScreen(modifiers: Modifiers, sessionRepository: SessionRepository, navController: NavController){
     var allSessions: List<List<Session>> = emptyList()
-
     LaunchedEffect(sessionRepository){
         allSessions = sessionRepository.getAllSavedSessions().toMutableList()
     }

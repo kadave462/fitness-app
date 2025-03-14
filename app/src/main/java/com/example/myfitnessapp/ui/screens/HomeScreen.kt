@@ -58,7 +58,7 @@ fun HomeScreen(modifiers: Modifiers, navController: NavController, user: User) {
         Box(
             contentAlignment = Alignment.BottomCenter
         ) {
-            FloatingButtonView(title = "Aller aux exercices") {
+            FloatingButtonView(title = "Aller aux exercices", modifiers) {
                 navController.navigate("exercise_screen")
             }
         }

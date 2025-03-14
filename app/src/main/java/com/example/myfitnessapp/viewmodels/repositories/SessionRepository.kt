@@ -7,7 +7,7 @@ import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.models.entities.Session
 import com.example.myfitnessapp.models.entities.User
 
-class SessionRepository(user: User, context: Context, val session: SnapshotStateList<Exercise>) {
+class SessionRepository(context: Context) {
     private val _selectedExercises = mutableListOf<Exercise>()
     val selectedExercises: List<Exercise> = _selectedExercises
 
