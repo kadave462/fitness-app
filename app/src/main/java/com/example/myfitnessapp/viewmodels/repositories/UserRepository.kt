@@ -15,7 +15,8 @@ class UserRepository(context: Context, private val user: User) {
     }
 
     suspend fun updateUserLevel(level: String){
-        dao.updateUserLevel(user.id, level)
+        user.level = level
+        dao.updateUser(user)
     }
 
     suspend fun getAge(): Int {

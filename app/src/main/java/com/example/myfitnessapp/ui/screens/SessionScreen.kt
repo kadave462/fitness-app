@@ -43,7 +43,8 @@ import com.example.myfitnessapp.viewmodels.utils.ChronometerUtils
 fun SessionScreen(
     modifiers: Modifiers,
     navController: NavController,
-    user: User, repository: ExerciseRepository,
+    user: User,
+    repository: ExerciseRepository,
     currentIndex: Int,
     onIndexChange: (Int) -> Unit
 ) {
