@@ -40,6 +40,7 @@ import com.example.myfitnessapp.R
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.components.EditableTextField
 import com.example.myfitnessapp.ui.components.FloatingButtonView
+import com.example.myfitnessapp.ui.components.LevelSelector
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.repositories.UserRepository
 import kotlinx.coroutines.launch
@@ -154,12 +155,12 @@ fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User
                 })
             }
             item {
-                EditableTextField(label = "Niveau", value = user.level, onValueChange = { newLevel ->
+                LevelSelector(user = user) { newLevel ->
                     user.level = newLevel
                     coroutineScope.launch {
                         UserRepository(context, user).updateUserLevel(newLevel)
                     }
-                })
+                }
             }
         }
     }
