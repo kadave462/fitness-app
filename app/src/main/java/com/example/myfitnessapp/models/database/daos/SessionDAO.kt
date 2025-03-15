@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.models.database.daos
 
+import android.util.Log
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,7 +12,9 @@ import com.example.myfitnessapp.models.entities.Session
 interface SessionDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(sessions: List<Session>)
+    suspend fun insertAll(sessions: List<Session>){
+        Log.d("SessionS", "Inserting sessions: $sessions")
+    }
 
 
     @Query("SELECT * FROM sessions WHERE id = :sessionId")

@@ -39,7 +39,6 @@ fun ExerciseView(
     index: Int?,
     onSelectionChange: (Boolean) -> Unit
 ) {
-    val shapes = Shapes()
 
     Row(
         modifier = modifiers
@@ -54,7 +53,7 @@ fun ExerciseView(
             contentDescription = "Image de l'exercice",
             modifier = Modifier
                 .weight(0.3f)
-                .clip(shapes.medium),
+                .clip(MaterialTheme.shapes.medium),
             contentScale = ContentScale.Crop
         )
 

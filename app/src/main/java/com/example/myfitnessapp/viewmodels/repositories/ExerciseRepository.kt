@@ -110,8 +110,9 @@ class ExerciseRepository(context: Context, val sessionRepository: SessionReposit
         }
 
 
-        suspend fun addSession(sessionName: String, exercises: List<Exercise>){
-                //sessionRepository.saveSession(sessionName, exercises)
+        suspend fun addSession(sessionName: String){
+                sessionRepository.saveSession(sessionName)
+                Log.d("ExerciseRepository", "Session saved")
         }
 }
 

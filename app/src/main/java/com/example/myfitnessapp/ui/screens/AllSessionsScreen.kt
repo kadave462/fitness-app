@@ -1,27 +1,46 @@
 package com.example.myfitnessapp.ui.screens
 
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.entities.Session
+import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.views.SessionView
 import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
+import com.example.myfitnessapp.viewmodels.repositories.tests.TestSessionRepository
 
 @Composable
-fun SessionsScreen(modifiers: Modifiers, sessionRepository: SessionRepository, navController: NavController){
-    var allSessions: List<List<Session>> = emptyList()
-    LaunchedEffect(sessionRepository){
-        allSessions = sessionRepository.getAllSavedSessions().toMutableList()
-    }
+fun AllSessionsScreen(modifiers: Modifiers, sessionRepository: SessionRepositoryInterface, navController: NavController){
+    var allSessions by remember { mutableStateOf(emptyList<List<Session>>()) }
+
+    /*LaunchedEffect(sessionRepository){
+        Log.d("SessionS", "LaunchedEffect called")
+        allSessions = sessionRepository.getAllSavedSessions().toList()
+        Log.d("SessionS", "All sessions: $allSessions")
+    }*/
+
+    Text("Session")
 
     LazyColumn(modifiers.containerModifier){
         items(allSessions){session ->
-            SessionView(modifiers, session)
+            SessionView(modifiers
+                .containerModifier
+                /*.clickable {
+                navController.navigate("session_detail_screen")
+            }*/, session)
         }
     }
 }
@@ -29,67 +48,13 @@ fun SessionsScreen(modifiers: Modifiers, sessionRepository: SessionRepository, n
 @Preview
 @Composable
 fun SessionsScreenPreview(){
-
-    val session: List<List<Session>> = listOf(
-        listOf(
-            Session(
-                id = 1,
-                exerciseId = "ex1",
-                name = "Jambes",
-                totalSets = 4
-            ),
-            Session(
-                id = 2,
-                exerciseId = "ex2",
-                name = "Deadlift",
-                totalSets = 3
-            ),
-            Session(
-                id = 3,
-                exerciseId = "ex3",
-                name = "Bench Press",
-                totalSets = 4
-            ),
-            Session(
-                id = 4,
-                exerciseId = "ex4",
-                name = "Pull-up",
-                totalSets = 3
-            )
-        ),
-        listOf(
-            Session(
-                id = 1,
-                exerciseId = "ex1",
-                name = "Jambes",
-                totalSets = 4
-            ),
-            Session(
-                id = 2,
-                exerciseId = "ex2",
-                name = "Deadlift",
-                totalSets = 3
-            ),
-            Session(
-                id = 3,
-                exerciseId = "ex3",
-                name = "Bench Press",
-                totalSets = 4
-            ),
-            Session(
-                id = 4,
-                exerciseId = "ex4",
-                name = "Pull-up",
-                totalSets = 3
-            )
-        )
-    )
-
+    val repository = TestSessionRepository()
     val modifiers = Modifiers()
     val navController = rememberNavController()
 
-    //SessionsScreen(modifiers, session, navController)
+    AllSessionsScreen(modifiers, repository, navController)
 
 }
+
 
 
