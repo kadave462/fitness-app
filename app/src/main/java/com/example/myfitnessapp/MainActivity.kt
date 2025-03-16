@@ -2,6 +2,7 @@ package com.example.myfitnessapp
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -57,8 +58,17 @@ class MainActivity : ComponentActivity() {
 
                 LaunchedEffect(Unit) {
                     scope.launch {
-                        repository.makeExercisesList()
-                        repository.makeCategories()
+                        try {
+                            Log.e("MainActivity", "Fetching exercises...")
+                            repository.makeExercisesList()
+                            repository.makeCategories()
+                            Log.e("MainActivity", "Fetching exercises successful")
+                            Log.d("MainActivity", repository.allCategories.size.toString())
+                        } catch (e: Exception) {
+                            Log.e("MainActivity", "Error fetching exercises: ${e.message}")
+
+                        }
+
                     }
                 }
 

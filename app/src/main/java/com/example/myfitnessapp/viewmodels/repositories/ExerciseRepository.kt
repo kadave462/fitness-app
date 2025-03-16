@@ -31,12 +31,13 @@ class ExerciseRepository(context: Context, val sessionRepository: SessionReposit
         private suspend fun fetchAllExercises(): List<ExerciseResponse> {
                 return try {
                         Log.d("ExerciseRepository", "Fetching all exercises...")
-                        api.getExercises().also {
-                                Log.d("ExerciseRepository", "Fetch successful")
-                        }
+                        val response = api.getExercises()
+                        Log.d("ExerciseRepository", "Fetching all exercises successful")
+                        return response
                 } catch (e: Exception) {
                         showError(e)
-                        emptyList()
+                        Log.e("ExerciseRepository", "Error fetching Exercises: ${e.message}")
+                        return emptyList()
                 }
         }
 
