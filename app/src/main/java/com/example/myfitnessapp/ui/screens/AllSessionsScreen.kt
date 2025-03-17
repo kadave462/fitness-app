@@ -42,7 +42,7 @@ fun AllSessionsScreen(modifiers: Modifiers, sessionRepository: SessionRepository
                 SessionView(modifiers
                     .containerModifier
                     .clickable {
-                        navController.navigate("session_detail_screen")
+                        navController.navigate("session_detail_screen/${session.first().id}")
                     }, session)
             }
         }

@@ -27,14 +27,14 @@ import com.example.myfitnessapp.viewmodels.repositories.tests.TestSessionReposit
 @Composable
 fun SessionDetailScreen(modifier: Modifier = Modifiers().bigPaddingModifier(true),
                                 navController: NavController,
-                                sessionRepository: SessionRepositoryInterface){
+                                sessionRepository: SessionRepositoryInterface, sessionId: Int){
 
-    var sessionName: String = "Test"
+    var sessionName: String = "Pas de nom"
     var session by mutableStateOf(emptyList<Session>())
     var exercises by mutableStateOf(emptyList<Exercise>())
 
     LaunchedEffect(rememberCoroutineScope()) {
-        session = sessionRepository.selectedSession
+        session = sessionRepository.getSessionById(sessionId)
         sessionName = if (session.isNotEmpty()) session[0].name ?: "Sans nom" else "Sans nom"
         exercises = session.map { session -> sessionRepository.getExerciseById(session.exerciseId) }
     }
@@ -58,6 +58,7 @@ fun PreviewSessionDetailScreen() {
 
     SessionDetailScreen(
         navController = navController,
-        sessionRepository = sessionRepository
+        sessionRepository = sessionRepository,
+        sessionId = 0
     )
 }

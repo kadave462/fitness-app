@@ -51,7 +51,9 @@ fun AppNavigation(
             composable("session_end_screen") { SessionEndScreen(modifiers, navController, user, repository, currentIndex, onIndexChange) }
             composable("profile_screen") { ProfileScreen(modifiers, navController, user) }
             composable("all_sessions_screen") {AllSessionsScreen(modifiers, repository.sessionRepository, navController)}
-            composable("session_detail_screen") { SessionDetailScreen(modifiers.bigPaddingModifier(true), navController, repository.sessionRepository) }
+            composable("session_detail_screen/{sessionId}") { backStackEntry ->
+                val sessionId = backStackEntry.arguments?.getString("sessionId")
+                SessionDetailScreen(modifiers.bigPaddingModifier(true), navController, repository.sessionRepository, sessionId!!.toInt()) }
         }
     }
 }
