@@ -19,6 +19,8 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
     private val muscleDAO = database.getMuscleDao()
     private val sessionDAO = database.getSessionDao()
 
+    override var selectedSession: List<Session> = emptyList()
+
 
     suspend fun calculateNumberOfReps(exercise: Exercise, user: User): Int {
         var reps = muscleDAO.getNumberOfReps(exercise.target)
@@ -65,6 +67,14 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
         }
         sessionDAO.insertAll(sessions)
         Log.d("ExerciseRepository", "Session saved by SessionRepository")
+    }
+
+    override suspend fun getSessionById(id: Int): List<Session> {
+        return sessionDAO.getSessionById(id)
+    }
+
+    override suspend fun getExerciseById(id: String): Exercise {
+        return Exercise(id, "", "", "", listOf(), "")
     }
 
 

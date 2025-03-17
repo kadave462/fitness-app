@@ -26,21 +26,20 @@ import com.example.myfitnessapp.viewmodels.repositories.tests.TestSessionReposit
 fun AllSessionsScreen(modifiers: Modifiers, sessionRepository: SessionRepositoryInterface, navController: NavController){
     var allSessions by remember { mutableStateOf(emptyList<List<Session>>()) }
 
-    /*LaunchedEffect(sessionRepository){
+    LaunchedEffect(sessionRepository){
         Log.d("SessionS", "LaunchedEffect called")
         allSessions = sessionRepository.getAllSavedSessions().toList()
         Log.d("SessionS", "All sessions: $allSessions")
-    }*/
+    }
 
-    Text("Session")
 
     LazyColumn(modifiers.containerModifier){
         items(allSessions){session ->
             SessionView(modifiers
                 .containerModifier
-                /*.clickable {
+                .clickable {
                 navController.navigate("session_detail_screen")
-            }*/, session)
+            }, session)
         }
     }
 }
