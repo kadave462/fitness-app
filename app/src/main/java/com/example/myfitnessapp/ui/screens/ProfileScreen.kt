@@ -125,6 +125,7 @@ fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User
             item { EditableTextField(label = "Prénom", value = user.firstName, readOnly = true) }
             item { EditableTextField(label = "Nom", value = user.lastName, readOnly = true) }
             item { EditableTextField(label = "Âge", value = user.getAge().toString(), readOnly = true) }
+            item { EditableTextField(label = "Genre", value = user.gender, readOnly = true) }
 
             item {
                 EditableTextField(label = "Pseudonyme", value = user.pseudonym, onValueChange = { newPseudo ->

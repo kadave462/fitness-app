@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myfitnessapp.models.entities.User
+import com.example.myfitnessapp.ui.components.DateField
 import com.example.myfitnessapp.ui.components.DropdownSelector
 import com.example.myfitnessapp.ui.components.LevelSelector
 import com.example.myfitnessapp.ui.theme.Modifiers
@@ -33,7 +34,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun RegistrationScreen(modifiers: Modifiers, onUserRegistered: (User) -> Unit) {
-    val keyboardController = LocalSoftwareKeyboardController.current
     var email by remember { mutableStateOf(TextFieldValue()) }
     var pseudonym by remember { mutableStateOf(TextFieldValue()) }
     var firstName by remember { mutableStateOf(TextFieldValue()) }
@@ -72,9 +72,11 @@ fun RegistrationScreen(modifiers: Modifiers, onUserRegistered: (User) -> Unit) {
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             modifier = Modifier.fillMaxWidth())
 
-        OutlinedTextField(value = birthdate.text, onValueChange = { birthdate = TextFieldValue(it) }, label = { Text("Date de naissance (YYYY-MM-DD)") },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            modifier = Modifier.fillMaxWidth())
+        DateField(
+            label = "Date de naissance",
+            date = birthdate.text,
+            onDateSelected = { birthdate = TextFieldValue(it) }
+        )
 
         DropdownSelector(label = "Genre", options = listOf("Homme", "Femme", "Autre"), selectedOption = gender, onOptionSelected = { gender = it })
         DropdownSelector(label = "Niveau", options = listOf("Débutant", "Intermédiaire", "Avancé"), selectedOption = level, onOptionSelected = { level = it })
@@ -93,7 +95,7 @@ fun RegistrationScreen(modifiers: Modifiers, onUserRegistered: (User) -> Unit) {
                 height = height.text.toIntOrNull() ?: 0,
                 birthdate = birthdate.text,
                 gender = gender,
-                level = "Beginner"
+                level = level
             )
             onUserRegistered(user)
         }, modifier = Modifier.fillMaxWidth()) {

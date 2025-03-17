@@ -64,7 +64,7 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
             Session(sessionId, exercise.id, name, totalSets)
         }
         sessionDAO.insertAll(sessions)
-        Log.d("ExerciseRepository", "Session saved by SessionRepository")
+        Log.d("ExerciseRepository", "Session saved by SessionRepository $sessionId")
     }
 
 

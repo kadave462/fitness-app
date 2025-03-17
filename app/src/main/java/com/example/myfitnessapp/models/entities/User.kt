@@ -20,7 +20,7 @@ data class User(
     var height: Int,
     var birthdate: String,
     var gender: String,
-    var level: String = "Beginner",
+    var level: String,
     var profilePictureUri: String? = null
 ) {
     fun getAge(): Int {
