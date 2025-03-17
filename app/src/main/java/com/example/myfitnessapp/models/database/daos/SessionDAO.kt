@@ -11,10 +11,14 @@ import com.example.myfitnessapp.models.entities.Session
 @Dao
 interface SessionDAO {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(sessions: List<Session>){
         Log.d("SessionS", "Inserting sessions: $sessions")
     }
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(session: Session)
+
 
 
     @Query("SELECT * FROM sessions WHERE id = :sessionId")
@@ -26,9 +30,6 @@ interface SessionDAO {
 
     @Query("SELECT * FROM sessions")
     suspend fun getAllSessions(): List<Session>
-
-
-
 
 
 }

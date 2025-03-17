@@ -2,8 +2,10 @@ package com.example.myfitnessapp.ui.screens
 
 import android.util.Log
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,22 +28,26 @@ import com.example.myfitnessapp.viewmodels.repositories.tests.TestSessionReposit
 fun AllSessionsScreen(modifiers: Modifiers, sessionRepository: SessionRepositoryInterface, navController: NavController){
     var allSessions by remember { mutableStateOf(emptyList<List<Session>>()) }
 
+
+
     LaunchedEffect(sessionRepository){
         Log.d("SessionS", "LaunchedEffect called")
         allSessions = sessionRepository.getAllSavedSessions().toList()
-        Log.d("SessionS", "All sessions: $allSessions")
+        Log.d("SessionS", "All sessions: ${allSessions.size}")
     }
-
-
-    LazyColumn(modifiers.containerModifier){
-        items(allSessions){session ->
-            SessionView(modifiers
-                .containerModifier
-                .clickable {
-                navController.navigate("session_detail_screen")
-            }, session)
+    Column(modifier = modifiers.bigPaddingModifier(true)) {
+        Text("Sessions personnalisées", style = MaterialTheme.typography.titleLarge)
+        LazyColumn(modifiers.containerModifier){
+            items(allSessions){session ->
+                SessionView(modifiers
+                    .containerModifier
+                    .clickable {
+                        navController.navigate("session_detail_screen")
+                    }, session)
+            }
         }
     }
+
 }
 
 @Preview

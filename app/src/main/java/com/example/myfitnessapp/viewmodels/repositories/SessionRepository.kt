@@ -56,17 +56,18 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
 
 
 
-    suspend fun saveSession(name: String) {
+    suspend fun saveSession(name: String, selectedExercises: List<Exercise>) {
         var sessionId = sessionDAO.getLastSessionId() ?: 0
-        if (sessionId != 0) {
-            sessionId++
-        }
+        sessionId++
 
         val sessions = selectedExercises.map { exercise ->
-            Session(sessionId, exercise.id, name, totalSets)
+            sessionDAO.insert(Session(sessionId, exercise.name, name, totalSets))
+            Log.d("ExerciseRepository", "Exercise saved by SessionRepository ${exercise}")
         }
-        sessionDAO.insertAll(sessions)
-        Log.d("ExerciseRepository", "Session saved by SessionRepository")
+        Log.d("ExerciseRepository", "Saving sessions by SessionRepository ${sessionId}" +
+                " with {selectedExercises: ${sessions}}")
+
+
     }
 
     override suspend fun getSessionById(id: Int): List<Session> {

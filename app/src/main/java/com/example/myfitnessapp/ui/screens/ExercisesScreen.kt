@@ -84,7 +84,7 @@ fun ExerciseScreen(
             } else {
                 NewSessionView(onDismiss = { repository.newSession.value = false }, onAdd = {
                     rememberCoroutineScope.launch {
-                        repository.addSession(it)
+                        repository.addSession(it, selectedExercises)
                         navController.navigate("all_sessions_screen")
                     }
                 })
