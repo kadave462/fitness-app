@@ -13,6 +13,7 @@ import java.util.Date
 data class User(
     @PrimaryKey(autoGenerate = true) val id: Int,
     var email: String,
+    var password: String,
     var pseudonym: String,
     val firstName: String,
     val lastName: String,
@@ -21,7 +22,9 @@ data class User(
     var birthdate: String,
     var gender: String,
     var level: String = "Beginner",
-    var profilePictureUri: String? = null
+    var profilePictureUri: String? = null,
+    var isLoggedIn: Boolean = false
+
 ) {
     fun getAge(): Int {
         return try {

@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.viewmodels.navigation
 
+
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -7,14 +8,20 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.myfitnessapp.models.database.daos.UserDao
 import com.example.myfitnessapp.models.entities.User
+import com.example.myfitnessapp.ui.screens.AuthScreen
 import com.example.myfitnessapp.ui.screens.BreakScreen
 import com.example.myfitnessapp.viewmodels.utils.NavigationUtils
 import com.example.myfitnessapp.ui.screens.ExerciseScreen
 import com.example.myfitnessapp.ui.screens.HomeScreen
+import com.example.myfitnessapp.ui.screens.LoginScreen
 import com.example.myfitnessapp.ui.screens.ProfileScreen
 import com.example.myfitnessapp.ui.screens.SessionEndScreen
 import com.example.myfitnessapp.ui.screens.SessionScreen
+import com.example.myfitnessapp.ui.screens.SignupScreen
+
+
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 
@@ -22,6 +29,7 @@ import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 fun AppNavigation(
     modifiers: Modifiers,
     navController: NavHostController,
+    userDao:UserDao,
     user: User,
     repository: ExerciseRepository,
     currentIndex: Int,
@@ -39,9 +47,14 @@ fun AppNavigation(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "home_screen",
+            startDestination = "AuthScreen",
             modifier = Modifier.padding(innerPadding)
         ) {
+
+            composable("AuthScreen") { AuthScreen(navController) }
+            composable("SignupScreen") { SignupScreen(navController,userDao) }
+            composable("LoginScreen") { LoginScreen(navController,userDao) }
+
             composable("home_screen") { HomeScreen(modifiers,navController, user) }
             composable("exercise_screen") { ExerciseScreen(modifiers, navController, repository) }
             composable("session_screen") { SessionScreen(modifiers, navController, user, repository, currentIndex, onIndexChange) }

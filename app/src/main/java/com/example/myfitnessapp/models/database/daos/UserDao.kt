@@ -1,6 +1,8 @@
 package com.example.myfitnessapp.models.database.daos
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.myfitnessapp.models.entities.User
@@ -10,11 +12,20 @@ import java.util.Date
 @Dao
 interface UserDao {
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertUser(user: User)
+
     @Update
     suspend fun updateUser(user: User)
 
-    @Query("SELECT * FROM users WHERE id = :userId")
-    suspend fun getUserById(userId: Int): User
+
+    @Query("SELECT * FROM users WHERE id = :userId LIMIT 1")
+    suspend fun getUserById(userId: Int): User?
+
+    @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
+    suspend fun getUserByEmail(email: String): User?
+
+
 
     @Query("SELECT level FROM users WHERE id = :userId")
     suspend fun getUserLevel(userId: Int): String
@@ -24,5 +35,15 @@ interface UserDao {
 
     @Query("SELECT birthdate FROM users WHERE id = :userId")
     suspend fun getBirthDate(userId: Int): String
+
+    @Query("SELECT * FROM users WHERE isLoggedIn = 1 LIMIT 1")
+    suspend fun getLoggedInUser(): User?
+
+    @Query("UPDATE users SET isLoggedIn = 0")
+    suspend fun logoutAllUsers()
+
+    @Query("UPDATE users SET isLoggedIn = 1 WHERE id = :userId")
+    suspend fun loginUser(userId: Int)
+
 
 }
