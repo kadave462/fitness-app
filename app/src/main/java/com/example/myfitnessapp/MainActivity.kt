@@ -29,6 +29,7 @@ import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.database.daos.MuscleDao
 import com.example.myfitnessapp.models.database.utils.populateMusclesDatabase
 import androidx.lifecycle.lifecycleScope
+import com.example.myfitnessapp.ui.screens.RegistrationScreen
 import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
@@ -58,20 +59,18 @@ class MainActivity : ComponentActivity() {
 
                 LaunchedEffect(Unit) {
                     val userDao = database.getUserDao()
-                    val loadedUser = userDao.getUserById(1)
-                    if (loadedUser == null) {
-                        val defaultUser = User(
-                            1, "alex.laffite@gmail.com", "AlexL", "Alex", "Laffite",
-                            80.0, 180, "1995-06-15", "Homme", "Beginner"
-                        )
-                        userDao.insertUser(defaultUser)
-                        user = defaultUser
-                    } else {
-                        user = loadedUser
-                    }
+                    userDao.deleteUserById(1)
+                    user = null
                 }
 
-                if (user != null) {
+                if (user == null) {
+                    RegistrationScreen(modifiers = Modifiers(), onUserRegistered = { registeredUser ->
+                        scope.launch {
+                            database.getUserDao().insertUser(registeredUser)
+                            user = registeredUser
+                        }
+                    })
+                } else {
                     val repository = remember { ExerciseRepository(this) }
                     var currentIndex by remember { mutableIntStateOf(0) }
 
@@ -90,10 +89,6 @@ class MainActivity : ComponentActivity() {
                         currentIndex = currentIndex,
                         onIndexChange = { newIndex -> currentIndex = newIndex }
                     )
-                } else {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
-                    }
                 }
             }
         }

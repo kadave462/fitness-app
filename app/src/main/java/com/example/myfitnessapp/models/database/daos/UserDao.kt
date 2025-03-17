@@ -30,4 +30,9 @@ interface UserDao {
     @Query("SELECT birthdate FROM users WHERE id = :userId")
     suspend fun getBirthDate(userId: Int): String
 
+    @Query("DELETE FROM users WHERE id = :userId")
+    suspend fun deleteUserById(userId: Int)
+
+    @Query("DELETE FROM users")
+    suspend fun deleteAllUsers()
 }
