@@ -34,7 +34,7 @@ fun AppNavigation(
 
     Scaffold(
         bottomBar = {
-            if (currentRoute in listOf("home_screen", "exercise_screen", "profile_screen")) {
+            if (currentRoute in listOf("home_screen", "exercise_screen", "profile_screen", "all_sessions_screen")) {
                 NavigationBar(navController)
             }
         }

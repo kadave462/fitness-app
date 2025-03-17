@@ -32,6 +32,17 @@ fun NavigationBar(navController: NavController){
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             IconButton(
+                onClick = { if (currentRoute!= "all_sessions_screen") navController.navigate("all_sessions_screen") },
+                modifier = Modifier.weight(1f)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_history),
+                    contentDescription = "History",
+                    modifier = Modifier.size(48.dp)
+                )
+            }
+
+            IconButton(
                 onClick = { if (currentRoute!= "exercise_screen") navController.navigate("exercise_screen") },
                 modifier = Modifier.weight(1f)
             ) {
