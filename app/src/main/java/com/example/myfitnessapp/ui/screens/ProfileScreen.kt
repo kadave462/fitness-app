@@ -103,7 +103,7 @@ fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User
 
         Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
-        FloatingButtonView(title = "Changer la photo de profil") {
+        FloatingButtonView(title = "Changer la photo de profil", modifiers) {
             imagePickerLauncher.launch("image/*")
         }
 

@@ -33,6 +33,7 @@ import com.example.myfitnessapp.ui.components.ProgressionBar
 import com.example.myfitnessapp.ui.components.TimerDisplay
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
+import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
 import com.example.myfitnessapp.viewmodels.utils.TimerViewModel
 import kotlinx.coroutines.delay
 
@@ -148,7 +149,7 @@ fun BreakScreen(
 @Composable
 fun BreakScreenPreview() {
     val navController = rememberNavController()
-    val repository = ExerciseRepository(LocalContext.current)
+    val repository = ExerciseRepository(LocalContext.current, SessionRepository(LocalContext.current))
 
     BreakScreen(
         modifiers = Modifiers(),

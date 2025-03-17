@@ -30,6 +30,7 @@ import com.example.myfitnessapp.models.database.daos.MuscleDao
 import com.example.myfitnessapp.models.database.utils.populateMusclesDatabase
 import androidx.lifecycle.lifecycleScope
 import com.example.myfitnessapp.ui.screens.RegistrationScreen
+import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
 import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
@@ -56,6 +57,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val database = AppDatabase.getDatabase(LocalContext.current)
                 var user by remember { mutableStateOf<User?>(null) }
+                val modifiers = Modifiers()
 
                 LaunchedEffect(Unit) {
                     val userDao = database.getUserDao()
@@ -71,7 +73,7 @@ class MainActivity : ComponentActivity() {
                         }
                     })
                 } else {
-                    val repository = remember { ExerciseRepository(this) }
+                    val repository = remember { ExerciseRepository(this, SessionRepository(this)) }
                     var currentIndex by remember { mutableIntStateOf(0) }
 
                     LaunchedEffect(Unit) {
@@ -82,11 +84,11 @@ class MainActivity : ComponentActivity() {
                     }
 
                     AppNavigation(
-                        modifiers = Modifiers(),
-                        navController = navController,
+                        modifiers,
+                        navController,
                         user = user!!,
-                        repository = repository,
-                        currentIndex = currentIndex,
+                        repository,
+                        currentIndex,
                         onIndexChange = { newIndex -> currentIndex = newIndex }
                     )
                 }

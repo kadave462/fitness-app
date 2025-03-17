@@ -8,38 +8,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.myfitnessapp.ui.theme.Modifiers
 
-
 @Composable
 fun TagView(
     modifiers: Modifiers,
-    text: String,
-    searchQuery: String,
-    isSelected: Boolean
+    text: String
 ){
-    val isHighlighted = searchQuery.isNotBlank() && text.contains(searchQuery, ignoreCase = true)
-
     Box(
         modifier = modifiers
             .onContainerModifier
             .background(
-                if (isHighlighted) MaterialTheme.colorScheme.primary
-                else if (isSelected) MaterialTheme.colorScheme.secondaryContainer
-                else MaterialTheme.colorScheme.tertiaryContainer,
+                MaterialTheme.colorScheme.tertiaryContainer,
                 shape = MaterialTheme.shapes.medium
             )
     ) {
         Text(text = text,
             style = MaterialTheme.typography.labelMedium,
-            color = if (isHighlighted) MaterialTheme.colorScheme.onPrimary
-            else if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer
-            else MaterialTheme.colorScheme.onTertiaryContainer,
+            color = MaterialTheme.colorScheme.onTertiaryContainer,
             modifier = modifiers.onContainerModifier)
     }
 }
 
 @Preview
 @Composable
-fun PreviewSecondaryMuscleTagView() {
-    TagView(modifiers = Modifiers(), text = "Biceps", searchQuery = "", isSelected = false)
+fun PreviewTagView() {
+    TagView(modifiers = Modifiers(), text = "Biceps")
 
 }

@@ -30,7 +30,12 @@ import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.ui.theme.Modifiers
 
 @Composable
-fun CategoryView(modifiers: Modifiers, category: ExerciseCategory, selectedExercises: MutableList<Exercise>, searchQuery: String) {
+fun CategoryView(
+    modifiers: Modifiers,
+    category: ExerciseCategory,
+    selectedExercises: MutableList<Exercise>,
+    searchQuery: String
+) {
     var expanded by remember { mutableStateOf(false) }
 
     Column(modifier = modifiers.containerModifier) {

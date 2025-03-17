@@ -8,11 +8,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myfitnessapp.models.entities.User
+import com.example.myfitnessapp.ui.screens.AllSessionsScreen
 import com.example.myfitnessapp.ui.screens.BreakScreen
 import com.example.myfitnessapp.viewmodels.utils.NavigationUtils
 import com.example.myfitnessapp.ui.screens.ExerciseScreen
 import com.example.myfitnessapp.ui.screens.HomeScreen
 import com.example.myfitnessapp.ui.screens.ProfileScreen
+import com.example.myfitnessapp.ui.screens.SessionDetailScreen
 import com.example.myfitnessapp.ui.screens.SessionEndScreen
 import com.example.myfitnessapp.ui.screens.SessionScreen
 import com.example.myfitnessapp.ui.theme.Modifiers
@@ -48,6 +50,8 @@ fun AppNavigation(
             composable("break_screen") { BreakScreen(modifiers,navController, repository, currentIndex, onIndexChange) }
             composable("session_end_screen") { SessionEndScreen(modifiers, navController, user, repository, currentIndex, onIndexChange) }
             composable("profile_screen") { ProfileScreen(modifiers, navController, user) }
+            composable("all_sessions_screen") {AllSessionsScreen(modifiers, repository.sessionRepository, navController)}
+            composable("session_detail_screen") { SessionDetailScreen(modifiers.bigPaddingModifier(true), navController, repository.sessionRepository) }
         }
     }
 }

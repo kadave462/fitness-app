@@ -91,7 +91,7 @@ fun SessionEndScreen(
             Spacer(modifier = Modifier.weight(1f))
 
             FloatingButtonView(
-                title = "Revenir à l'écran d'accueil",
+                title = "Revenir à l'écran d'accueil", modifiers
             ) {
                 repository.selectedExercises.clear()
                 onIndexChange(0)
