@@ -7,67 +7,61 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.myfitnessapp.models.datas.User
+import com.example.myfitnessapp.models.entities.User
+import com.example.myfitnessapp.ui.screens.AllSessionsScreen
+import com.example.myfitnessapp.ui.screens.BreakScreen
 import com.example.myfitnessapp.viewmodels.utils.NavigationUtils
 import com.example.myfitnessapp.ui.screens.ExerciseScreen
 import com.example.myfitnessapp.ui.screens.HomeScreen
 import com.example.myfitnessapp.ui.screens.ProfileScreen
+import com.example.myfitnessapp.ui.screens.SessionDetailScreen
 import com.example.myfitnessapp.ui.screens.SessionEndScreen
 import com.example.myfitnessapp.ui.screens.SessionScreen
-import com.example.myfitnessapp.ui.screens.SignUpWithGoogleScreen
+
+import com.example.myfitnessapp.ui.screens.AuthScreen
+import com.example.myfitnessapp.ui.screens.SignupScreen
+import com.example.myfitnessapp.ui.screens.LoginScreen
 
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 
 @Composable
-
-fun AppNavigation(modifiers: Modifiers, navController: NavHostController, user: User, repository: ExerciseRepository) {
+fun AppNavigation(
+    modifiers: Modifiers,
+    navController: NavHostController,
+    user: User,
+    repository: ExerciseRepository,
+    currentIndex: Int,
+    onIndexChange: (Int) -> Unit
+) {
 
     val currentRoute = NavigationUtils().currentRoute(navController)
 
     Scaffold(
         bottomBar = {
-            if (currentRoute in listOf("home_screen", "exercise_screen", "profile_screen")) {
+            if (currentRoute in listOf("home_screen", "exercise_screen", "profile_screen", "all_sessions_screen")) {
                 NavigationBar(navController)
             }
         }
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "sign_up_with_google_screen", // New start destination
+            startDestination = "AuthScreen",
             modifier = Modifier.padding(innerPadding)
         ) {
-           composable("sign_up_with_google_screen") { SignUpWithGoogleScreen() } // New screen
+            composable("AuthScreen") { AuthScreen(navController) }
+            composable("SignupScreen") { SignupScreen(navController) }
+            composable("LoginScreen") { LoginScreen(navController) }
+
+
             composable("home_screen") { HomeScreen(modifiers,navController, user) }
             composable("exercise_screen") { ExerciseScreen(modifiers, navController, repository) }
-            composable("session_screen") { SessionScreen(modifiers, navController, user, repository) }
-            composable("session_end_screen") { SessionEndScreen(modifiers, navController, user, repository) }
+            composable("session_screen") { SessionScreen(modifiers, navController, user, repository, currentIndex, onIndexChange) }
+            composable("break_screen") { BreakScreen(modifiers,navController, repository, currentIndex, onIndexChange) }
+            composable("session_end_screen") { SessionEndScreen(modifiers, navController, user, repository, currentIndex, onIndexChange) }
             composable("profile_screen") { ProfileScreen(modifiers, navController, user) }
+            composable("all_sessions_screen") {AllSessionsScreen(modifiers, repository.sessionRepository, navController)}
+            composable("session_detail_screen") { SessionDetailScreen(modifiers.bigPaddingModifier(true), navController, repository.sessionRepository) }
         }
     }
 }
-
-//fun AppNavigation(modifiers: Modifiers, navController: NavHostController, user: User, repository: ExerciseRepository) {
-//
-//    val currentRoute = NavigationUtils().currentRoute(navController)
-//
-//    Scaffold(
-//        bottomBar = {
-//            if (currentRoute in listOf("home_screen", "exercise_screen", "profile_screen")) {
-//                NavigationBar(navController)
-//            }
-//        }
-//    ) { innerPadding ->
-//        NavHost(
-//            navController = navController,
-//            startDestination = "home_screen",
-//            modifier = Modifier.padding(innerPadding)
-//        ) {
-//            composable("home_screen") { HomeScreen(modifiers,navController, user) }
-//            composable("exercise_screen") { ExerciseScreen(modifiers, navController, repository) }
-//            composable("session_screen") { SessionScreen(modifiers, navController, user, repository) }
-//            composable("session_end_screen") { SessionEndScreen(modifiers, navController, user, repository) }
-//            composable("profile_screen") { ProfileScreen(modifiers, navController, user) }
-//        }
-//    }
-//}
