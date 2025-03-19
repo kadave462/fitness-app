@@ -43,4 +43,8 @@ class TestSessionRepository : SessionRepositoryInterface {
         return exercises.first { it.id == id }
     }
 
+    override fun getSessionName(sessions: List<Session>): String {
+        return "test"
+    }
+
 }

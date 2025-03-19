@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.models.entities.Session
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SessionDAO {
@@ -20,16 +21,13 @@ interface SessionDAO {
     suspend fun insert(session: Session)
 
 
-
-    @Query("SELECT * FROM sessions WHERE id = :sessionId")
-    suspend fun getSessionById(sessionId: Int): List<Session>
-
-
     @Query("SELECT MAX(id) FROM sessions")
     suspend fun getLastSessionId(): Int?
 
     @Query("SELECT * FROM sessions")
     suspend fun getAllSessions(): List<Session>
 
+    @Query("SELECT * FROM sessions WHERE id = :groupId")
+    suspend fun getSessionsByGroupId(groupId: Int): List<Session>
 
 }

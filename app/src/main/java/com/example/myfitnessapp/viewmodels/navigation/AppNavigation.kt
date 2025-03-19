@@ -53,7 +53,7 @@ fun AppNavigation(
             composable("all_sessions_screen") {AllSessionsScreen(modifiers, repository.sessionRepository, navController)}
             composable("session_detail_screen/{sessionId}") { backStackEntry ->
                 val sessionId = backStackEntry.arguments?.getString("sessionId")
-                SessionDetailScreen(modifiers.bigPaddingModifier(true), navController, repository.sessionRepository, sessionId!!.toInt()) }
+                SessionDetailScreen(modifiers.bigPaddingModifier(true), navController, repository.sessionRepository, sessionId!!) }
         }
     }
 }

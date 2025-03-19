@@ -35,6 +35,7 @@ fun AllSessionsScreen(modifiers: Modifiers, sessionRepository: SessionRepository
         allSessions = sessionRepository.getAllSavedSessions().toList()
         Log.d("SessionS", "All sessions: ${allSessions.size}")
     }
+
     Column(modifier = modifiers.bigPaddingModifier(true)) {
         Text("Sessions personnalisées", style = MaterialTheme.typography.titleLarge)
         LazyColumn(modifiers.containerModifier){

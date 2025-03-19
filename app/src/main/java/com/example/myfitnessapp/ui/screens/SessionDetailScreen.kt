@@ -1,6 +1,7 @@
 package com.example.myfitnessapp.ui.screens
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -9,10 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.entities.Exercise
@@ -27,19 +30,28 @@ import com.example.myfitnessapp.viewmodels.repositories.tests.TestSessionReposit
 @Composable
 fun SessionDetailScreen(modifier: Modifier = Modifiers().bigPaddingModifier(true),
                                 navController: NavController,
-                                sessionRepository: SessionRepositoryInterface, sessionId: Int){
-
-    var sessionName: String = "Pas de nom"
-    var session by mutableStateOf(emptyList<Session>())
+                                sessionRepository: SessionRepositoryInterface,
+                        sessionId: String){
+    val scope = rememberCoroutineScope()
+    val sessionId = sessionId.toInt()
+    var sessionName: String by remember { mutableStateOf("") }
+    var sessions by remember { mutableStateOf(emptyList<Session>()) }
     var exercises by mutableStateOf(emptyList<Exercise>())
 
-    LaunchedEffect(rememberCoroutineScope()) {
-        session = sessionRepository.getSessionById(sessionId)
-        sessionName = if (session.isNotEmpty()) session[0].name ?: "Sans nom" else "Sans nom"
-        exercises = session.map { session -> sessionRepository.getExerciseById(session.exerciseId) }
+
+
+    LaunchedEffect(Unit) {
+        Log.d("SessionS", "LaunchedEffect called with id = ${sessionId}")
+        sessions = sessionRepository.getSessionById(sessionId)
+        Log.d("SessionS", "Screen -> Session: ${sessionId}")
+        sessionName = sessionRepository.getSessionName(sessions)
+
+        exercises = sessions.map { session -> sessionRepository.getExerciseById(session.exerciseId) }
     }
 
-    Text(sessionName, style = MaterialTheme.typography.titleLarge)
+
+
+    Text("${sessionName}", style = MaterialTheme.typography.titleLarge)
 
     LazyColumn(modifier) {
         items(exercises) { exercise ->
@@ -59,6 +71,6 @@ fun PreviewSessionDetailScreen() {
     SessionDetailScreen(
         navController = navController,
         sessionRepository = sessionRepository,
-        sessionId = 0
+        sessionId = "0"
     )
 }

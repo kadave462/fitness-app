@@ -8,6 +8,7 @@ import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.models.entities.Session
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
+import kotlinx.coroutines.flow.Flow
 
 class SessionRepository (context: Context) : SessionRepositoryInterface {
     private val _selectedExercises = mutableListOf<Exercise>()
@@ -51,7 +52,29 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
         if(sessionsCount != null){
             return sessions.groupBy { it.id }.values.toList()
         }
-        return emptyList<List<Session>>()
+        return emptyList()
+    }
+
+
+    override suspend fun getSessionById(id: Int): List<Session> {
+        Log.d("SessionS", "getSessionById called with id = ${id}")
+        val sessions = sessionDAO.getSessionsByGroupId(id)
+        Log.d("SessionS", "Session: ${sessions.size}")
+        return sessions
+    }
+
+    override fun getSessionName(sessions: List<Session>): String {
+        if(sessions.isEmpty())
+            return "Liste Vide"
+
+        if (sessions[0].name == null) {
+            return "Pas de nom"
+        }
+        return sessions[0].name!!
+    }
+
+    override suspend fun getExerciseById(id: String): Exercise {
+        return Exercise(id, "", "", "", listOf(), "")
     }
 
 
@@ -70,13 +93,7 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
 
     }
 
-    override suspend fun getSessionById(id: Int): List<Session> {
-        return sessionDAO.getSessionById(id)
-    }
 
-    override suspend fun getExerciseById(id: String): Exercise {
-        return Exercise(id, "", "", "", listOf(), "")
-    }
 
 
 }
