@@ -83,8 +83,4 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
         Log.d("ExerciseRepository", "Saving sessions by SessionRepository ${sessionId}" +
                 " with {selectedExercises: ${sessions}}")
     }
-
-    fun getExerciseById(id: String): Exercise{
-        return Exercise(id, "", "", "", emptyList(), "", null)
-    }
 }

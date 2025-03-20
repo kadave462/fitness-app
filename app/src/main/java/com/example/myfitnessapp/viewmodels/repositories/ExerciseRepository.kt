@@ -119,7 +119,7 @@ class ExerciseRepository(context: Context) {
          */
 
         fun getExerciseById(id: String): Exercise {
-                return allExercises?.find { it.id == id }
+                return allExercises?.find { it.name == id }
                         ?: throw NoSuchElementException("Aucun exercice trouvé avec l'ID: $id")
         }
 

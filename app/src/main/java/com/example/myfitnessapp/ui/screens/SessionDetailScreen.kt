@@ -38,7 +38,7 @@ fun SessionDetailScreen(modifier: Modifier = Modifiers().bigPaddingModifier(true
     val sessionId = sessionId.toInt()
     var sessionName: String by remember { mutableStateOf("") }
     var sessions by remember { mutableStateOf(emptyList<Session>()) }
-    var exercises by mutableStateOf(emptyList<Exercise>())
+    var exercises by remember {mutableStateOf(emptyList<Exercise>()) }
 
 
 
@@ -48,7 +48,7 @@ fun SessionDetailScreen(modifier: Modifier = Modifiers().bigPaddingModifier(true
         Log.d("SessionS", "Screen -> Session: ${sessionId}")
         sessionName = sessionRepository.getSessionName(sessions)
 
-        //exercises = sessions.map { session -> sessionRepository.getExerciseById(session.exerciseId) }
+        exercises = sessions.map { session -> exerciseRepository.getExerciseByName(session.exerciseId) }
     }
 
 
