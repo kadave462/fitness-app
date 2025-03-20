@@ -9,14 +9,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.screens.AllSessionsScreen
+import com.example.myfitnessapp.ui.screens.AuthScreen
 import com.example.myfitnessapp.ui.screens.BreakScreen
 import com.example.myfitnessapp.viewmodels.utils.NavigationUtils
 import com.example.myfitnessapp.ui.screens.ExerciseScreen
 import com.example.myfitnessapp.ui.screens.HomeScreen
+import com.example.myfitnessapp.ui.screens.LoginScreen
 import com.example.myfitnessapp.ui.screens.ProfileScreen
 import com.example.myfitnessapp.ui.screens.SessionDetailScreen
 import com.example.myfitnessapp.ui.screens.SessionEndScreen
 import com.example.myfitnessapp.ui.screens.SessionScreen
+import com.example.myfitnessapp.ui.screens.SignupScreen
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 
@@ -44,6 +47,10 @@ fun AppNavigation(
             startDestination = "home_screen",
             modifier = Modifier.padding(innerPadding)
         ) {
+            composable("AuthScreen") { AuthScreen(navController) }
+            composable("SignupScreen") { SignupScreen(navController) }
+            composable("LoginScreen") { LoginScreen(navController) }
+
             composable("home_screen") { HomeScreen(modifiers,navController, user) }
             composable("exercise_screen") { ExerciseScreen(modifiers, navController, repository) }
             composable("session_screen") { SessionScreen(modifiers, navController, user, repository, currentIndex, onIndexChange) }
