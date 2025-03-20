@@ -34,6 +34,9 @@ import com.example.myfitnessapp.ui.screens.AuthScreen
 import com.example.myfitnessapp.ui.screens.RegistrationScreen
 import com.example.myfitnessapp.viewmodels.repositories.AuthRepository
 import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
@@ -67,7 +70,10 @@ class MainActivity : ComponentActivity() {
                 LaunchedEffect(Unit) {
                     scope.launch {
                         try {
-                            user = authRepository.getCurrentUser()
+                            val currentUser = authRepository.getCurrentUser()
+                            withContext(Dispatchers.Main) {
+                                user = currentUser
+                            }
                         } catch (e: Exception) {
                             Log.e("MainActivity", "Erreur lors de la récupération de l'utilisateur", e)
                         }
@@ -75,12 +81,12 @@ class MainActivity : ComponentActivity() {
                 }
 
                 if (user == null) {
-                    AuthScreen(
-                        navController = navController,
-                        onLoginSuccess = { loggedUser -> user = loggedUser },
-                        onSignupSuccess = { newUser -> user = newUser }
-                    )
-                } else {
+                    LaunchedEffect(navController) {
+                        delay(500)
+                    }
+                    AuthScreen(navController, onLoginSuccess = { loggedUser -> user = loggedUser }, onSignupSuccess = { newUser -> user = newUser })
+
+                }  else {
                     val repository = remember { ExerciseRepository(this, SessionRepository(this)) }
                     var currentIndex by remember { mutableIntStateOf(0) }
 
@@ -93,7 +99,7 @@ class MainActivity : ComponentActivity() {
 
                     AppNavigation(
                         modifiers,
-                        navController,
+                        navController = navController,
                         user = user!!,
                         repository,
                         currentIndex,

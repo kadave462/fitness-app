@@ -4,6 +4,8 @@ import android.util.Log
 import at.favre.lib.crypto.bcrypt.BCrypt
 import com.example.myfitnessapp.models.database.daos.UserDao
 import com.example.myfitnessapp.models.entities.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class AuthRepository(private val userDao: UserDao) {
 
@@ -42,12 +44,14 @@ class AuthRepository(private val userDao: UserDao) {
     }
 
     suspend fun getCurrentUser(): User? {
-        return try {
-            val users = userDao.getAllUsers()
-            users.firstOrNull()
-        } catch (e: Exception) {
-            Log.e("AuthRepository", "Erreur lors de la récupération de l'utilisateur", e)
-            null
+        return withContext(Dispatchers.IO) {
+            try {
+                val users = userDao.getAllUsers()
+                users.firstOrNull()
+            } catch (e: Exception) {
+                Log.e("AuthRepository", "Erreur lors de la récupération de l'utilisateur", e)
+                null
+            }
         }
     }
 

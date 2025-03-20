@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 //noinspection UsingMaterialAndMaterial3Libraries
@@ -41,8 +42,11 @@ fun AuthScreen(
 
         Button(
             onClick = {
-                navController.navigate("LoginScreen") {
-                    popUpTo("AuthScreen") { inclusive = true }
+                Log.d("AuthScreen", "Bouton Login cliqué")
+                if (navController.currentDestination != null) {
+                    navController.navigate("LoginScreen")
+                } else {
+                    Log.e("AuthScreen", "NavController non initialisé !")
                 }
             },
             modifier = Modifier.fillMaxWidth().height(60.dp)
