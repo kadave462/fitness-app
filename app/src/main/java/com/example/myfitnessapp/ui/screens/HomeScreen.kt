@@ -49,7 +49,7 @@ fun HomeScreen(modifiers: Modifiers, navController: NavController, user: User) {
                     )
                     Text(
                         text = "Il est ${TimeUtils().getCurrentTime()}",
-                        style = MaterialTheme.typographclcy.titleSmall
+                        style = MaterialTheme.typography.titleSmall
                     )
                 }
             }
