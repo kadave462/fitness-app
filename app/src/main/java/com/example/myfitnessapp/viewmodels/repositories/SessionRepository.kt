@@ -11,9 +11,6 @@ import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
 import kotlinx.coroutines.flow.Flow
 
 class SessionRepository (context: Context) : SessionRepositoryInterface {
-    private val _selectedExercises = mutableListOf<Exercise>()
-    val selectedExercises: List<Exercise> = _selectedExercises
-
     val totalSets = 3
 
     private val database = AppDatabase.getDatabase(context)
@@ -73,27 +70,21 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
         return sessions[0].name!!
     }
 
-    override suspend fun getExerciseById(id: String): Exercise {
-        return Exercise(id, "", "", "", listOf(), "")
-    }
 
 
-
-    suspend fun saveSession(name: String, selectedExercises: List<Exercise>) {
+    override suspend fun saveSession(name: String, selectedExercises: List<Exercise>) {
         var sessionId = sessionDAO.getLastSessionId() ?: 0
         sessionId++
 
         val sessions = selectedExercises.map { exercise ->
             sessionDAO.insert(Session(sessionId, exercise.name, name, totalSets))
-            Log.d("ExerciseRepository", "Exercise saved by SessionRepository ${exercise}")
+            Log.d("SessionRepository", "Session saved by SessionRepository with ${exercise}")
         }
         Log.d("ExerciseRepository", "Saving sessions by SessionRepository ${sessionId}" +
                 " with {selectedExercises: ${sessions}}")
-
-
     }
 
-
-
-
+    fun getExerciseById(id: String): Exercise{
+        return Exercise(id, "", "", "", emptyList(), "", null)
+    }
 }

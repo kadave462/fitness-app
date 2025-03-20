@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -22,6 +23,7 @@ import com.example.myfitnessapp.models.entities.Session
 import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.views.ExerciseView
+import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 import com.example.myfitnessapp.viewmodels.repositories.tests.TestSessionRepository
 
 
@@ -29,9 +31,10 @@ import com.example.myfitnessapp.viewmodels.repositories.tests.TestSessionReposit
 @Composable
 fun SessionDetailScreen(modifier: Modifier = Modifiers().bigPaddingModifier(true),
                                 navController: NavController,
+                                exerciseRepository: ExerciseRepository,
                                 sessionRepository: SessionRepositoryInterface,
-                        sessionId: String){
-    val scope = rememberCoroutineScope()
+                                sessionId: String){
+
     val sessionId = sessionId.toInt()
     var sessionName: String by remember { mutableStateOf("") }
     var sessions by remember { mutableStateOf(emptyList<Session>()) }
@@ -45,12 +48,12 @@ fun SessionDetailScreen(modifier: Modifier = Modifiers().bigPaddingModifier(true
         Log.d("SessionS", "Screen -> Session: ${sessionId}")
         sessionName = sessionRepository.getSessionName(sessions)
 
-        exercises = sessions.map { session -> sessionRepository.getExerciseById(session.exerciseId) }
+        //exercises = sessions.map { session -> sessionRepository.getExerciseById(session.exerciseId) }
     }
 
 
 
-    Text("${sessionName}", style = MaterialTheme.typography.titleLarge)
+    Text(sessionName, style = MaterialTheme.typography.titleLarge)
 
     LazyColumn(modifier) {
         items(exercises) { exercise ->
@@ -66,10 +69,12 @@ fun SessionDetailScreen(modifier: Modifier = Modifiers().bigPaddingModifier(true
 fun PreviewSessionDetailScreen() {
     val navController = rememberNavController()
     val sessionRepository = TestSessionRepository()
+    val exerciseRepository = ExerciseRepository(LocalContext.current)
 
     SessionDetailScreen(
         navController = navController,
         sessionRepository = sessionRepository,
+        exerciseRepository = exerciseRepository,
         sessionId = "0"
     )
 }

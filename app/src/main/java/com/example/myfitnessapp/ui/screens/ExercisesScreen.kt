@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
 
 import com.example.myfitnessapp.ui.views.CategoryView
 import com.example.myfitnessapp.ui.components.FloatingButtonView
@@ -30,7 +31,7 @@ import com.example.myfitnessapp.ui.views.NewSessionView
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseFilter
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
-import kotlinx.coroutines.coroutineScope
+import com.example.myfitnessapp.viewmodels.repositories.tests.TestSessionRepository
 import kotlinx.coroutines.launch
 
 
@@ -38,13 +39,14 @@ import kotlinx.coroutines.launch
 fun ExerciseScreen(
     modifiers: Modifiers,
     navController: NavController,
-    repository: ExerciseRepository
+    exerciseRepository: ExerciseRepository,
+    sessionRepository: SessionRepositoryInterface
 ) {
-    val filter = remember { ExerciseFilter(repository.allCategories) }
+    val filter = remember { ExerciseFilter(exerciseRepository.allCategories) }
     val searchQuery by filter.searchQuery.collectAsState()
-    val filteredCategories by filter.filteredCategories.collectAsState(initial = repository.allCategories)
+    val filteredCategories by filter.filteredCategories.collectAsState(initial = exerciseRepository.allCategories)
 
-    val selectedExercises = repository.selectedExercises
+    val selectedExercises = exerciseRepository.selectedExercises
     val rememberCoroutineScope = rememberCoroutineScope()
 
     Box(
@@ -69,11 +71,11 @@ fun ExerciseScreen(
                 }
             }
 
-            if(!repository.newSession.value){
+            if(!exerciseRepository.newSession.value){
                 Row(modifiers.onContainerModifier, horizontalArrangement = Arrangement.SpaceBetween) {
                     Box(modifier = modifiers.onContainerModifier.fillMaxWidth(0.5f)){
                         FloatingButtonView(title = "Enregistrer", modifiers, enabled = selectedExercises.isNotEmpty()) {
-                            repository.showAddSessionView()
+                            exerciseRepository.showAddSessionView()
                     }}
                     Box(modifier = modifiers.onContainerModifier){
                         FloatingButtonView(title = "Démarrer", modifiers,  enabled = selectedExercises.isNotEmpty()) {
@@ -82,9 +84,9 @@ fun ExerciseScreen(
                 }
 
             } else {
-                NewSessionView(onDismiss = { repository.newSession.value = false }, onAdd = {
+                NewSessionView(onDismiss = { exerciseRepository.newSession.value = false }, onAdd = {
                     rememberCoroutineScope.launch {
-                        repository.addSession(it, selectedExercises)
+                        sessionRepository.saveSession(it, selectedExercises)
                         navController.navigate("all_sessions_screen")
                     }
                 })
@@ -100,7 +102,8 @@ fun ExerciseScreen(
 fun ExerciseScreenPreview() {
     val navController = rememberNavController()
     val modifiers = Modifiers()
-    val repository = ExerciseRepository(LocalContext.current, SessionRepository(LocalContext.current))
-    ExerciseScreen(modifiers, navController, repository)
+    val exerciseRepository = ExerciseRepository(LocalContext.current)
+    val sessionRepository = TestSessionRepository()
+    ExerciseScreen(modifiers, navController, exerciseRepository, sessionRepository)
 
 }

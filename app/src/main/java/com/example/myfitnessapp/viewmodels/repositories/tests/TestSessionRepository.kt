@@ -39,12 +39,20 @@ class TestSessionRepository : SessionRepositoryInterface {
         return sessions.first { it.first().id == id }
     }
 
-    override suspend fun getExerciseById(id: String): Exercise{
+    suspend fun getExerciseById(id: String): Exercise{
         return exercises.first { it.id == id }
     }
 
     override fun getSessionName(sessions: List<Session>): String {
         return "test"
     }
+
+    override suspend fun saveSession(name: String, exercises: List<Exercise>) {
+        val sessionId = selectedSession.last().id + 1
+        for(excercise in exercises){
+            selectedSession += Session(id = sessionId, exerciseId = excercise.id, name = name, totalSets = 4)
+        }
+    }
+
 
 }

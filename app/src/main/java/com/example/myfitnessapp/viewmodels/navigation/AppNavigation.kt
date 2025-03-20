@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myfitnessapp.models.entities.User
+import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
 import com.example.myfitnessapp.ui.screens.AllSessionsScreen
 import com.example.myfitnessapp.ui.screens.BreakScreen
 import com.example.myfitnessapp.viewmodels.utils.NavigationUtils
@@ -25,7 +26,8 @@ fun AppNavigation(
     modifiers: Modifiers,
     navController: NavHostController,
     user: User,
-    repository: ExerciseRepository,
+    exerciseRepository: ExerciseRepository,
+    sessionRepository: SessionRepositoryInterface,
     currentIndex: Int,
     onIndexChange: (Int) -> Unit
 ) {
@@ -45,15 +47,15 @@ fun AppNavigation(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("home_screen") { HomeScreen(modifiers,navController, user) }
-            composable("exercise_screen") { ExerciseScreen(modifiers, navController, repository) }
-            composable("session_screen") { SessionScreen(modifiers, navController, user, repository, currentIndex, onIndexChange) }
-            composable("break_screen") { BreakScreen(modifiers,navController, repository, currentIndex, onIndexChange) }
-            composable("session_end_screen") { SessionEndScreen(modifiers, navController, user, repository, currentIndex, onIndexChange) }
+            composable("exercise_screen") { ExerciseScreen(modifiers, navController, exerciseRepository, sessionRepository) }
+            composable("session_screen") { SessionScreen(modifiers, navController, user, exerciseRepository, currentIndex, onIndexChange) }
+            composable("break_screen") { BreakScreen(modifiers,navController, exerciseRepository, currentIndex, onIndexChange) }
+            composable("session_end_screen") { SessionEndScreen(modifiers, navController, user, exerciseRepository, currentIndex, onIndexChange) }
             composable("profile_screen") { ProfileScreen(modifiers, navController, user) }
-            composable("all_sessions_screen") {AllSessionsScreen(modifiers, repository.sessionRepository, navController)}
+            composable("all_sessions_screen") {AllSessionsScreen(modifiers, sessionRepository, navController)}
             composable("session_detail_screen/{sessionId}") { backStackEntry ->
                 val sessionId = backStackEntry.arguments?.getString("sessionId")
-                SessionDetailScreen(modifiers.bigPaddingModifier(true), navController, repository.sessionRepository, sessionId!!) }
+                SessionDetailScreen(modifiers.bigPaddingModifier(true), navController, exerciseRepository, sessionRepository = sessionRepository, sessionId!!) }
         }
     }
 }

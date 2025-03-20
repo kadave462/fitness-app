@@ -12,8 +12,9 @@ import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.models.network.ExerciceClient
 import java.io.File
 
-class ExerciseRepository(context: Context, val sessionRepository: SessionRepository
-) {
+class ExerciseRepository(context: Context) {
+
+
         private val api = ExerciceClient.api
         private var allExercises: List<Exercise>? = null
 
@@ -110,10 +111,23 @@ class ExerciseRepository(context: Context, val sessionRepository: SessionReposit
         }
 
 
-        suspend fun addSession(sessionName: String, selectedExercise: List<Exercise>){
-                sessionRepository.saveSession(sessionName, selectedExercise)
-                Log.d("ExerciseRepository", "Session saved : $sessionName")
+        /*
+        fun getExerciseById(id: String): Exercise {
+                return allExercises?.find { it.id == id } as Exercise
         }
+
+         */
+
+        fun getExerciseById(id: String): Exercise {
+                return allExercises?.find { it.id == id }
+                        ?: throw NoSuchElementException("Aucun exercice trouvé avec l'ID: $id")
+        }
+
+        fun getExerciseByName(name: String): Exercise{
+                return allExercises?.find { it.name == name }
+                        ?: throw NoSuchElementException("Aucun exercice trouvé avec l'ID: $name")
+        }
+
 }
 
 

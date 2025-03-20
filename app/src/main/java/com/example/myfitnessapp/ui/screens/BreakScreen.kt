@@ -149,7 +149,7 @@ fun BreakScreen(
 @Composable
 fun BreakScreenPreview() {
     val navController = rememberNavController()
-    val repository = ExerciseRepository(LocalContext.current, SessionRepository(LocalContext.current))
+    val repository = ExerciseRepository(LocalContext.current)
 
     BreakScreen(
         modifiers = Modifiers(),

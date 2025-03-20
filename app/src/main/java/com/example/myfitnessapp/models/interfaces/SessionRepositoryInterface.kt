@@ -8,6 +8,6 @@ interface SessionRepositoryInterface {
     var selectedSession: List<Session>
     suspend fun getAllSavedSessions(): List<List<Session>>
     suspend fun getSessionById(id: Int): List<Session>
-    suspend fun getExerciseById(id: String): Exercise
     fun getSessionName(sessions: List<Session>): String
+    suspend fun saveSession(sessionName: String, selectedExercise: List<Exercise>)
 }
