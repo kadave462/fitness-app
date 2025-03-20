@@ -46,17 +46,17 @@ fun SessionView(modifier: Modifier = Modifiers().containerModifier,
                     style = MaterialTheme.typography.titleSmall
                 )
 
-                Box(
-                    modifier = modifier,
-                    contentAlignment = Alignment.CenterStart
+            Box(
+                modifier = modifier,
+                contentAlignment = Alignment.CenterStart
+            ) {
+                FlowRow(
+                    modifier = Modifiers().onContainerModifier,
                 ) {
-                    FlowRow(
-                        modifier = Modifiers().onContainerModifier,
-                    ) {
-                        session.forEach { exercise ->
-                            exercise.exerciseId?.let { SecondaryMuscleTagView(Modifiers(), it) }
-                        }
+                    session.forEach { exercise ->
+                        exercise.exerciseId?.let { TagView(Modifiers(), it) }
                     }
+                }
 
                 }
 

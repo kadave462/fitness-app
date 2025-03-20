@@ -5,12 +5,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.theme.Modifiers
@@ -22,7 +29,11 @@ import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.database.daos.MuscleDao
 import com.example.myfitnessapp.models.database.utils.populateMusclesDatabase
 import androidx.lifecycle.lifecycleScope
+import com.example.myfitnessapp.ui.screens.RegistrationScreen
 import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
+import java.time.LocalDate
+import java.util.Calendar
+import java.util.Date
 
 
 class MainActivity : ComponentActivity() {
@@ -45,12 +56,28 @@ class MainActivity : ComponentActivity() {
 
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
-                val user = User(1, "alex.laffite@gmail.com", "AlexL", "Alex", "Laffite", 80.0, 180, "1995-06-15", "Homme", "Beginner")
+                val database = AppDatabase.getDatabase(LocalContext.current)
+                var user by remember { mutableStateOf<User?>(null) }
                 val exerciseRepository = remember { ExerciseRepository(this) }
                 val sessionRepository = remember {SessionRepository(this)}
                 val modifiers = Modifiers()
 
-                var currentIndex by remember { mutableIntStateOf(0) }
+                LaunchedEffect(Unit) {
+                    val userDao = database.getUserDao()
+                    userDao.deleteUserById(1)
+                    user = null
+                }
+
+                if (user == null) {
+                    RegistrationScreen(modifiers = Modifiers(), onUserRegistered = { registeredUser ->
+                        scope.launch {
+                            database.getUserDao().insertUser(registeredUser)
+                            user = registeredUser
+                        }
+                    })
+                } else {
+                    val repository = remember { ExerciseRepository(this, SessionRepository(this)) }
+                    var currentIndex by remember { mutableIntStateOf(0) }
 
 
                 LaunchedEffect(Unit) {
@@ -61,14 +88,19 @@ class MainActivity : ComponentActivity() {
                 }
 
                 AppNavigation(
-                    modifiers, navController, user, exerciseRepository, sessionRepository, currentIndex,
+                    modifiers,
+                    navController,
+                    user = user!!,
+                    exerciseRepository,
+                    sessionRepository,
+                    currentIndex,
                     onIndexChange = { newIndex -> currentIndex = newIndex }
                 )
 
             }
         }
     }
-}
+}}
 
 
 /*

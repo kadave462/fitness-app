@@ -67,7 +67,7 @@ fun ExerciseScreen(
 
             LazyColumn(modifier = Modifier.weight(1f)) {
                 items(filteredCategories) { category ->
-                    CategoryView(modifiers, category, selectedExercises)
+                    CategoryView(modifiers, category, selectedExercises, searchQuery)
                 }
             }
 

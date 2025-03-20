@@ -22,13 +22,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -37,10 +40,15 @@ import com.example.myfitnessapp.R
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.components.EditableTextField
 import com.example.myfitnessapp.ui.components.FloatingButtonView
+import com.example.myfitnessapp.ui.components.LevelSelector
 import com.example.myfitnessapp.ui.theme.Modifiers
+import com.example.myfitnessapp.viewmodels.repositories.UserRepository
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User) {
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     var profileImageUri by remember { mutableStateOf(user.profilePictureUri?.let { Uri.parse(it) }) }
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
@@ -49,19 +57,22 @@ fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User
         if (uri != null) {
             profileImageUri = uri
             user.profilePictureUri = uri.toString()
+            coroutineScope.launch {
+                UserRepository(context, user).setProfilePictureUri(uri.toString())
+            }
         }
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(modifiers.bigPadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Profil de ${user.pseudonym}",
             style = MaterialTheme.typography.headlineLarge,
-            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+            fontWeight = FontWeight.Bold
         )
 
         Spacer(modifier = Modifier.fillMaxHeight(0.05f))
@@ -110,12 +121,47 @@ fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User
         LazyColumn(
             modifier = Modifier.fillMaxWidth()
         ) {
-            item { EditableTextField("Prénom et Nom", "${user.firstName} ${user.lastName}") {} }
-            item { EditableTextField("Email", user.email) {} }
-            item { EditableTextField("Poids (kg)", user.weight.toString()) {} }
-            item { EditableTextField("Taille (cm)", user.height.toString()) {} }
-            item { EditableTextField("Âge", user.getAge().toString()) {} }
-            item { EditableTextField("Niveau", user.level) {} }
+            item { EditableTextField(label = "Email", value = user.email, readOnly = true) }
+            item { EditableTextField(label = "Prénom", value = user.firstName, readOnly = true) }
+            item { EditableTextField(label = "Nom", value = user.lastName, readOnly = true) }
+            item { EditableTextField(label = "Âge", value = user.getAge().toString(), readOnly = true) }
+
+            item {
+                EditableTextField(label = "Pseudonyme", value = user.pseudonym, onValueChange = { newPseudo ->
+                    user.pseudonym = newPseudo
+                    coroutineScope.launch {
+                        UserRepository(context, user).setPseudonym(newPseudo)
+                    }
+                })
+            }
+            item {
+                EditableTextField(label = "Poids (kg)", value = user.weight.toString(), onValueChange = { newWeight ->
+                    newWeight.toDoubleOrNull()?.let { weight ->
+                        user.weight = weight
+                        coroutineScope.launch {
+                            UserRepository(context, user).setWeight(weight)
+                        }
+                    }
+                })
+            }
+            item {
+                EditableTextField(label = "Taille (cm)", value = user.height.toString(), onValueChange = { newHeight ->
+                    newHeight.toIntOrNull()?.let { height ->
+                        user.height = height
+                        coroutineScope.launch {
+                            UserRepository(context, user).setHeight(height)
+                        }
+                    }
+                })
+            }
+            item {
+                LevelSelector(user = user) { newLevel ->
+                    user.level = newLevel
+                    coroutineScope.launch {
+                        UserRepository(context, user).updateUserLevel(newLevel)
+                    }
+                }
+            }
         }
     }
 }
