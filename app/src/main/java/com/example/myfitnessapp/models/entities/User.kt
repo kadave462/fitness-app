@@ -8,7 +8,6 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
 
-
 @Entity(tableName = "users")
 data class User(
     @PrimaryKey(autoGenerate = true) val id: Int,
@@ -21,7 +20,8 @@ data class User(
     var birthdate: String,
     var gender: String,
     var level: String,
-    var profilePictureUri: String? = null
+    var profilePictureUri: String? = null,
+    val passwordHash: String
 ) {
     fun getAge(): Int {
         return try {

@@ -2,6 +2,7 @@ package com.example.myfitnessapp
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -29,7 +30,9 @@ import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.database.daos.MuscleDao
 import com.example.myfitnessapp.models.database.utils.populateMusclesDatabase
 import androidx.lifecycle.lifecycleScope
+import com.example.myfitnessapp.ui.screens.AuthScreen
 import com.example.myfitnessapp.ui.screens.RegistrationScreen
+import com.example.myfitnessapp.viewmodels.repositories.AuthRepository
 import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
 import java.time.LocalDate
 import java.util.Calendar
@@ -39,6 +42,7 @@ import java.util.Date
 class MainActivity : ComponentActivity() {
 
     private lateinit var muscleDao: MuscleDao
+    private lateinit var authRepository: AuthRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +50,7 @@ class MainActivity : ComponentActivity() {
 
         val database = AppDatabase.getDatabase(this)
         muscleDao = database.getMuscleDao()
+        authRepository = AuthRepository(database.getUserDao())
 
         lifecycleScope.launch {
             populateMusclesDatabase(this@MainActivity)
@@ -56,22 +61,25 @@ class MainActivity : ComponentActivity() {
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
                 val database = AppDatabase.getDatabase(LocalContext.current)
-                var user by remember { mutableStateOf<User?>(null) }
                 val modifiers = Modifiers()
+                var user by remember { mutableStateOf<User?>(null) }
 
                 LaunchedEffect(Unit) {
-                    val userDao = database.getUserDao()
-                    userDao.deleteUserById(1)
-                    user = null
+                    scope.launch {
+                        try {
+                            user = authRepository.getCurrentUser()
+                        } catch (e: Exception) {
+                            Log.e("MainActivity", "Erreur lors de la récupération de l'utilisateur", e)
+                        }
+                    }
                 }
 
                 if (user == null) {
-                    RegistrationScreen(modifiers = Modifiers(), onUserRegistered = { registeredUser ->
-                        scope.launch {
-                            database.getUserDao().insertUser(registeredUser)
-                            user = registeredUser
-                        }
-                    })
+                    AuthScreen(
+                        navController = navController,
+                        onLoginSuccess = { loggedUser -> user = loggedUser },
+                        onSignupSuccess = { newUser -> user = newUser }
+                    )
                 } else {
                     val repository = remember { ExerciseRepository(this, SessionRepository(this)) }
                     var currentIndex by remember { mutableIntStateOf(0) }

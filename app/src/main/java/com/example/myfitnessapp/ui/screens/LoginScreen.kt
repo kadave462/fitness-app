@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,74 +21,60 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myfitnessapp.R
+import com.example.myfitnessapp.models.database.AppDatabase
+import com.example.myfitnessapp.models.entities.User
+import com.example.myfitnessapp.viewmodels.repositories.AuthRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, onLoginSuccess: (User) -> Unit) {
     val context = LocalContext.current
+    val database = AppDatabase.getDatabase(context)
+    val authRepository = remember { AuthRepository(database.getUserDao()) }
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.a),
-            contentDescription = "Login image",
-            modifier = Modifier.fillMaxWidth().height(250.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+        Text(text = "Login", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        OutlinedTextField(value = email, onValueChange = { email = it }, label = { Text("Email") })
+        OutlinedTextField(value = password, onValueChange = { password = it }, label = { Text("Mot de passe") }, visualTransformation = PasswordVisualTransformation())
 
-        Text(text = "Welcome Back", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.White)
-        Text(text = "Login to your account", fontSize = 16.sp, color = Color.Gray)
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text(text = "Email address", color = Color.Green) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text(text = "Password", color = Color.Gray) },
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = { navController.navigate("home_screen") },
-            modifier = Modifier.fillMaxWidth().height(50.dp),
-            colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = Color.Green)
-        ) {
-            Text("Login", fontSize = 18.sp, color = Color.Black)
+        Button(onClick = {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val user = authRepository.loginUser(email, password)
+                    withContext(Dispatchers.Main) {
+                        if (user != null) {
+                            onLoginSuccess(user)
+                            navController.navigate("home_screen") {
+                                popUpTo("LoginScreen") { inclusive = true }
+                            }
+                        } else {
+                            errorMessage = "Identifiants incorrects"
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e("LoginScreen", "Erreur lors de la connexion", e)
+                    withContext(Dispatchers.Main) {
+                        errorMessage = "Erreur lors de la connexion"
+                    }
+                }
+            }
+        }) {
+            Text("Connexion")
         }
-        Spacer(modifier = Modifier.height(16.dp))
 
-        Text(
-            text = "Forgot Password?",
-            color = Color.Gray,
-            modifier = Modifier.clickable { }
-        )
-        Spacer(modifier = Modifier.height(24.dp))
-        Text(text = "Or sign in with", color = Color.White)
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 40.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Image(painter = painterResource(id = R.drawable.fb), contentDescription = "Facebook", modifier = Modifier.size(60.dp).clickable { })
-            Image(painter = painterResource(id = R.drawable.google), contentDescription = "Google", modifier = Modifier.size(60.dp).clickable { })
-            Image(painter = painterResource(id = R.drawable.twitter), contentDescription = "Twitter", modifier = Modifier.size(60.dp).clickable { })
+        if (errorMessage.isNotEmpty()) {
+            Text(text = errorMessage, color = Color.Red)
         }
     }
 }

@@ -1,5 +1,6 @@
 [versions]
 agp = "8.8.0"
+bcryptVersion = "0.9.0"
 kotlin = "2.0.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -34,6 +35,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
 googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
+lib-bcrypt = { module = "at.favre.lib:bcrypt", version.ref = "bcryptVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

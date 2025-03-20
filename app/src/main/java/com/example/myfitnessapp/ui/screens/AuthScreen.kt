@@ -15,9 +15,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.myfitnessapp.R
+import com.example.myfitnessapp.models.entities.User
 
 @Composable
-fun AuthScreen(navController: NavController) {
+fun AuthScreen(
+    navController: NavController,
+    onLoginSuccess: (User) -> Unit,
+    onSignupSuccess: (User) -> Unit
+) {
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -35,7 +40,11 @@ fun AuthScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = { navController.navigate("LoginScreen") },
+            onClick = {
+                navController.navigate("LoginScreen") {
+                    popUpTo("AuthScreen") { inclusive = true }
+                }
+            },
             modifier = Modifier.fillMaxWidth().height(60.dp)
         ) {
             Text("Login")
@@ -43,7 +52,11 @@ fun AuthScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(10.dp))
 
         OutlinedButton(
-            onClick = { navController.navigate("SignupScreen") },
+            onClick = {
+                navController.navigate("SignupScreen") {
+                    popUpTo("AuthScreen") { inclusive = true }
+                }
+            },
             modifier = Modifier.fillMaxWidth().height(60.dp)
         ) {
             Text("Signup")

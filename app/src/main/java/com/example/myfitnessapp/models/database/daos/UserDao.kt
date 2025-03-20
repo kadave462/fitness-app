@@ -12,11 +12,20 @@ import java.util.Date
 @Dao
 interface UserDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertUser(user: User)
 
     @Update
     suspend fun updateUser(user: User)
+
+    @Query("SELECT * FROM users LIMIT 1")
+    suspend fun getAllUsers(): List<User>
+
+    @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
+    suspend fun getUserByEmail(email: String): User?
+
+    @Query("SELECT EXISTS(SELECT 1 FROM users WHERE email = :email)")
+    suspend fun isEmailTaken(email: String): Boolean
 
     @Query("SELECT * FROM users WHERE id = :userId")
     suspend fun getUserById(userId: Int): User

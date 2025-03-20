@@ -16,6 +16,7 @@ import com.example.myfitnessapp.ui.screens.ExerciseScreen
 import com.example.myfitnessapp.ui.screens.HomeScreen
 import com.example.myfitnessapp.ui.screens.LoginScreen
 import com.example.myfitnessapp.ui.screens.ProfileScreen
+import com.example.myfitnessapp.ui.screens.RegistrationScreen
 import com.example.myfitnessapp.ui.screens.SessionDetailScreen
 import com.example.myfitnessapp.ui.screens.SessionEndScreen
 import com.example.myfitnessapp.ui.screens.SessionScreen
@@ -47,9 +48,10 @@ fun AppNavigation(
             startDestination = "home_screen",
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable("AuthScreen") { AuthScreen(navController) }
-            composable("SignupScreen") { SignupScreen(navController) }
-            composable("LoginScreen") { LoginScreen(navController) }
+            composable("RegistrationScreen/{email}") { backStackEntry ->
+                val email = backStackEntry.arguments?.getString("email") ?: ""
+                RegistrationScreen(navController, email)
+            }
 
             composable("home_screen") { HomeScreen(modifiers,navController, user) }
             composable("exercise_screen") { ExerciseScreen(modifiers, navController, repository) }
