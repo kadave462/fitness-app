@@ -10,4 +10,5 @@ interface SessionRepositoryInterface {
     suspend fun getSessionById(id: Int): List<Session>
     fun getSessionName(sessions: List<Session>): String
     suspend fun saveSession(sessionName: String, selectedExercise: List<Exercise>)
+    suspend fun deleteSessions(it: Int)
 }

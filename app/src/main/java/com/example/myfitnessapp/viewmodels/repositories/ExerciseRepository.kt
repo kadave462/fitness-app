@@ -111,21 +111,24 @@ class ExerciseRepository(context: Context) {
         }
 
 
-        /*
-        fun getExerciseById(id: String): Exercise {
-                return allExercises?.find { it.id == id } as Exercise
-        }
-
-         */
-
-        fun getExerciseById(id: String): Exercise {
-                return allExercises?.find { it.name == id }
-                        ?: throw NoSuchElementException("Aucun exercice trouvé avec l'ID: $id")
-        }
-
         fun getExerciseByName(name: String): Exercise{
                 return allExercises?.find { it.name == name }
                         ?: throw NoSuchElementException("Aucun exercice trouvé avec l'ID: $name")
+        }
+
+        fun setSelectedExercises(exercises: List<Exercise>){
+                selectedExercises.clear()
+                selectedExercises.addAll(exercises)
+        }
+
+        fun removeExerciseFromSelection(exercise: Exercise){
+                selectedExercises.remove(exercise)
+        }
+
+        fun addExerciseToSelection(exercise: Exercise){
+                if(exercise in selectedExercises)
+                        return
+                selectedExercises.add(exercise)
         }
 
 }

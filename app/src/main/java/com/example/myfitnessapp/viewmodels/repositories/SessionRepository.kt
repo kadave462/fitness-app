@@ -83,4 +83,8 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
         Log.d("ExerciseRepository", "Saving sessions by SessionRepository ${sessionId}" +
                 " with {selectedExercises: ${sessions}}")
     }
+
+    override suspend fun deleteSessions(id: Int){
+        sessionDAO.deleteSessionsById(id)
+    }
 }

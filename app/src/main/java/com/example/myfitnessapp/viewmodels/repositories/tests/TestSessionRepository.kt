@@ -54,5 +54,9 @@ class TestSessionRepository : SessionRepositoryInterface {
         }
     }
 
+    override suspend fun deleteSessions(it: Int) {
+
+    }
+
 
 }

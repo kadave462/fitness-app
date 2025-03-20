@@ -2,6 +2,7 @@ package com.example.myfitnessapp.models.database.daos
 
 import android.util.Log
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -29,5 +30,11 @@ interface SessionDAO {
 
     @Query("SELECT * FROM sessions WHERE id = :groupId")
     suspend fun getSessionsByGroupId(groupId: Int): List<Session>
+
+    @Query("DELETE FROM sessions WHERE id = :id")
+    suspend fun deleteSessionsById(id: Int)
+
+
+
 
 }

@@ -81,7 +81,7 @@ fun SessionScreen(
             horizontalArrangement = Arrangement.Start
         ) {
             Text(
-                text = "Série ${currentSetIndex + 1} / $defaultSets",
+                text = "Répétition ${currentSetIndex + 1} / $defaultSets",
                 style = MaterialTheme.typography.titleSmall
             )
         }
