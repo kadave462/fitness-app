@@ -31,7 +31,10 @@ fun AuthScreen(navController: NavController) {
             onClick = { navController.navigate("login_screen") },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Se connecter")
+            Text(
+                text = "Se connecter",
+                style = MaterialTheme.typography.headlineMedium
+            )
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -40,7 +43,10 @@ fun AuthScreen(navController: NavController) {
             onClick = { navController.navigate("signup_screen") },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Créer un compte")
+            Text(
+                text = "Créer un compte",
+                style = MaterialTheme.typography.headlineMedium
+            )
         }
     }
 }
