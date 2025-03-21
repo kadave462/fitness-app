@@ -72,7 +72,7 @@ fun HomeScreen(modifiers: Modifiers, navController: NavController, user: User) {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    val user = User(10, "AlexL", "Alex", "Laffite", "alex.laffite@gmail.com", 80.0, 180, "1995-06-15", "Homme", "Débutant")
+    val user = User(10, "AlexL", "", "Alex", "Laffite", "alex.laffite@gmail.com", 80.0, 180, "1995-06-15", "Homme", "Débutant")
     val modifiers = Modifiers()
     HomeScreen(modifiers, navController = rememberNavController(), user)
 }

@@ -33,8 +33,11 @@ import com.example.myfitnessapp.viewmodels.repositories.UserRepository
 import kotlinx.coroutines.launch
 
 @Composable
-fun RegistrationScreen(modifiers: Modifiers, onUserRegistered: (User) -> Unit) {
-    var email by remember { mutableStateOf(TextFieldValue()) }
+fun RegistrationScreen(
+    modifiers: Modifiers,
+    email: String,
+    passwordHash: String,
+    onUserRegistered: (User) -> Unit) {
     var pseudonym by remember { mutableStateOf(TextFieldValue()) }
     var firstName by remember { mutableStateOf(TextFieldValue()) }
     var lastName by remember { mutableStateOf(TextFieldValue()) }
@@ -48,9 +51,7 @@ fun RegistrationScreen(modifiers: Modifiers, onUserRegistered: (User) -> Unit) {
         Text(text = "Créer votre profil", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(8.dp))
 
-        OutlinedTextField(value = email.text, onValueChange = { email = TextFieldValue(it) }, label = { Text("Email") },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            modifier = Modifier.fillMaxWidth())
+        Text(text = "Email : $email", style = MaterialTheme.typography.bodyMedium)
 
         OutlinedTextField(value = pseudonym.text, onValueChange = { pseudonym = TextFieldValue(it) }, label = { Text("Pseudonyme") },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -86,8 +87,9 @@ fun RegistrationScreen(modifiers: Modifiers, onUserRegistered: (User) -> Unit) {
 
         Button(onClick = {
             val user = User(
-                id = 1,
-                email = email.text,
+                id = 0,
+                email = email,
+                passwordHash = passwordHash,
                 pseudonym = pseudonym.text,
                 firstName = firstName.text,
                 lastName = lastName.text,
@@ -108,6 +110,6 @@ fun RegistrationScreen(modifiers: Modifiers, onUserRegistered: (User) -> Unit) {
 @Composable
 fun PreviewUserRegistrationScreen() {
     MyFitnessAppTheme {
-        RegistrationScreen(modifiers = Modifiers(), onUserRegistered = {})
+        RegistrationScreen(modifiers = Modifiers(), email = "john.c.breckinridge@altostrat.com", passwordHash = "password", onUserRegistered = {})
     }
 }

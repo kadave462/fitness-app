@@ -13,6 +13,7 @@ import java.util.Date
 data class User(
     @PrimaryKey(autoGenerate = true) val id: Int,
     var email: String,
+    var passwordHash: String,
     var pseudonym: String,
     val firstName: String,
     val lastName: String,

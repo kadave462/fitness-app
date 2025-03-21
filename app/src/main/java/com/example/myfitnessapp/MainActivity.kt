@@ -59,39 +59,33 @@ class MainActivity : ComponentActivity() {
                 var user by remember { mutableStateOf<User?>(null) }
                 val modifiers = Modifiers()
 
+                //LaunchedEffect(Unit) {
+                //    val userDao = database.getUserDao()
+                //    userDao.deleteUserById(1)
+                //    user = null
+                //}
+
+                val repository = remember { ExerciseRepository(this, SessionRepository(this)) }
+                var currentIndex by remember { mutableIntStateOf(0) }
+
                 LaunchedEffect(Unit) {
-                    val userDao = database.getUserDao()
-                    userDao.deleteUserById(1)
-                    user = null
-                }
-
-                if (user == null) {
-                    RegistrationScreen(modifiers = Modifiers(), onUserRegistered = { registeredUser ->
-                        scope.launch {
-                            database.getUserDao().insertUser(registeredUser)
-                            user = registeredUser
-                        }
-                    })
-                } else {
-                    val repository = remember { ExerciseRepository(this, SessionRepository(this)) }
-                    var currentIndex by remember { mutableIntStateOf(0) }
-
-                    LaunchedEffect(Unit) {
-                        scope.launch {
-                            repository.makeExercisesList()
-                            repository.makeCategories()
-                        }
+                    scope.launch {
+                        repository.makeExercisesList()
+                        repository.makeCategories()
                     }
-
-                    AppNavigation(
-                        modifiers,
-                        navController,
-                        user = user!!,
-                        repository,
-                        currentIndex,
-                        onIndexChange = { newIndex -> currentIndex = newIndex }
-                    )
                 }
+
+                AppNavigation(
+                    modifiers = modifiers,
+                    navController = navController,
+                    user = user,
+                    repository = repository,
+                    currentIndex = currentIndex,
+                    onIndexChange = { newIndex -> currentIndex = newIndex },
+                    onUserAuthenticated = { authenticatedUser ->
+                        user = authenticatedUser
+                    }
+                )
             }
         }
     }
