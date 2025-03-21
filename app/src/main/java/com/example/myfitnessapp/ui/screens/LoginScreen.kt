@@ -35,7 +35,11 @@ import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 
 @Composable
-fun LoginScreen(navController: NavController, userDao: UserDao) {
+fun LoginScreen(
+    navController: NavController,
+    userDao: UserDao,
+    onUserAuthenticated: (User) -> Unit
+) {
     var email by remember { mutableStateOf(TextFieldValue()) }
     var password by remember { mutableStateOf(TextFieldValue()) }
     val scope = rememberCoroutineScope()
@@ -71,7 +75,10 @@ fun LoginScreen(navController: NavController, userDao: UserDao) {
                 scope.launch {
                     val user = userDao.getUserByEmail(email.text)
                     if (user != null && BCrypt.checkpw(password.text, user.passwordHash)) {
-                        navController.navigate("home_screen")
+                        onUserAuthenticated(user)
+                        navController.navigate("home_screen") {
+                            popUpTo("auth_screen") { inclusive = true }
+                        }
                     } else {
                         Toast.makeText(context, "Email ou mot de passe incorrect", Toast.LENGTH_LONG).show()
                     }

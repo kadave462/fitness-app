@@ -59,7 +59,7 @@ fun AppNavigation(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("auth_screen") { AuthScreen(navController) }
-            composable("login_screen") { LoginScreen(navController, userDao) }
+            composable("login_screen") { LoginScreen(navController, userDao, onUserAuthenticated) }
             composable("signup_screen") { SignupScreen(navController, userDao) }
 
             composable(
