@@ -14,7 +14,7 @@ fun OutlinedValidatedField(
     value: String,
     onValueChange: (String) -> Unit,
     showError: Boolean,
-    errorText: String = "Ce champ est requis"
+    errorText: String
 ) {
     OutlinedTextField(
         value = value,

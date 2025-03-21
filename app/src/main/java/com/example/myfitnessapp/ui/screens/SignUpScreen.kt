@@ -30,10 +30,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.myfitnessapp.models.database.daos.UserDao
 import com.example.myfitnessapp.models.entities.User
+import com.example.myfitnessapp.viewmodels.utils.isPasswordSecure
 import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 
@@ -77,6 +79,11 @@ fun SignupScreen(navController: NavController, userDao: UserDao) {
 
         Button(
             onClick = {
+                if (!isPasswordSecure(password.text)) {
+                    Toast.makeText(context, "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.", Toast.LENGTH_LONG).show()
+                    return@Button
+                }
+
                 if (password.text != confirmPassword.text) {
                     Toast.makeText(context, "Les mots de passe ne correspondent pas", Toast.LENGTH_LONG).show()
                     return@Button

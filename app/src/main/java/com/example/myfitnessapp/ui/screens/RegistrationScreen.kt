@@ -66,21 +66,24 @@ fun RegistrationScreen(
             label = "Pseudonyme",
             value = registrationViewModel.pseudonym,
             onValueChange = { registrationViewModel.pseudonym = it },
-            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isPseudonymValid()
+            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isPseudonymValid(),
+            errorText = "Ce champ est requis"
         )
 
         OutlinedValidatedField(
             label = "Prénom",
             value = registrationViewModel.firstName,
             onValueChange = { registrationViewModel.firstName = it },
-            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isFirstNameValid()
+            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isFirstNameValid(),
+            errorText = "Ce champ est requis"
         )
 
         OutlinedValidatedField(
             label = "Nom",
             value = registrationViewModel.lastName,
             onValueChange = { registrationViewModel.lastName = it },
-            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isLastNameValid()
+            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isLastNameValid(),
+            errorText = "Ce champ est requis"
         )
 
         OutlinedValidatedField(
