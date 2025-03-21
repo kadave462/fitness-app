@@ -1,7 +1,9 @@
 package com.example.myfitnessapp.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,18 +20,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.components.DateField
 import com.example.myfitnessapp.ui.components.DropdownSelector
+import com.example.myfitnessapp.ui.components.EditableTextField
 import com.example.myfitnessapp.ui.components.LevelSelector
+import com.example.myfitnessapp.ui.components.OutlinedValidatedField
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.viewmodels.repositories.UserRepository
+import com.example.myfitnessapp.viewmodels.utils.RegistrationViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -37,71 +44,104 @@ fun RegistrationScreen(
     modifiers: Modifiers,
     email: String,
     passwordHash: String,
-    onUserRegistered: (User) -> Unit) {
-    var pseudonym by remember { mutableStateOf(TextFieldValue()) }
-    var firstName by remember { mutableStateOf(TextFieldValue()) }
-    var lastName by remember { mutableStateOf(TextFieldValue()) }
-    var weight by remember { mutableStateOf(TextFieldValue()) }
-    var height by remember { mutableStateOf(TextFieldValue()) }
-    var birthdate by remember { mutableStateOf(TextFieldValue()) }
-    var gender by remember { mutableStateOf("Femme") }
-    var level by remember { mutableStateOf("Débutant") }
+    onUserRegistered: (User) -> Unit,
+    registrationViewModel: RegistrationViewModel = viewModel()
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(16.dp)
+    ) {
+        Text(text = "Créer votre profil",
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.onBackground
+        )
 
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = "Créer votre profil", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(8.dp))
 
-        Text(text = "Email : $email", style = MaterialTheme.typography.bodyMedium)
+        EditableTextField(label = "Email", value = email, readOnly = true)
 
-        OutlinedTextField(value = pseudonym.text, onValueChange = { pseudonym = TextFieldValue(it) }, label = { Text("Pseudonyme") },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            modifier = Modifier.fillMaxWidth())
+        OutlinedValidatedField(
+            label = "Pseudonyme",
+            value = registrationViewModel.pseudonym,
+            onValueChange = { registrationViewModel.pseudonym = it },
+            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isPseudonymValid()
+        )
 
-        OutlinedTextField(value = firstName.text, onValueChange = { firstName = TextFieldValue(it) }, label = { Text("Prénom") },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            modifier = Modifier.fillMaxWidth())
+        OutlinedValidatedField(
+            label = "Prénom",
+            value = registrationViewModel.firstName,
+            onValueChange = { registrationViewModel.firstName = it },
+            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isFirstNameValid()
+        )
 
-        OutlinedTextField(value = lastName.text, onValueChange = { lastName = TextFieldValue(it) }, label = { Text("Nom") },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            modifier = Modifier.fillMaxWidth())
+        OutlinedValidatedField(
+            label = "Nom",
+            value = registrationViewModel.lastName,
+            onValueChange = { registrationViewModel.lastName = it },
+            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isLastNameValid()
+        )
 
-        OutlinedTextField(value = weight.text, onValueChange = { weight = TextFieldValue(it) }, label = { Text("Poids (kg)") },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            modifier = Modifier.fillMaxWidth())
+        OutlinedValidatedField(
+            label = "Poids (kg)",
+            value = registrationViewModel.weight,
+            onValueChange = { registrationViewModel.weight = it },
+            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isWeightValid(),
+            errorText = "Entrez un poids valide"
+        )
 
-        OutlinedTextField(value = height.text, onValueChange = { height = TextFieldValue(it) }, label = { Text("Taille (cm)") },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-            modifier = Modifier.fillMaxWidth())
+        OutlinedValidatedField(
+            label = "Taille (cm)",
+            value = registrationViewModel.height,
+            onValueChange = { registrationViewModel.height = it },
+            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isHeightValid(),
+            errorText = "Entrez une taille valide"
+        )
 
         DateField(
             label = "Date de naissance",
-            date = birthdate.text,
-            onDateSelected = { birthdate = TextFieldValue(it) }
+            date = registrationViewModel.birthdate,
+            onDateSelected = { registrationViewModel.birthdate = it }
         )
+        if (registrationViewModel.hasTriedSubmit && !registrationViewModel.isBirthdateValid()) {
+            Text("La date de naissance est requise", color = Color.Red, style = MaterialTheme.typography.bodySmall)
+        }
 
-        DropdownSelector(label = "Genre", options = listOf("Homme", "Femme", "Autre"), selectedOption = gender, onOptionSelected = { gender = it })
-        DropdownSelector(label = "Niveau", options = listOf("Débutant", "Intermédiaire", "Avancé"), selectedOption = level, onOptionSelected = { level = it })
+        DropdownSelector("Genre", listOf("Homme", "Femme", "Autre"), registrationViewModel.gender) {
+            registrationViewModel.gender = it
+        }
 
+        DropdownSelector("Niveau", listOf("Débutant", "Intermédiaire", "Avancé"), registrationViewModel.level) {
+            registrationViewModel.level = it
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {
-            val user = User(
-                id = 0,
-                email = email,
-                passwordHash = passwordHash,
-                pseudonym = pseudonym.text,
-                firstName = firstName.text,
-                lastName = lastName.text,
-                weight = weight.text.toDoubleOrNull() ?: 0.0,
-                height = height.text.toIntOrNull() ?: 0,
-                birthdate = birthdate.text,
-                gender = gender,
-                level = level
+        Button(
+            onClick = {
+                registrationViewModel.onSubmit {
+                    val user = User(
+                        id = 0,
+                        email = email,
+                        passwordHash = passwordHash,
+                        pseudonym = registrationViewModel.pseudonym,
+                        firstName = registrationViewModel.firstName,
+                        lastName = registrationViewModel.lastName,
+                        weight = registrationViewModel.weight.toDouble(),
+                        height = registrationViewModel.height.toInt(),
+                        birthdate = registrationViewModel.birthdate,
+                        gender = registrationViewModel.gender,
+                        level = registrationViewModel.level
+                    )
+                    onUserRegistered(user)
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "S'inscrire",
+                style = MaterialTheme.typography.headlineMedium
             )
-            onUserRegistered(user)
-        }, modifier = Modifier.fillMaxWidth()) {
-            Text("S'inscrire")
         }
     }
 }
