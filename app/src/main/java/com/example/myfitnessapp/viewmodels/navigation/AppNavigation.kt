@@ -21,6 +21,7 @@ import com.example.myfitnessapp.ui.screens.SessionScreen
 import com.example.myfitnessapp.ui.screens.AuthScreen
 import com.example.myfitnessapp.ui.screens.SignupScreen
 import com.example.myfitnessapp.ui.screens.LoginScreen
+import com.example.myfitnessapp.ui.screens.SignUpwithGoogleScreen
 
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
@@ -46,13 +47,15 @@ fun AppNavigation(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "AuthScreen",
+            startDestination = "home_screen",
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("AuthScreen") { AuthScreen(navController) }
-            composable("SignupScreen") { SignupScreen(navController) }
+//            composable("SignupScreen") { SignupScreen(navController) }
             composable("LoginScreen") { LoginScreen(navController) }
 
+
+//            composable("signup_screen") { SignUpwithGoogleScreen() }
 
             composable("home_screen") { HomeScreen(modifiers,navController, user) }
             composable("exercise_screen") { ExerciseScreen(modifiers, navController, repository) }

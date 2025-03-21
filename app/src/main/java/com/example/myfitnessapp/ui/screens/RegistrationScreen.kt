@@ -1,188 +1,179 @@
 package com.example.myfitnessapp.ui.screens
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.credentials.CredentialManager
+import androidx.navigation.NavController
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.components.DateField
 import com.example.myfitnessapp.ui.components.DropdownSelector
-import com.example.myfitnessapp.ui.components.EditableTextField
-import com.example.myfitnessapp.ui.components.OutlinedValidatedField
-import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
-import com.example.myfitnessapp.viewmodels.utils.GoogleRegistrationViewModelFactory
-import com.example.myfitnessapp.viewmodels.utils.RegistrationViewModel
-import kotlin.random.Random
+import com.example.myfitnessapp.ui.views.signUpWithGoogle
+import com.example.myfitnessapp.viewmodels.repositories.UserRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun RegistrationScreen(
-    modifiers: Modifiers,
-    email: String,
-    passwordHash: String,
+    modifiers: Modifier = Modifier,
+    credentialManager: CredentialManager,
     onUserRegistered: (User) -> Unit
 ) {
-    // Check if this is a Google sign-up
-    val isGoogleSignUp = passwordHash.startsWith("google_auth_")
-
-    // Get the context for accessing SharedPreferences
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
-    // Create the ViewModel using our factory if this is a Google sign-up,
-    // otherwise use the default ViewModel
-    val registrationViewModel: RegistrationViewModel = if (isGoogleSignUp) {
-        viewModel(factory = GoogleRegistrationViewModelFactory(context))
-    } else {
-        viewModel()
-    }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(16.dp)
-    ) {
-        Text(text = "Créer votre profil",
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onBackground
-        )
+    var email by remember { mutableStateOf(TextFieldValue("")) }
+    var pseudonym by remember { mutableStateOf(TextFieldValue("")) }
+    var firstName by remember { mutableStateOf(TextFieldValue("")) }
+    var lastName by remember { mutableStateOf(TextFieldValue("")) }
+    var weight by remember { mutableStateOf(TextFieldValue("")) }
+    var height by remember { mutableStateOf(TextFieldValue("")) }
+    var birthdate by remember { mutableStateOf(TextFieldValue("")) }
+    var gender by remember { mutableStateOf("Femme") }
+    var level by remember { mutableStateOf("Débutant") }
 
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = "Créer votre profil", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(8.dp))
 
-        // If this is a Google sign-up, show a helper message
-        if (isGoogleSignUp) {
-            Text(
-                text = "Nous avons pré-rempli certains champs avec vos informations Google",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-
-        // Email field (pre-filled and read-only)
-        EditableTextField(label = "Email", value = email, readOnly = true)
-
-        // Pseudonym field (may be pre-filled with Google display name)
-        OutlinedValidatedField(
-            label = "Pseudonyme",
-            value = registrationViewModel.pseudonym,
-            onValueChange = { registrationViewModel.pseudonym = it },
-            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isPseudonymValid(),
-            errorText = "Ce champ est requis"
+        OutlinedTextField(
+            value = email.text,
+            onValueChange = { email = TextFieldValue(it) },
+            label = { Text("Email") },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            modifier = Modifier.fillMaxWidth()
         )
 
-        OutlinedValidatedField(
-            label = "Prénom",
-            value = registrationViewModel.firstName,
-            onValueChange = { registrationViewModel.firstName = it },
-            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isFirstNameValid(),
-            errorText = "Ce champ est requis"
+        OutlinedTextField(
+            value = pseudonym.text,
+            onValueChange = { pseudonym = TextFieldValue(it) },
+            label = { Text("Pseudonyme") },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            modifier = Modifier.fillMaxWidth()
         )
 
-        OutlinedValidatedField(
-            label = "Nom",
-            value = registrationViewModel.lastName,
-            onValueChange = { registrationViewModel.lastName = it },
-            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isLastNameValid(),
-            errorText = "Ce champ est requis"
+        OutlinedTextField(
+            value = firstName.text,
+            onValueChange = { firstName = TextFieldValue(it) },
+            label = { Text("Prénom") },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            modifier = Modifier.fillMaxWidth()
         )
 
-        OutlinedValidatedField(
-            label = "Poids (kg)",
-            value = registrationViewModel.weight,
-            onValueChange = { registrationViewModel.weight = it },
-            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isWeightValid(),
-            errorText = "Entrez un poids valide"
+        OutlinedTextField(
+            value = lastName.text, onValueChange = { lastName = TextFieldValue(it) },
+            label = { Text("Nom") }, keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            modifier = Modifier.fillMaxWidth()
         )
 
-        OutlinedValidatedField(
-            label = "Taille (cm)",
-            value = registrationViewModel.height,
-            onValueChange = { registrationViewModel.height = it },
-            showError = registrationViewModel.hasTriedSubmit && !registrationViewModel.isHeightValid(),
-            errorText = "Entrez une taille valide"
+        OutlinedTextField(
+            value = weight.text,
+            onValueChange = { weight = TextFieldValue(it) },
+            label = { Text("Poids (kg)") },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        OutlinedTextField(
+            value = height.text,
+            onValueChange = { height = TextFieldValue(it) },
+            label = { Text("Taille (cm)") },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            modifier = Modifier.fillMaxWidth()
         )
 
         DateField(
             label = "Date de naissance",
-            date = registrationViewModel.birthdate,
-            onDateSelected = { registrationViewModel.birthdate = it }
+            date = birthdate.text,
+            onDateSelected = { birthdate = TextFieldValue(it) }
         )
-        if (registrationViewModel.hasTriedSubmit && !registrationViewModel.isBirthdateValid()) {
-            Text("La date de naissance est requise", color = Color.Red, style = MaterialTheme.typography.bodySmall)
-        }
 
-        DropdownSelector("Genre", listOf("Homme", "Femme", "Autre"), registrationViewModel.gender) {
-            registrationViewModel.gender = it
-        }
+        DropdownSelector(
+            label = "Genre", options = listOf("Homme", "Femme", "Autre"),
+            selectedOption = gender, onOptionSelected = { gender = it }
+        )
 
-        DropdownSelector("Niveau", listOf("Débutant", "Intermédiaire", "Avancé"), registrationViewModel.level) {
-            registrationViewModel.level = it
-        }
+        DropdownSelector(
+            label = "Niveau", options = listOf("Débutant", "Intermédiaire", "Avancé"),
+            selectedOption = level, onOptionSelected = { level = it }
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Generate a random ID for the new user
-        val randomId = Random.nextInt(1, Int.MAX_VALUE)
-
-        // Registration button
         Button(
             onClick = {
-                registrationViewModel.onSubmit {
-                    // Create user with all the gathered information
-                    val user = User(
-                        id = randomId,
-                        email = email,
-                        passwordHash = passwordHash,
-                        pseudonym = registrationViewModel.pseudonym,
-                        firstName = registrationViewModel.firstName,
-                        lastName = registrationViewModel.lastName,
-                        weight = registrationViewModel.weight.toDouble(),
-                        height = registrationViewModel.height.toInt(),
-                        birthdate = registrationViewModel.birthdate,
-                        gender = registrationViewModel.gender,
-                        level = registrationViewModel.level,
-                        // If this is a Google sign-up, we might have a profile picture URL
-                        profilePictureUri = if (isGoogleSignUp) {
-                            com.example.myfitnessapp.ui.views.getGoogleUserInfo(context)?.pictureUrl
-                        } else null
-                    )
+                val user = User(
+                    id = 1,
+                    email = email.text,
+                    pseudonym = pseudonym.text,
+                    firstName = firstName.text,
+                    lastName = lastName.text,
+                    weight = weight.text.toDoubleOrNull() ?: 0.0,
+                    height = height.text.toIntOrNull() ?: 0,
+                    birthdate = birthdate.text,
+                    gender = gender,
+                    level = level
+                )
 
-                    // If this is a Google sign-up, clear the stored Google info after use
-                    if (isGoogleSignUp) {
-                        com.example.myfitnessapp.ui.views.clearGoogleUserInfo(context)
+                // Launching coroutine inside the button click
+                coroutineScope.launch {  //please dont delete this one yet
+                    if (email.text.endsWith("@please dont delete this one yet .com")) {
+                        try {
+                            signUpWithGoogle(
+                                context = context,
+                                credentialManager = credentialManager,
+                                onSuccess = {
+                                    // If Google Sign-Up is successful, register user locally
+                                    onUserRegistered(user)
+
+                                    // Switch to the main thread before showing Toast
+                                    launch(Dispatchers.Main) {
+                                        Toast.makeText(context, "✅ Compte enregistré avec Google", Toast.LENGTH_SHORT).show()
+                                    }
+                                },
+                                onFailure = { errorMessage ->
+                                    launch(Dispatchers.Main) {
+                                        Toast.makeText(context, "❌ Échec de l'inscription Google: $errorMessage", Toast.LENGTH_SHORT).show()
+                                    }
+                                    Log.e("Auth", "⚠️ Authentication failed")
+                                }
+                            )
+                        } catch (e: Exception) {
+                            launch(Dispatchers.Main) {
+                                Toast.makeText(context, "❌ Erreur inattendue: ${e.message}", Toast.LENGTH_SHORT).show()
+                            }
+                            Log.e("Auth", "Exception: ${e.message}")
+                        }
+                    } else {
+                        // Register locally
+                        onUserRegistered(user)
+                        launch(Dispatchers.Main) {
+                            Toast.makeText(context, "✅ Compte enregistré localement", Toast.LENGTH_SHORT).show()
+                        }
                     }
-
-                    // Call the callback to register the user
-                    onUserRegistered(user)
                 }
+//                navController.navigate("home_screen")
+
+
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "Finaliser l'inscription",
-                style = MaterialTheme.typography.headlineMedium
-            )
+            Text("S'inscrire")
         }
+
     }
 }
 
-@Preview
-@Composable
-fun PreviewUserRegistrationScreen() {
-    MyFitnessAppTheme {
-        RegistrationScreen(modifiers = Modifiers(), email = "john.c.breckinridge@altostrat.com", passwordHash = "password", onUserRegistered = {})
-    }
-}
+

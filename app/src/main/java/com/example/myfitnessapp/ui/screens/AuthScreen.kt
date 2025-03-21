@@ -43,7 +43,7 @@ fun AuthScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(10.dp))
 
         OutlinedButton(
-            onClick = { navController.navigate("SignupScreen") },
+            onClick = { navController.navigate("registration_screen") },
             modifier = Modifier.fillMaxWidth().height(60.dp)
         ) {
             Text("Signup")
