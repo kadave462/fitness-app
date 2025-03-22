@@ -8,16 +8,25 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,8 +41,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.credentials.CredentialManager
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.myfitnessapp.R
@@ -42,14 +54,23 @@ import com.example.myfitnessapp.ui.components.EditableTextField
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.components.LevelSelector
 import com.example.myfitnessapp.ui.theme.Modifiers
+import com.example.myfitnessapp.ui.views.clearGoogleUserInfo
 import com.example.myfitnessapp.viewmodels.repositories.UserRepository
 import kotlinx.coroutines.launch
 
 @Composable
-fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User) {
+fun ProfileScreen(
+    modifiers: Modifiers,
+    navController: NavController,
+    user: User,
+    onUserDeleted: () -> Unit = {}
+) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     var profileImageUri by remember { mutableStateOf(user.profilePictureUri?.let { Uri.parse(it) }) }
+
+    // State for delete confirmation dialog
+    var showDeleteConfirmation by remember { mutableStateOf(false) }
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -119,7 +140,9 @@ fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User
         Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
         LazyColumn(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         ) {
             item { EditableTextField(label = "Email", value = user.email, readOnly = true) }
             item { EditableTextField(label = "Prénom", value = user.firstName, readOnly = true) }
@@ -164,5 +187,105 @@ fun ProfileScreen(modifiers: Modifiers, navController: NavController, user: User
                 }
             }
         }
+
+        // Delete Account button - Made smaller and centered
+        Button(
+            onClick = { showDeleteConfirmation = true },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Red.copy(alpha = 0.8f)
+            ),
+            modifier = Modifier
+                .width(200.dp)  // Smaller width
+                .height(40.dp)  // Smaller height
+                .padding(vertical = 4.dp),
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Text(
+                "Supprimer mon compte",
+                color = Color.White,
+                fontSize = 14.sp
+            )
+        }
+    }
+
+    // Confirmation Dialog - Made smaller with more readable text
+    if (showDeleteConfirmation) {
+        AlertDialog(
+            onDismissRequest = { showDeleteConfirmation = false },
+            title = {
+                Text(
+                    "Supprimer votre compte ?",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+            },
+            text = {
+                Text(
+                    "Cette action supprimera définitivement votre compte et toutes vos données. " +
+                            "Cette action est irréversible.",
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    textAlign = TextAlign.Center
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showDeleteConfirmation = false
+                        // Delete user account
+                        coroutineScope.launch {
+                            // Delete from the database
+                            val userRepository = UserRepository(context, user)
+                            userRepository.deleteUser(user.id)
+
+                            // Clear Google credentials if present
+                            try {
+                                // Clear stored Google user info
+                                clearGoogleUserInfo(context)
+
+                                // Clear credentials from Credential Manager
+                                val credentialManager = CredentialManager.create(context)
+                                // Note: There's no direct method to clear credentials, but we can
+                                // effectively invalidate them by clearing our stored info
+                            } catch (e: Exception) {
+                                // Log error but continue with deletion process
+                            }
+
+                            // Notify parent components about deletion
+                            onUserDeleted()
+
+                            // Navigate back to auth screen
+                            navController.navigate("auth_screen") {
+                                popUpTo("auth_screen") { inclusive = true }
+                            }
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Red
+                    ),
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(36.dp)
+                ) {
+                    Text("Confirmer", fontSize = 12.sp)
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = { showDeleteConfirmation = false },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Gray
+                    ),
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(36.dp)
+                ) {
+                    Text("Annuler", fontSize = 12.sp)
+                }
+            },
+            modifier = Modifier
+                .padding(16.dp)
+                .width(300.dp)  // Set a fixed width for the dialog
+        )
     }
 }

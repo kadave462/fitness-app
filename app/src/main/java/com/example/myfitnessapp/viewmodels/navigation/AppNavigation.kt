@@ -38,7 +38,7 @@ fun AppNavigation(
     repository: ExerciseRepository,
     currentIndex: Int,
     onIndexChange: (Int) -> Unit,
-    onUserAuthenticated: (User) -> Unit
+    onUserAuthenticated: (User?) -> Unit
 ) {
     val database = AppDatabase.getDatabase(LocalContext.current)
     val userDao = database.getUserDao()
@@ -110,8 +110,15 @@ fun AppNavigation(
 
             composable("profile_screen") {
                 user?.let {
-                    ProfileScreen(modifiers, navController, it)
-                }
+                    ProfileScreen(
+                        modifiers = modifiers,
+                        navController = navController,
+                        user = it,
+                        onUserDeleted = {
+                            // Set the user to null in MainActivity
+                            onUserAuthenticated(null)
+                        }
+                    )                }
             }
 
             composable("all_sessions_screen") {AllSessionsScreen(modifiers, repository.sessionRepository, navController)}

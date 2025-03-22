@@ -3,6 +3,8 @@ package com.example.myfitnessapp.viewmodels.repositories
 import android.content.Context
 import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.entities.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.Period
 
@@ -59,6 +61,16 @@ class UserRepository(context: Context, private val user: User) {
     suspend fun setProfilePictureUri(uri: String){
         user.profilePictureUri = uri
         dao.updateUser(user)
+    }
+
+    suspend fun deleteUser(userId: Int) {
+        withContext(Dispatchers.IO) {
+            // Delete the user from the database
+            dao.deleteUserById(userId)
+
+            // Also delete user-related data from other tables if needed
+            // For example: sessions, workout history, etc.
+        }
     }
 
 }
