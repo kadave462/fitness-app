@@ -12,6 +12,9 @@ import java.util.Date
 @Dao
 interface UserDao {
 
+    @Query("SELECT MAX(id) FROM users")
+    suspend fun getMaxUserId(): Int?
+
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertUser(user: User)
 

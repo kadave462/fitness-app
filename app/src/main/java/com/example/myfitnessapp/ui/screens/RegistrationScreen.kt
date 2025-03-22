@@ -27,6 +27,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.myfitnessapp.models.database.daos.UserDao
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.components.DateField
 import com.example.myfitnessapp.ui.components.DropdownSelector
@@ -38,6 +39,7 @@ import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.viewmodels.repositories.UserRepository
 import com.example.myfitnessapp.viewmodels.utils.RegistrationViewModel
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 @Composable
 fun RegistrationScreen(
@@ -120,12 +122,16 @@ fun RegistrationScreen(
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+        val randomId = Random.nextInt(1, Int.MAX_VALUE) // Generates a random number between 1 and Int.MAX_VALUE
+
+
+
 
         Button(
             onClick = {
                 registrationViewModel.onSubmit {
                     val user = User(
-                        id = 0,
+                        id = randomId,
                         email = email,
                         passwordHash = passwordHash,
                         pseudonym = registrationViewModel.pseudonym,
