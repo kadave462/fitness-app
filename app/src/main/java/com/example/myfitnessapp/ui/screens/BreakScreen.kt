@@ -29,11 +29,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.R
+import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
 import com.example.myfitnessapp.ui.components.ProgressionBar
 import com.example.myfitnessapp.ui.components.TimerDisplay
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
+import com.example.myfitnessapp.viewmodels.repositories.tests.TestSessionRepository
 import com.example.myfitnessapp.viewmodels.utils.TimerViewModel
 import kotlinx.coroutines.delay
 
@@ -42,6 +44,7 @@ fun BreakScreen(
     modifiers: Modifiers,
     navController: NavController,
     repository: ExerciseRepository,
+    sessionRepository: SessionRepositoryInterface,
     currentIndex: Int,
     onIndexChange: (Int) -> Unit
 ) {
@@ -150,11 +153,13 @@ fun BreakScreen(
 fun BreakScreenPreview() {
     val navController = rememberNavController()
     val repository = ExerciseRepository(LocalContext.current)
+    val sessionRepository = TestSessionRepository()
 
     BreakScreen(
         modifiers = Modifiers(),
         navController = navController,
         repository = repository,
+        sessionRepository = sessionRepository,
         currentIndex = 0,
         onIndexChange = {}
     )

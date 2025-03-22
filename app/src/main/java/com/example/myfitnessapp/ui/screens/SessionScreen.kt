@@ -44,7 +44,8 @@ fun SessionScreen(
     modifiers: Modifiers,
     navController: NavController,
     user: User,
-    repository: ExerciseRepository,
+    exerciseRepository: ExerciseRepository,
+    sessionRepository: SessionRepositoryInterface,
     currentIndex: Int,
     onIndexChange: (Int) -> Unit
 ) {

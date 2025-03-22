@@ -29,7 +29,7 @@ fun AppNavigation(
     exerciseRepository: ExerciseRepository,
     sessionRepository: SessionRepositoryInterface,
     currentIndex: Int,
-    onIndexChange: (Int) -> Unit
+    onIndexChange: (Int) -> Unit,
 ) {
 
     val currentRoute = NavigationUtils().currentRoute(navController)
@@ -48,8 +48,8 @@ fun AppNavigation(
         ) {
             composable("home_screen") { HomeScreen(modifiers,navController, user) }
             composable("exercise_screen") { ExerciseScreen(modifiers, navController, exerciseRepository, sessionRepository) }
-            composable("session_screen") { SessionScreen(modifiers, navController, user, exerciseRepository, currentIndex, onIndexChange) }
-            composable("break_screen") { BreakScreen(modifiers,navController, exerciseRepository, currentIndex, onIndexChange) }
+            composable("session_screen") { SessionScreen(modifiers, navController, user, exerciseRepository, sessionRepository, currentIndex, onIndexChange) }
+            composable("break_screen") { BreakScreen(modifiers,navController, exerciseRepository, sessionRepository, currentIndex, onIndexChange) }
             composable("session_end_screen") { SessionEndScreen(modifiers, navController, user, exerciseRepository, currentIndex, onIndexChange) }
             composable("profile_screen") { ProfileScreen(modifiers, navController, user) }
             composable("all_sessions_screen") {AllSessionsScreen(modifiers, sessionRepository, navController)}

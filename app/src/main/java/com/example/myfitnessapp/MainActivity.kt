@@ -76,7 +76,8 @@ class MainActivity : ComponentActivity() {
                         }
                     })
                 } else {
-                    val repository = remember { ExerciseRepository(this, SessionRepository(this)) }
+                    val exerciseRepository = remember { ExerciseRepository(this)}
+                    val sessionRepository = remember {SessionRepository(this)}
                     var currentIndex by remember { mutableIntStateOf(0) }
 
 

@@ -33,7 +33,7 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
         return 10
     }
 
-    suspend fun getNumberOfReps(exercise: Exercise, user: User): Int { //Devrait aller dans exercise
+    override suspend fun getNumberOfReps(exercise: Exercise, user: User): Int {
         return calculateNumberOfReps(exercise, user)
     }
 

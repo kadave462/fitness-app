@@ -63,7 +63,7 @@ fun SessionDetailScreen(modifier: Modifier = Modifiers().bigPaddingModifier(true
             itemsIndexed(allExercises) { index, exercise ->
                 val isSelected = exerciseRepository.selectedExercises.contains(exercise)
 
-                ExerciseView(Modifiers(), exercise, isSelected, index) { isChecked ->
+                ExerciseView(Modifiers(), exercise, isSelected, "", index + 1) { isChecked ->
                     if (isChecked) {
                         if (!exerciseRepository.selectedExercises.contains(exercise)) {
                             exerciseRepository.selectedExercises.add(exercise)

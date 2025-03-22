@@ -4,25 +4,20 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+
 import com.example.myfitnessapp.models.database.daos.MuscleDao
 import com.example.myfitnessapp.models.database.daos.SessionDAO
 import com.example.myfitnessapp.models.database.daos.UserDao
-import com.example.myfitnessapp.models.database.daos.UserSessionDAO
-import com.example.myfitnessapp.models.database.utils.Converters
 import com.example.myfitnessapp.models.entities.Muscle
 import com.example.myfitnessapp.models.entities.Session
 import com.example.myfitnessapp.models.entities.User
-import com.example.myfitnessapp.models.entities.UserSession
 
-@Database(entities = [Muscle::class, User::class, Session::class, UserSession::class], version = 3, exportSchema = false)
-@TypeConverters(Converters::class)
+@Database(entities = [Muscle::class, User::class, Session::class], version = 4, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getMuscleDao(): MuscleDao
     abstract fun getUserDao(): UserDao
     abstract fun getSessionDao(): SessionDAO
-    abstract fun getUserSessionDao(): UserSessionDAO
 
     companion object {
         @Volatile
