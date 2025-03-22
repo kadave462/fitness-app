@@ -58,7 +58,7 @@ fun AppNavigation(
             startDestination = if (user == null) "auth_screen" else "home_screen",
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable("auth_screen") { AuthScreen(navController) }
+            composable("auth_screen") { AuthScreen(navController,onUserAuthenticated) }
             composable("login_screen") { LoginScreen(navController, userDao, onUserAuthenticated) }
             composable("signup_screen") { SignupScreen(navController, userDao) }
 
