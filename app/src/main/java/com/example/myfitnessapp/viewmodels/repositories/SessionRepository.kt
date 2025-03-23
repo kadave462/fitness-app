@@ -8,6 +8,7 @@ import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.models.entities.Session
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
+import kotlinx.coroutines.flow.Flow
 
 class SessionRepository (context: Context) : SessionRepositoryInterface {
     private val _selectedExercises = mutableListOf<Exercise>()
@@ -18,6 +19,8 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
     private val database = AppDatabase.getDatabase(context)
     private val muscleDAO = database.getMuscleDao()
     private val sessionDAO = database.getSessionDao()
+
+    override var selectedSession: List<Session> = emptyList()
 
 
     suspend fun calculateNumberOfReps(exercise: Exercise, user: User): Int {
@@ -33,7 +36,7 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
         return 10
     }
 
-    suspend fun getNumberOfReps(exercise: Exercise, user: User): Int { //Devrait aller dans exercise
+    suspend fun getNumberOfReps(exercise: Exercise, user: User): Int {
         return calculateNumberOfReps(exercise, user)
     }
 
@@ -49,23 +52,42 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
         if(sessionsCount != null){
             return sessions.groupBy { it.id }.values.toList()
         }
-        return emptyList<List<Session>>()
+        return emptyList()
+    }
+
+
+    override suspend fun getSessionById(id: Int): List<Session> {
+        Log.d("SessionS", "getSessionById called with id = ${id}")
+        val sessions = sessionDAO.getSessionsByGroupId(id)
+        Log.d("SessionS", "Session: ${sessions.size}")
+        return sessions
+    }
+
+    override fun getSessionName(sessions: List<Session>): String {
+        if(sessions.isEmpty())
+            return "Liste Vide"
+
+        if (sessions[0].name == null) {
+            return "Pas de nom"
+        }
+        return sessions[0].name!!
     }
 
 
 
-    suspend fun saveSession(name: String) {
+    override suspend fun saveSession(name: String, selectedExercises: List<Exercise>) {
         var sessionId = sessionDAO.getLastSessionId() ?: 0
-        if (sessionId != 0) {
-            sessionId++
-        }
+        sessionId++
 
         val sessions = selectedExercises.map { exercise ->
-            Session(sessionId, exercise.id, name, totalSets)
+            sessionDAO.insert(Session(sessionId, exercise.name, name, totalSets))
+            Log.d("SessionRepository", "Session saved by SessionRepository with ${exercise}")
         }
-        sessionDAO.insertAll(sessions)
-        Log.d("ExerciseRepository", "Session saved by SessionRepository $sessionId")
+        Log.d("ExerciseRepository", "Saving sessions by SessionRepository ${sessionId}" +
+                " with {selectedExercises: ${sessions}}")
     }
 
-
+    override suspend fun deleteSessions(id: Int){
+        sessionDAO.deleteSessionsById(id)
+    }
 }

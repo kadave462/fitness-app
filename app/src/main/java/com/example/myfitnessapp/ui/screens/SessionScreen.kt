@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.entities.User
+import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
 import com.example.myfitnessapp.ui.components.BackAndForthButtons
 import com.example.myfitnessapp.ui.components.Chronometer
 import com.example.myfitnessapp.ui.components.ProgressionBar
@@ -44,11 +45,12 @@ fun SessionScreen(
     modifiers: Modifiers,
     navController: NavController,
     user: User,
-    repository: ExerciseRepository,
+    exerciseRepository: ExerciseRepository,
+    sessionRepository: SessionRepositoryInterface,
     currentIndex: Int,
     onIndexChange: (Int) -> Unit
 ) {
-    val selectedExercises = repository.selectedExercises
+    val selectedExercises = exerciseRepository.selectedExercises
     val sessionRepository = SessionRepository(LocalContext.current)
 
     val currentExercise = selectedExercises[currentIndex]
@@ -82,7 +84,7 @@ fun SessionScreen(
             horizontalArrangement = Arrangement.Start
         ) {
             Text(
-                text = "Série ${currentSetIndex + 1} / $defaultSets",
+                text = "Répétition ${currentSetIndex + 1} / $defaultSets",
                 style = MaterialTheme.typography.titleSmall
             )
         }
@@ -137,7 +139,8 @@ fun SessionScreen(
             },
             onSetChange = { newSetIndex -> currentSetIndex = newSetIndex },
             navController = navController,
-            navigation = "break_screen"
+            navigation = "break_screen",
+            sessionRepository
         )
     }
 }

@@ -1,12 +1,20 @@
 package com.example.myfitnessapp.ui.views
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +27,9 @@ import com.example.myfitnessapp.viewmodels.repositories.tests.TestSessionReposit
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SessionView(modifier: Modifier = Modifiers().containerModifier, session: List<Session>) {
+fun SessionView(modifier: Modifier = Modifiers().containerModifier,
+                session: List<Session>, isSelected: Boolean = false, onDelete: (Int) -> Unit = {}) {
+
     var name = session[0].name.toString()
 
     Row(
@@ -27,14 +37,14 @@ fun SessionView(modifier: Modifier = Modifiers().containerModifier, session: Lis
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Column(
-            modifier = modifier.weight(0.7f)
-        ) {
-            Text(
-                text = name.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() },
-                maxLines = 2,
-                style = MaterialTheme.typography.titleSmall
-            )
+            Column(
+                modifier = modifier.weight(0.7f)
+            ) {
+                Text(
+                    text = name.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() },
+                    maxLines = 2,
+                    style = MaterialTheme.typography.titleSmall
+                )
 
             Box(
                 modifier = modifier,
@@ -48,7 +58,15 @@ fun SessionView(modifier: Modifier = Modifiers().containerModifier, session: Lis
                     }
                 }
 
+                }
+
             }
+        Box(modifier = modifier.weight(0.2f)) {
+         if(isSelected){
+             Icon(Icons.Default.Delete, contentDescription = "Delete", modifier = Modifiers().onContainerModifier.clickable {
+                 onDelete(session[0].id)
+             })
+         }
         }
     }
 }
@@ -58,8 +76,10 @@ fun SessionView(modifier: Modifier = Modifiers().containerModifier, session: Lis
 fun PreviewSessionView() {
     val sessionRepository = TestSessionRepository()
     val session = sessionRepository.sessions[0]
+    val test: (isS: Boolean) -> Unit = {}
 
     SessionView(
-        session = session
+        session = session,
+        isSelected = true,
     )
 }

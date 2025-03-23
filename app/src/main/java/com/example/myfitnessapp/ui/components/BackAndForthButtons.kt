@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.example.myfitnessapp.models.entities.Exercise
+import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
 import com.example.myfitnessapp.ui.theme.Modifiers
 
 @Composable
@@ -21,6 +22,7 @@ fun BackAndForthButtons(
     onSetChange: (Int) -> Unit,
     navController: NavController,
     navigation: String,
+    sessionRepository: SessionRepositoryInterface
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
