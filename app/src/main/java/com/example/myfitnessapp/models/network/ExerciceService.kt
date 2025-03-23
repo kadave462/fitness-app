@@ -16,7 +16,7 @@ interface ExerciceService {
 
     @GET("/exercises")
     suspend fun getExercises(
-        @Query("limit") limit: Int = 10,
+        @Query("limit") limit: Int = 30,
         @Query("equipment") equipment: String = "body weight",
         @Query("sortMethod") sortMethod: String = "target"
     ): List<ExerciseResponse>

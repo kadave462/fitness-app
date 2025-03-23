@@ -53,10 +53,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MyFitnessAppTheme {
+
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
                 val database = AppDatabase.getDatabase(LocalContext.current)
                 var user by remember { mutableStateOf<User?>(null) }
+                val exerciseRepository = remember { ExerciseRepository(this) }
+                val sessionRepository = remember {SessionRepository(this)}
                 val modifiers = Modifiers()
 
                 //LaunchedEffect(Unit) {
@@ -65,13 +68,13 @@ class MainActivity : ComponentActivity() {
                 //    user = null
                 //}
 
-                val repository = remember { ExerciseRepository(this, SessionRepository(this)) }
                 var currentIndex by remember { mutableIntStateOf(0) }
+
 
                 LaunchedEffect(Unit) {
                     scope.launch {
-                        repository.makeExercisesList()
-                        repository.makeCategories()
+                        exerciseRepository.makeExercisesList()
+                        exerciseRepository.makeCategories()
                     }
                 }
 
@@ -79,7 +82,8 @@ class MainActivity : ComponentActivity() {
                     modifiers = modifiers,
                     navController = navController,
                     user = user,
-                    repository = repository,
+                    exerciseRepository,
+                    sessionRepository,
                     currentIndex = currentIndex,
                     onIndexChange = { newIndex -> currentIndex = newIndex },
                     onUserAuthenticated = { authenticatedUser ->

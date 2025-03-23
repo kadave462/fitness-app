@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.entities.User
+import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
 import com.example.myfitnessapp.ui.screens.AllSessionsScreen
 import com.example.myfitnessapp.ui.screens.AuthScreen
 import com.example.myfitnessapp.ui.screens.BreakScreen
@@ -35,7 +36,8 @@ fun AppNavigation(
     modifiers: Modifiers,
     navController: NavHostController,
     user: User?,
-    repository: ExerciseRepository,
+    exerciseRepository: ExerciseRepository,
+    sessionRepository: SessionRepositoryInterface,
     currentIndex: Int,
     onIndexChange: (Int) -> Unit,
     onUserAuthenticated: (User?) -> Unit
@@ -92,19 +94,19 @@ fun AppNavigation(
                 }
             }
 
-            composable("exercise_screen") { ExerciseScreen(modifiers, navController, repository) }
+            composable("exercise_screen") { ExerciseScreen(modifiers, navController, exerciseRepository, sessionRepository) }
 
             composable("session_screen") {
                 user?.let {
-                    SessionScreen(modifiers, navController, it, repository, currentIndex, onIndexChange)
+                    SessionScreen(modifiers, navController, user, exerciseRepository, sessionRepository, currentIndex, onIndexChange)
                 }
             }
 
-            composable("break_screen") { BreakScreen(modifiers,navController, repository, currentIndex, onIndexChange) }
+            composable("break_screen") { BreakScreen(modifiers,navController, exerciseRepository, sessionRepository, currentIndex, onIndexChange) }
 
             composable("session_end_screen") {
                 user?.let {
-                    SessionEndScreen(modifiers, navController, it, repository, currentIndex, onIndexChange)
+                    SessionEndScreen(modifiers, navController, user, exerciseRepository, currentIndex, onIndexChange)
                 }
             }
 
@@ -121,8 +123,47 @@ fun AppNavigation(
                     )                }
             }
 
-            composable("all_sessions_screen") {AllSessionsScreen(modifiers, repository.sessionRepository, navController)}
-            composable("session_detail_screen") { SessionDetailScreen(modifiers.bigPaddingModifier(true), navController, repository.sessionRepository) }
+            composable("all_sessions_screen") {AllSessionsScreen(modifiers, sessionRepository, navController)}
+
+            composable("home_screen") { user?.let {
+                HomeScreen(modifiers, navController, it)
+                }
+            }
+
+            composable("exercise_screen") { user?.let {
+                ExerciseScreen(modifiers, navController, exerciseRepository, sessionRepository)
+            }
+            }
+
+            composable("session_screen") { user?.let {
+                SessionScreen(modifiers,
+                    navController,
+                    user,
+                    exerciseRepository,
+                    sessionRepository,
+                    currentIndex,
+                    onIndexChange
+                )
+            }
+            }
+
+            composable("break_screen") { BreakScreen(modifiers,navController, exerciseRepository, sessionRepository, currentIndex, onIndexChange) }
+
+            composable("session_end_screen") { user?.let {
+                SessionEndScreen(modifiers, navController, user, exerciseRepository, currentIndex, onIndexChange)
+                }
+            }
+            composable("profile_screen") {
+                user?.let {
+                ProfileScreen(modifiers, navController, user)
+                }
+            }
+
+            composable("all_sessions_screen") {AllSessionsScreen(modifiers, sessionRepository, navController)}
+
+            composable("session_detail_screen/{sessionId}") { backStackEntry ->
+                val sessionId = backStackEntry.arguments?.getString("sessionId")
+                SessionDetailScreen(modifiers.bigPaddingModifier(true), navController, exerciseRepository, sessionRepository = sessionRepository, sessionId!!) }
         }
     }
 }
