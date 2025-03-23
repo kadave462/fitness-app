@@ -128,7 +128,7 @@ fun RegistrationScreen(
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "S'inscrire",
+            Text(text = "Finaliser l'inscription",
                 style = MaterialTheme.typography.headlineMedium
             )
         }
