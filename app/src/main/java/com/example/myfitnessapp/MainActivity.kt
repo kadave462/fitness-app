@@ -91,29 +91,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
-/*
-@Preview(showBackground = true)
-@Composable
-fun MainActivityPreview() {
-    MyFitnessAppTheme {
-        val navController = rememberNavController()
-        val userName = "Alex"
-        val categories = listOf(
-            ExerciseCategory("Cardio", listOf(
-                ExerciseResponse(id = "", name = "Pompes", target = "Poids du corps", bodyPart = "Pectoraux",  secondaryMuscles = listOf(), gifUrl = "https://example.com/pompes.gif"),
-                ExerciseResponse(id = "", name = "Squats", bodyPart = "Jambes", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/squats.gif"),),
-            ),
-            ExerciseCategory("Musculation", listOf(
-                ExerciseResponse(id = "", name = "Tractions", bodyPart = "Dos", target = "Poids du corps", secondaryMuscles = listOf(), gifUrl = "https://example.com/tractions.gif"),
-                ExerciseResponse(id = "", name = "Développé couché", bodyPart = "Pectoraux", target = "Haltères", secondaryMuscles = listOf(), gifUrl = "https://example.com/developpe.gif"),),
-            )
-        )
-
-        val selectedExercises = remember { mutableStateListOf<ExerciseResponse>() }
-
-        val viewModel = remember { ExerciseViewModel(categories) }
-
-        AppNavigation(navController, userName, categories, viewModel, selectedExercises)
-    }
-} */
