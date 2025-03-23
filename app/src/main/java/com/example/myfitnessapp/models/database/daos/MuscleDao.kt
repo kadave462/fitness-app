@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.models.database.daos // Make sure this is your correct package name
+package com.example.myfitnessapp.models.database.daos
 
 import androidx.room.Dao
 import androidx.room.Insert

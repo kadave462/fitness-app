@@ -2,13 +2,10 @@ package com.example.myfitnessapp.models.database.daos
 
 import android.util.Log
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.models.entities.Session
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SessionDAO {
@@ -33,8 +30,4 @@ interface SessionDAO {
 
     @Query("DELETE FROM sessions WHERE id = :id")
     suspend fun deleteSessionsById(id: Int)
-
-
-
-
 }

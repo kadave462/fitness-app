@@ -4,10 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.LocalDate
 import java.time.Period
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Date
-
 
 @Entity(tableName = "users")
 data class User(

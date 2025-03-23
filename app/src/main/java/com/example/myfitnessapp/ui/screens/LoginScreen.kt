@@ -26,17 +26,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.example.myfitnessapp.models.database.daos.UserDao
 import com.example.myfitnessapp.models.entities.User
-import com.example.myfitnessapp.viewmodels.repositories.AuthRepository
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 

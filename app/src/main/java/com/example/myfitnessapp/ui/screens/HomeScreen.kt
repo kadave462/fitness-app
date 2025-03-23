@@ -15,9 +15,6 @@ import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.utils.TimeUtils
-import java.time.LocalDate
-import java.util.Date
-
 
 @Composable
 fun HomeScreen(modifiers: Modifiers, navController: NavController, user: User) {
@@ -62,11 +59,7 @@ fun HomeScreen(modifiers: Modifiers, navController: NavController, user: User) {
                 navController.navigate("exercise_screen")
             }
         }
-
-
     }
-
-
 }
 
 @Preview(showBackground = true)

@@ -60,5 +60,4 @@ class UserRepository(context: Context, private val user: User) {
         user.profilePictureUri = uri
         dao.updateUser(user)
     }
-
 }

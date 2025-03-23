@@ -2,13 +2,11 @@ package com.example.myfitnessapp.viewmodels.repositories
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.models.entities.Session
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
-import kotlinx.coroutines.flow.Flow
 
 class SessionRepository (context: Context) : SessionRepositoryInterface {
     private val _selectedExercises = mutableListOf<Exercise>()
@@ -21,7 +19,6 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
     private val sessionDAO = database.getSessionDao()
 
     override var selectedSession: List<Session> = emptyList()
-
 
     suspend fun calculateNumberOfReps(exercise: Exercise, user: User): Int {
         var reps = muscleDAO.getNumberOfReps(exercise.target)
@@ -55,7 +52,6 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
         return emptyList()
     }
 
-
     override suspend fun getSessionById(id: Int): List<Session> {
         Log.d("SessionS", "getSessionById called with id = ${id}")
         val sessions = sessionDAO.getSessionsByGroupId(id)
@@ -72,8 +68,6 @@ class SessionRepository (context: Context) : SessionRepositoryInterface {
         }
         return sessions[0].name!!
     }
-
-
 
     override suspend fun saveSession(name: String, selectedExercises: List<Exercise>) {
         var sessionId = sessionDAO.getLastSessionId() ?: 0

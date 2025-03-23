@@ -6,8 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.myfitnessapp.models.entities.User
-import java.time.Period
-import java.util.Date
 
 @Dao
 interface UserDao {

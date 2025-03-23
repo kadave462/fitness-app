@@ -34,7 +34,6 @@ import com.example.myfitnessapp.ui.components.ProgressionBar
 import com.example.myfitnessapp.ui.components.TimerDisplay
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
-import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
 import com.example.myfitnessapp.viewmodels.repositories.tests.TestSessionRepository
 import com.example.myfitnessapp.viewmodels.utils.TimerViewModel
 import kotlinx.coroutines.delay

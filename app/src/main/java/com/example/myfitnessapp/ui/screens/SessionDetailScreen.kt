@@ -2,8 +2,6 @@ package com.example.myfitnessapp.ui.screens
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -28,7 +26,6 @@ import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.views.ExerciseView
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 import com.example.myfitnessapp.viewmodels.repositories.tests.TestSessionRepository
-
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
@@ -77,13 +74,7 @@ fun SessionDetailScreen(modifier: Modifier = Modifiers().bigPaddingModifier(true
         FloatingButtonView(title = "Démarrer", Modifiers(),  enabled = exerciseRepository.selectedExercises.isNotEmpty()) {
             navController.navigate("session_screen")
         }
-
-
     }
-
-
-
-
 }
 
 @Preview(showBackground = true)

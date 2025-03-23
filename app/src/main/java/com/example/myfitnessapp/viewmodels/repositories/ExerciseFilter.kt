@@ -7,13 +7,11 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import com.example.myfitnessapp.models.ExerciseCategory
+import com.example.myfitnessapp.models.entities.ExerciseCategory
 
 class ExerciseFilter(categories: List<ExerciseCategory>) : ViewModel() {
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery
-
-    private val _filteredCategories = MutableStateFlow(categories)
 
     val filteredCategories: StateFlow<List<ExerciseCategory>> = _searchQuery
         .map { query ->

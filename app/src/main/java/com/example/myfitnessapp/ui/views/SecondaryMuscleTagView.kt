@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.myfitnessapp.ui.theme.Modifiers
 
-
 @Composable
 fun SecondaryMuscleTagView(
     modifiers: Modifiers,
@@ -28,12 +27,14 @@ fun SecondaryMuscleTagView(
                 shape = MaterialTheme.shapes.medium
             )
     ) {
-        Text(text = text,
+        Text(
+            text = text,
             style = MaterialTheme.typography.labelMedium,
             color = if (isHighlighted) MaterialTheme.colorScheme.onPrimary
             else if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer
             else MaterialTheme.colorScheme.onTertiaryContainer,
-            modifier = modifiers.onContainerModifier)
+            modifier = modifiers.onContainerModifier
+        )
     }
 }
 

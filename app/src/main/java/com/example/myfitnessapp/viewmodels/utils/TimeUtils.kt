@@ -1,6 +1,5 @@
 package com.example.myfitnessapp.viewmodels.utils
 
-
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
