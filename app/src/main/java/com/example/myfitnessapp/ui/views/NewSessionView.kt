@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.example.myfitnessapp.ui.theme.Modifiers
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.TextStyle
 
 @Composable
 fun NewSessionView(modifier: Modifier = Modifiers().containerModifier, onDismiss: () -> Unit, onAdd: (String) -> Unit) {
@@ -23,7 +24,11 @@ fun NewSessionView(modifier: Modifier = Modifiers().containerModifier, onDismiss
         onDismissRequest = onDismiss,
         title = { Text("Ajouter une session") },
         text = {
-            TextField(value = sessionName, onValueChange = { sessionName = it })
+            TextField(
+                value = sessionName,
+                onValueChange = { sessionName = it },
+                textStyle = TextStyle(MaterialTheme.colorScheme.onPrimary),
+            )
         },
         confirmButton = {
             Button(onClick = { onAdd(sessionName); onDismiss() }) {
