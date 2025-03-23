@@ -24,9 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.myfitnessapp.models.ExerciseCategory
+import com.example.myfitnessapp.models.entities.ExerciseCategory
 import com.example.myfitnessapp.models.entities.Exercise
-
 import com.example.myfitnessapp.ui.theme.Modifiers
 
 @Composable

@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.models.database.utils // Make sure this is your correct package name
+package com.example.myfitnessapp.models.database.utils
 
 import android.content.Context
 import com.example.myfitnessapp.models.database.AppDatabase

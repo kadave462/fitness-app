@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -40,7 +39,7 @@ fun SessionEndScreen(
             val (sets, reps) = repository.getExerciseSetsAndReps(exercise, user)
             setsAndRepsMap[exercise.name] = sets to reps
         }
-    } // Pas optimal, réfléchir à une solution pour obtenir directement le nombre de reps à partir du repository ou de la classe Exercice
+    }
 
     Box(
         modifier = modifiers.bigPaddingModifier(true),

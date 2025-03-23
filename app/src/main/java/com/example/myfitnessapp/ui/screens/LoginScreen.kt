@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -26,17 +25,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.example.myfitnessapp.models.database.daos.UserDao
 import com.example.myfitnessapp.models.entities.User
-import com.example.myfitnessapp.viewmodels.repositories.AuthRepository
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
 
@@ -56,7 +51,7 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.01f))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -74,7 +69,7 @@ fun LoginScreen(
 
         Text(text = "Connexion", style = MaterialTheme.typography.headlineMedium)
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.02f))
 
         OutlinedTextField(
             value = email.text,
@@ -91,7 +86,7 @@ fun LoginScreen(
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.03f))
 
         Button(
             onClick = {

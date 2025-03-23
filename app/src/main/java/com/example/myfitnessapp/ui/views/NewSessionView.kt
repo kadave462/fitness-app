@@ -2,6 +2,7 @@ package com.example.myfitnessapp.ui.views
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -20,13 +21,16 @@ fun NewSessionView(modifier: Modifier = Modifiers().containerModifier, onDismiss
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Add Session") },
+        title = { Text("Ajouter une session") },
         text = {
             TextField(value = sessionName, onValueChange = { sessionName = it })
         },
         confirmButton = {
             Button(onClick = { onAdd(sessionName); onDismiss() }) {
-                Text("Add")
+                Text(
+                    text = "Valider",
+                    style = MaterialTheme.typography.headlineMedium
+                )
             }
         }
     )

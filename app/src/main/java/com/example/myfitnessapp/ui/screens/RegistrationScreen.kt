@@ -55,8 +55,7 @@ fun RegistrationScreen(
             .background(MaterialTheme.colorScheme.background)
             .padding(16.dp)
     ) {
-        Text(
-            text = "Créer votre profil",
+        Text(text = "Créer votre profil",
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -85,7 +84,6 @@ fun RegistrationScreen(
             errorText = "Ce champ est requis"
         )
 
-        // First name field (may be pre-filled with Google given name)
         OutlinedValidatedField(
             label = "Prénom",
             value = registrationViewModel.firstName,
@@ -94,7 +92,6 @@ fun RegistrationScreen(
             errorText = "Ce champ est requis"
         )
 
-        // Last name field (may be pre-filled with Google family name)
         OutlinedValidatedField(
             label = "Nom",
             value = registrationViewModel.lastName,
@@ -103,7 +100,6 @@ fun RegistrationScreen(
             errorText = "Ce champ est requis"
         )
 
-        // Weight field (needs to be filled by user)
         OutlinedValidatedField(
             label = "Poids (kg)",
             value = registrationViewModel.weight,
@@ -112,7 +108,6 @@ fun RegistrationScreen(
             errorText = "Entrez un poids valide"
         )
 
-        // Height field (needs to be filled by user)
         OutlinedValidatedField(
             label = "Taille (cm)",
             value = registrationViewModel.height,
@@ -121,7 +116,6 @@ fun RegistrationScreen(
             errorText = "Entrez une taille valide"
         )
 
-        // Birthdate field (needs to be filled by user)
         DateField(
             label = "Date de naissance",
             date = registrationViewModel.birthdate,
@@ -131,12 +125,10 @@ fun RegistrationScreen(
             Text("La date de naissance est requise", color = Color.Red, style = MaterialTheme.typography.bodySmall)
         }
 
-        // Gender dropdown
         DropdownSelector("Genre", listOf("Homme", "Femme", "Autre"), registrationViewModel.gender) {
             registrationViewModel.gender = it
         }
 
-        // Fitness level dropdown
         DropdownSelector("Niveau", listOf("Débutant", "Intermédiaire", "Avancé"), registrationViewModel.level) {
             registrationViewModel.level = it
         }
@@ -180,8 +172,7 @@ fun RegistrationScreen(
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(
-                text = "S'inscrire",
+            Text(text = "S'inscrire",
                 style = MaterialTheme.typography.headlineMedium
             )
         }

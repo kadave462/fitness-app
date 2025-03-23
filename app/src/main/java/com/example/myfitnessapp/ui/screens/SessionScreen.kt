@@ -1,6 +1,5 @@
 package com.example.myfitnessapp.ui.screens
 
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,7 +26,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
 import com.example.myfitnessapp.ui.components.BackAndForthButtons
@@ -38,7 +36,6 @@ import com.example.myfitnessapp.viewmodels.utils.provideImageLoader
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
 import com.example.myfitnessapp.viewmodels.utils.ChronometerUtils
-
 
 @Composable
 fun SessionScreen(

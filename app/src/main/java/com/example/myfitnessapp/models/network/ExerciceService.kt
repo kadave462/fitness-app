@@ -26,5 +26,4 @@ interface ExerciceService {
     suspend fun getGif(
         @Path("id") id: String
     ): File?
-
 }

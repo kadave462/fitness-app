@@ -2,7 +2,6 @@ package com.example.myfitnessapp.models.interfaces
 
 import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.models.entities.Session
-import kotlinx.coroutines.flow.Flow
 
 interface SessionRepositoryInterface {
     var selectedSession: List<Session>

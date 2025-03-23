@@ -35,7 +35,6 @@ fun ExerciseView(
     index: Int?,
     onSelectionChange: (Boolean) -> Unit
 ) {
-
     Row(
         modifier = modifiers
             .containerModifier

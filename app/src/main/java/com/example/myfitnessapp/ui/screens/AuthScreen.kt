@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,6 +22,9 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -56,10 +60,24 @@ var errorMessage by remember { mutableStateOf("") }
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
-        Text(text = "Bienvenue", style = MaterialTheme.typography.headlineMedium)
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
+
+        Image(
+            painter = painterResource(id = R.drawable.fitness_illu),
+            contentDescription = "Illustration de l'application",
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
+            modifier = Modifier
+                .height(300.dp)
+        )
+
+        Text(
+            text = "L'appli qui te fera sortir de ton canapé !",
+            style = MaterialTheme.typography.headlineMedium.copy(textAlign = TextAlign.Center)
+        )
+
+        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
         Button(
             onClick = { navController.navigate("login_screen") },
@@ -71,7 +89,7 @@ var errorMessage by remember { mutableStateOf("") }
             )
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.01f))
 
         Button(
             onClick = { navController.navigate("signup_screen") },

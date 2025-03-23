@@ -7,10 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -30,11 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.myfitnessapp.models.database.daos.UserDao
-import com.example.myfitnessapp.models.entities.User
+import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.utils.isPasswordSecure
 import kotlinx.coroutines.launch
 import org.mindrot.jbcrypt.BCrypt
@@ -48,11 +43,11 @@ fun SignupScreen(navController: NavController, userDao: UserDao) {
     val context = LocalContext.current
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifiers().bigPaddingModifier(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.01f))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -69,13 +64,14 @@ fun SignupScreen(navController: NavController, userDao: UserDao) {
         Spacer(modifier = Modifier.fillMaxHeight(0.25f))
 
         Text(text = "Créer un compte", style = MaterialTheme.typography.headlineMedium)
-        Spacer(modifier = Modifier.height(16.dp))
+
+        Spacer(modifier = Modifier.fillMaxHeight(0.02f))
 
         OutlinedTextField(value = email.text, onValueChange = { email = TextFieldValue(it) }, label = { Text("Email") }, modifier = Modifier.fillMaxWidth())
         OutlinedTextField(value = password.text, onValueChange = { password = TextFieldValue(it) }, label = { Text("Mot de passe") }, visualTransformation = PasswordVisualTransformation(), modifier = Modifier.fillMaxWidth())
         OutlinedTextField(value = confirmPassword.text, onValueChange = { confirmPassword = TextFieldValue(it) }, label = { Text("Confirmer le mot de passe") }, visualTransformation = PasswordVisualTransformation(), modifier = Modifier.fillMaxWidth())
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.03f))
 
         Button(
             onClick = {

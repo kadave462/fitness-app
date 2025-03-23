@@ -20,7 +20,7 @@ class Modifiers {
     val mediumSeparation: Dp = 16.dp
 
 
-    fun bigPaddingModifier(isFullHeight: Boolean = false): Modifier{ //ca je suis pas convaincue
+    fun bigPaddingModifier(isFullHeight: Boolean = false): Modifier{
         if(isFullHeight){
             return Modifier
                 .fillMaxSize()

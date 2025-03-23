@@ -1,6 +1,5 @@
 package com.example.myfitnessapp.ui.screens
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,10 +29,8 @@ import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.views.NewSessionView
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseFilter
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
-import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
 import com.example.myfitnessapp.viewmodels.repositories.tests.TestSessionRepository
 import kotlinx.coroutines.launch
-
 
 @Composable
 fun ExerciseScreen(
@@ -92,7 +89,6 @@ fun ExerciseScreen(
                 })
             }
         }
-
     }
 }
 

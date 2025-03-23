@@ -2,10 +2,9 @@ package com.example.myfitnessapp.viewmodels.repositories
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import com.example.myfitnessapp.models.ExerciseCategory
+import com.example.myfitnessapp.models.entities.ExerciseCategory
 import com.example.myfitnessapp.models.entities.Exercise
 import com.example.myfitnessapp.models.entities.ExerciseResponse
 import com.example.myfitnessapp.models.entities.User
@@ -14,12 +13,10 @@ import java.io.File
 
 class ExerciseRepository(context: Context) {
 
-
         private val api = ExerciceClient.api
         private var allExercises: List<Exercise>? = null
 
         var allCategories = mutableStateListOf<ExerciseCategory>()
-        val filter = ExerciseFilter(allCategories)
         val selectedExercises = mutableStateListOf<Exercise>()
 
         var newSession = mutableStateOf(false)
@@ -130,7 +127,6 @@ class ExerciseRepository(context: Context) {
                         return
                 selectedExercises.add(exercise)
         }
-
 }
 
 

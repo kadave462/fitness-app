@@ -21,10 +21,12 @@ fun TagView(
                 shape = MaterialTheme.shapes.medium
             )
     ) {
-        Text(text = text,
+        Text(
+            text = text,
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onTertiaryContainer,
-            modifier = modifiers.onContainerModifier)
+            modifier = modifiers.onContainerModifier
+        )
     }
 }
 
