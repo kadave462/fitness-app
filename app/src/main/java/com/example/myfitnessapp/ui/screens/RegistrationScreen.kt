@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -23,16 +24,29 @@ import com.example.myfitnessapp.ui.components.EditableTextField
 import com.example.myfitnessapp.ui.components.OutlinedValidatedField
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
+import com.example.myfitnessapp.viewmodels.utils.GoogleRegistrationViewModelFactory
 import com.example.myfitnessapp.viewmodels.utils.RegistrationViewModel
+import com.example.myfitnessapp.viewmodels.utils.clearGoogleUserInfo
+import com.example.myfitnessapp.viewmodels.utils.getGoogleUserInfo
+import kotlin.random.Random
 
 @Composable
 fun RegistrationScreen(
     modifiers: Modifiers,
     email: String,
     passwordHash: String,
-    onUserRegistered: (User) -> Unit,
-    registrationViewModel: RegistrationViewModel = viewModel()
+    onUserRegistered: (User) -> Unit
 ) {
+    val isGoogleSignUp = passwordHash.startsWith("google_auth_")
+
+    val context = LocalContext.current
+
+    val registrationViewModel: RegistrationViewModel = if (isGoogleSignUp) {
+        viewModel(factory = GoogleRegistrationViewModelFactory(context))
+    } else {
+        viewModel()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,6 +59,15 @@ fun RegistrationScreen(
         )
 
         Spacer(modifier = Modifier.height(8.dp))
+
+        if (isGoogleSignUp) {
+            Text(
+                text = "Nous avons pré-rempli certains champs avec vos informations Google",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
 
         EditableTextField(label = "Email", value = email, readOnly = true)
 
@@ -107,11 +130,13 @@ fun RegistrationScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        val randomId = Random.nextInt(1, Int.MAX_VALUE)
+
         Button(
             onClick = {
                 registrationViewModel.onSubmit {
                     val user = User(
-                        id = 0,
+                        id = randomId,
                         email = email,
                         passwordHash = passwordHash,
                         pseudonym = registrationViewModel.pseudonym,
@@ -121,8 +146,16 @@ fun RegistrationScreen(
                         height = registrationViewModel.height.toInt(),
                         birthdate = registrationViewModel.birthdate,
                         gender = registrationViewModel.gender,
-                        level = registrationViewModel.level
+                        level = registrationViewModel.level,
+                        profilePictureUri = if (isGoogleSignUp) {
+                            getGoogleUserInfo(context)?.pictureUrl
+                        } else null
                     )
+
+                    if (isGoogleSignUp) {
+                        clearGoogleUserInfo(context)
+                    }
+
                     onUserRegistered(user)
                 }
             },

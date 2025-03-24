@@ -10,6 +10,9 @@ import com.example.myfitnessapp.models.entities.User
 @Dao
 interface UserDao {
 
+    @Query("SELECT MAX(id) FROM users")
+    suspend fun getMaxUserId(): Int?
+
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertUser(user: User)
 
@@ -36,4 +39,6 @@ interface UserDao {
 
     @Query("DELETE FROM users")
     suspend fun deleteAllUsers()
+
+
 }
