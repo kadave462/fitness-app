@@ -19,7 +19,9 @@ data class User(
     var birthdate: String,
     var gender: String,
     var level: String,
-    var profilePictureUri: String? = null
+    var profilePictureUri: String? = null,
+    var isAdmin: Boolean = false  // Add this field
+
 ) {
     fun getAge(): Int {
         return try {

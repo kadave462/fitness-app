@@ -73,4 +73,16 @@ class UserRepository(context: Context, private val user: User) {
         }
     }
 
+    suspend fun getAllUsers(): List<User> = withContext(Dispatchers.IO) {
+        dao.getAllUsers()
+    }
+
+    suspend fun addUser(newUser: User) = withContext(Dispatchers.IO) {
+        dao.insertUser(newUser)
+    }
+
+    suspend fun isAdmin(): Boolean = withContext(Dispatchers.IO) {
+        dao.getUserById(user.id).isAdmin
+    }
+
 }

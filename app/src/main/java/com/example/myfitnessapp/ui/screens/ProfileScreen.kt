@@ -84,6 +84,16 @@ fun ProfileScreen(
         }
     }
 
+    if (user.isAdmin) {
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = { navController.navigate("admin_dashboard") },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Admin Dashboard")
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

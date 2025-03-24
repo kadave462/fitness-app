@@ -23,6 +23,7 @@ import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.database.daos.MuscleDao
 import com.example.myfitnessapp.models.database.utils.populateMusclesDatabase
 import androidx.lifecycle.lifecycleScope
+import com.example.myfitnessapp.models.database.utils.createInitialAdminIfNeeded
 import com.example.myfitnessapp.viewmodels.repositories.SessionRepository
 
 class MainActivity : ComponentActivity() {
@@ -38,6 +39,8 @@ class MainActivity : ComponentActivity() {
 
         lifecycleScope.launch {
             populateMusclesDatabase(this@MainActivity)
+            createInitialAdminIfNeeded(this@MainActivity)
+
         }
 
         setContent {

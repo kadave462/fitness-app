@@ -3,6 +3,7 @@ package com.example.myfitnessapp.viewmodels.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -14,6 +15,7 @@ import androidx.navigation.navArgument
 import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
+import com.example.myfitnessapp.ui.screens.AdminDashboardScreen
 import com.example.myfitnessapp.ui.screens.AllSessionsScreen
 import com.example.myfitnessapp.ui.screens.AuthScreen
 import com.example.myfitnessapp.ui.screens.BreakScreen
@@ -29,6 +31,7 @@ import com.example.myfitnessapp.ui.screens.SessionScreen
 import com.example.myfitnessapp.ui.screens.SignupScreen
 import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
+import com.example.myfitnessapp.viewmodels.repositories.UserRepository
 import kotlinx.coroutines.launch
 
 @Composable
@@ -156,6 +159,27 @@ fun AppNavigation(
             composable("profile_screen") {
                 user?.let {
                 ProfileScreen(modifiers, navController, user)
+                }
+            }
+
+            // In AppNavigation.kt, add:
+            composable("admin_dashboard") {
+                // Check if user is an admin before allowing access
+                user?.let { currentUser ->
+                    val userRepo = UserRepository(LocalContext.current, currentUser)
+                    LaunchedEffect(key1 = Unit) {
+                        // If not admin, navigate back to home
+                        if (!userRepo.isAdmin()) {
+                            navController.navigate("home_screen")
+                        }
+                    }
+
+                    AdminDashboardScreen(
+                        modifiers = modifiers,
+                        navController = navController,
+                        adminUser = currentUser,
+                        userRepository = userRepo
+                    )
                 }
             }
 
