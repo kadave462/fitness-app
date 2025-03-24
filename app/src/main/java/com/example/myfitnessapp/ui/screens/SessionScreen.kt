@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -95,7 +96,7 @@ fun SessionScreen(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .fillMaxHeight(0.45f)
-                .clip(RoundedCornerShape(16.dp)),
+                .clip(Shapes().medium),
             contentScale = ContentScale.Crop
         )
 

@@ -99,7 +99,7 @@ fun SignupScreen(navController: NavController, userDao: UserDao) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "S'inscrire",
+            Text(text = "Valider",
                 style = MaterialTheme.typography.headlineMedium
             )
         }

@@ -26,6 +26,8 @@ import com.example.myfitnessapp.ui.theme.Modifiers
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.viewmodels.utils.GoogleRegistrationViewModelFactory
 import com.example.myfitnessapp.viewmodels.utils.RegistrationViewModel
+import com.example.myfitnessapp.viewmodels.utils.clearGoogleUserInfo
+import com.example.myfitnessapp.viewmodels.utils.getGoogleUserInfo
 import kotlin.random.Random
 
 @Composable
@@ -35,14 +37,10 @@ fun RegistrationScreen(
     passwordHash: String,
     onUserRegistered: (User) -> Unit
 ) {
-    // Check if this is a Google sign-up
     val isGoogleSignUp = passwordHash.startsWith("google_auth_")
 
-    // Get the context for accessing SharedPreferences
     val context = LocalContext.current
 
-    // Create the ViewModel using our factory if this is a Google sign-up,
-    // otherwise use the default ViewModel
     val registrationViewModel: RegistrationViewModel = if (isGoogleSignUp) {
         viewModel(factory = GoogleRegistrationViewModelFactory(context))
     } else {
@@ -62,7 +60,6 @@ fun RegistrationScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // If this is a Google sign-up, show a helper message
         if (isGoogleSignUp) {
             Text(
                 text = "Nous avons pré-rempli certains champs avec vos informations Google",
@@ -72,10 +69,8 @@ fun RegistrationScreen(
             Spacer(modifier = Modifier.height(8.dp))
         }
 
-        // Email field (pre-filled and read-only)
         EditableTextField(label = "Email", value = email, readOnly = true)
 
-        // Pseudonym field (may be pre-filled with Google display name)
         OutlinedValidatedField(
             label = "Pseudonyme",
             value = registrationViewModel.pseudonym,
@@ -135,14 +130,11 @@ fun RegistrationScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Generate a random ID for the new user
         val randomId = Random.nextInt(1, Int.MAX_VALUE)
 
-        // Registration button
         Button(
             onClick = {
                 registrationViewModel.onSubmit {
-                    // Create user with all the gathered information
                     val user = User(
                         id = randomId,
                         email = email,
@@ -155,24 +147,21 @@ fun RegistrationScreen(
                         birthdate = registrationViewModel.birthdate,
                         gender = registrationViewModel.gender,
                         level = registrationViewModel.level,
-                        // If this is a Google sign-up, we might have a profile picture URL
                         profilePictureUri = if (isGoogleSignUp) {
-                            com.example.myfitnessapp.ui.views.getGoogleUserInfo(context)?.pictureUrl
+                            getGoogleUserInfo(context)?.pictureUrl
                         } else null
                     )
 
-                    // If this is a Google sign-up, clear the stored Google info after use
                     if (isGoogleSignUp) {
-                        com.example.myfitnessapp.ui.views.clearGoogleUserInfo(context)
+                        clearGoogleUserInfo(context)
                     }
 
-                    // Call the callback to register the user
                     onUserRegistered(user)
                 }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "S'inscrire",
+            Text(text = "Finaliser l'inscription",
                 style = MaterialTheme.typography.headlineMedium
             )
         }

@@ -77,7 +77,7 @@ fun BreakScreen(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .fillMaxHeight(0.45f)
-                .clip(RoundedCornerShape(16.dp)),
+                .clip(Shapes().medium),
             contentScale = ContentScale.Crop
         )
 

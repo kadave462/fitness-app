@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ui.views
+package com.example.myfitnessapp.viewmodels.utils
 
 import android.content.Context
 import android.util.Log
@@ -18,42 +18,16 @@ import org.json.JSONObject
 import java.security.SecureRandom
 import kotlin.random.Random
 
-/**
- * Data class to hold Google user information aligned with your app's User model
- */
+
 data class GoogleUserInfo(
     val id: String,
     val email: String,
-    val displayName: String,  // Maps to pseudonym
-    val givenName: String,    // Maps to firstName
-    val familyName: String,   // Maps to lastName
-    val pictureUrl: String    // Maps to profilePictureUri
+    val displayName: String,
+    val givenName: String,
+    val familyName: String,
+    val pictureUrl: String
 )
 
-/**
- * Converts GoogleUserInfo to a partial User object with a temporary password
- * The missing fields (weight, height, birthdate, etc.) will need to be filled by the user
- */
-fun GoogleUserInfo.toPartialUser(tempPasswordHash: String): User {
-    return User(
-        id = Random.nextInt(1, Int.MAX_VALUE), // Generate random ID as in your RegistrationScreen
-        email = this.email,
-        passwordHash = tempPasswordHash,
-        pseudonym = this.displayName,
-        firstName = this.givenName,
-        lastName = this.familyName,
-        weight = 0.0,  // Default value, user will fill in
-        height = 0,    // Default value, user will fill in
-        birthdate = "", // Default value, user will fill in
-        gender = "Homme", // Default value, matches your ViewModel default
-        level = "Débutant", // Default value, matches your ViewModel default
-        profilePictureUri = this.pictureUrl.takeIf { it.isNotEmpty() }
-    )
-}
-
-/**
- * Main authentication function - handles both sign-in and sign-up with Google
- */
 suspend fun authenticateWithGoogle(
     context: Context,
     credentialManager: CredentialManager,
@@ -61,24 +35,19 @@ suspend fun authenticateWithGoogle(
     onFailure: (String) -> Unit
 ) {
     try {
-        // First try sign-in with existing accounts
         val signInResult = tryGoogleSignIn(context, credentialManager)
 
         if (signInResult != null) {
-            // Successfully signed in with an existing account
             onSuccess(signInResult)
             return
         }
 
-        // If sign-in fails, try sign-up with any Google account
         val signUpResult = tryGoogleSignUp(context, credentialManager)
 
         if (signUpResult != null) {
-            // Successfully authenticated with a Google account
             onSuccess(signUpResult)
         } else {
-            // Both sign-in and sign-up failed
-            onFailure("Authentication failed")
+            onFailure("Authentication échouée")
         }
     } catch (e: GetCredentialException) {
         Log.e("Auth", "Google authentication error: ${e.message}")
@@ -86,15 +55,11 @@ suspend fun authenticateWithGoogle(
     }
 }
 
-/**
- * Attempts to sign in with an existing Google account previously used with this app
- */
 private suspend fun tryGoogleSignIn(
     context: Context,
     credentialManager: CredentialManager
 ): GoogleUserInfo? {
     return try {
-        // Create a sign-in request for previously authorized accounts only
         val signInRequest = GetCredentialRequest.Builder()
             .addCredentialOption(
                 GetGoogleIdOption.Builder()
@@ -105,10 +70,7 @@ private suspend fun tryGoogleSignIn(
             )
             .build()
 
-        // Attempt to get credentials
         val result = credentialManager.getCredential(context, signInRequest)
-
-        // Process the result
         var userInfo: GoogleUserInfo? = null
         handleCredentialWithUserInfo(result) { info ->
             userInfo = info
@@ -121,15 +83,11 @@ private suspend fun tryGoogleSignIn(
     }
 }
 
-/**
- * Attempts to sign up with any Google account
- */
 private suspend fun tryGoogleSignUp(
     context: Context,
     credentialManager: CredentialManager
 ): GoogleUserInfo? {
     return try {
-        // Create a sign-up request that shows all Google accounts
         val signUpRequest = GetCredentialRequest.Builder()
             .addCredentialOption(
                 GetGoogleIdOption.Builder()
@@ -141,10 +99,8 @@ private suspend fun tryGoogleSignUp(
             )
             .build()
 
-        // Attempt to get credentials
         val result = credentialManager.getCredential(context, signUpRequest)
 
-        // Process the result
         var userInfo: GoogleUserInfo? = null
         handleCredentialWithUserInfo(result) { info ->
             userInfo = info
@@ -152,7 +108,7 @@ private suspend fun tryGoogleSignUp(
 
         if (userInfo != null) {
             CoroutineScope(Dispatchers.Main).launch {
-                Toast.makeText(context, "✅ Google authentication successful", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Authentification Google réussie", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -160,15 +116,12 @@ private suspend fun tryGoogleSignUp(
     } catch (e: GetCredentialException) {
         Log.e("Auth", "Sign-up with Google failed: ${e.message}")
         CoroutineScope(Dispatchers.Main).launch {
-            Toast.makeText(context, "❌ Google authentication failed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Authentification Google échouée", Toast.LENGTH_SHORT).show()
         }
         null
     }
 }
 
-/**
- * Processes the credential response and extracts user information
- */
 private fun handleCredentialWithUserInfo(result: GetCredentialResponse, onResult: (GoogleUserInfo?) -> Unit) {
     val credential = result.credential
 
@@ -179,38 +132,32 @@ private fun handleCredentialWithUserInfo(result: GetCredentialResponse, onResult
                     val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
                     val idToken = googleIdTokenCredential.idToken
 
-                    // Extract user information from token
                     val userInfo = extractUserInfoFromIdToken(idToken)
                     onResult(userInfo)
                 } catch (e: GoogleIdTokenParsingException) {
-                    Log.e("Auth", "⚠️ Token parsing error: ${e.message}")
+                    Log.e("Auth", "Token parsing error: ${e.message}")
                     onResult(null)
                 }
             } else {
-                Log.e("Auth", "❌ Unexpected credential type: ${credential.type}")
+                Log.e("Auth", "Unexpected credential type: ${credential.type}")
                 onResult(null)
             }
         }
         else -> {
-            Log.e("Auth", "❌ Unrecognized credential type: ${credential.type}")
+            Log.e("Auth", "Unrecognized credential type: ${credential.type}")
             onResult(null)
         }
     }
 }
 
-/**
- * Extracts user information from the JWT ID token
- */
 private fun extractUserInfoFromIdToken(idToken: String): GoogleUserInfo? {
     return try {
-        // ID Token is a JWT with 3 parts separated by dots
         val parts = idToken.split(".")
         if (parts.size != 3) {
             Log.e("Auth", "Invalid ID token format")
             return null
         }
 
-        // Decode the payload (middle part)
         val payload = parts[1]
         val decodedBytes = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             java.util.Base64.getUrlDecoder().decode(payload)
@@ -235,9 +182,6 @@ private fun extractUserInfoFromIdToken(idToken: String): GoogleUserInfo? {
     }
 }
 
-/**
- * Generates a secure nonce for the authentication request
- */
 private fun generateNonce(): String {
     val secureRandom = SecureRandom()
     val bytes = ByteArray(32)
@@ -253,9 +197,6 @@ private fun generateNonce(): String {
     }
 }
 
-/**
- * Stores Google user information in SharedPreferences for later use with registration
- */
 fun storeGoogleUserInfo(context: Context, userInfo: GoogleUserInfo) {
     val sharedPreferences = context.getSharedPreferences("google_auth", Context.MODE_PRIVATE)
     val editor = sharedPreferences.edit()
@@ -270,9 +211,6 @@ fun storeGoogleUserInfo(context: Context, userInfo: GoogleUserInfo) {
     editor.apply()
 }
 
-/**
- * Retrieves stored Google user information from SharedPreferences
- */
 fun getGoogleUserInfo(context: Context): GoogleUserInfo? {
     val sharedPreferences = context.getSharedPreferences("google_auth", Context.MODE_PRIVATE)
 
@@ -293,9 +231,6 @@ fun getGoogleUserInfo(context: Context): GoogleUserInfo? {
     )
 }
 
-/**
- * Clears stored Google user information from SharedPreferences
- */
 fun clearGoogleUserInfo(context: Context) {
     val sharedPreferences = context.getSharedPreferences("google_auth", Context.MODE_PRIVATE)
     sharedPreferences.edit().clear().apply()

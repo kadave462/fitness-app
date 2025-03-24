@@ -26,16 +26,14 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.credentials.CredentialManager
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.example.myfitnessapp.R
 import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.entities.User
-import com.example.myfitnessapp.ui.views.authenticateWithGoogle
-import com.example.myfitnessapp.ui.views.storeGoogleUserInfo
+import com.example.myfitnessapp.viewmodels.utils.authenticateWithGoogle
+import com.example.myfitnessapp.viewmodels.utils.storeGoogleUserInfo
 import kotlinx.coroutines.launch
 
 @Composable
@@ -43,19 +41,15 @@ fun AuthScreen(
     navController: NavController,
     onUserAuthenticated: (User) -> Unit
 ){
-val context = LocalContext.current
-val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
-// Get database and DAO
-val database = AppDatabase.getDatabase(context)
-val userDao = database.getUserDao()
+    val database = AppDatabase.getDatabase(context)
+    val userDao = database.getUserDao()
 
-// Initialize CredentialManager
-val credentialManager = remember { CredentialManager.create(context) }
+    val credentialManager = remember { CredentialManager.create(context) }
 
-// State for error message
-var errorMessage by remember { mutableStateOf("") }
-
+    var errorMessage by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
@@ -101,10 +95,7 @@ var errorMessage by remember { mutableStateOf("") }
             )
         }
 
-
-        Spacer(modifier = Modifier.height(10.dp))
-        Text("Sign in with Google")
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.02f))
 
         OutlinedButton(
             onClick = {
@@ -113,28 +104,20 @@ var errorMessage by remember { mutableStateOf("") }
                         context = context,
                         credentialManager = credentialManager,
                         onSuccess = { userInfo ->
-                            // First check if the user already exists in the database
                             coroutineScope.launch {
                                 val existingUser = userDao.getUserByEmail(userInfo.email)
 
                                 if (existingUser != null) {
-                                    // User exists - Sign In case
-                                    // Call the onUserAuthenticated callback with the existing user
                                     onUserAuthenticated(existingUser)
 
-                                    // Then navigate to home screen
                                     navController.navigate("home_screen") {
                                         popUpTo("auth_screen") { inclusive = true }
                                     }
                                 } else {
-                                    // User doesn't exist - Sign Up case
-                                    // Create a temporary password hash for Google users
                                     val tempPasswordHash = "google_auth_${System.currentTimeMillis()}"
 
-                                    // Store Google user info for pre-filling registration form
                                     storeGoogleUserInfo(context, userInfo)
 
-                                    // Navigate to registration screen with email and password hash
                                     navController.navigate("registration_screen/${userInfo.email}/$tempPasswordHash")
                                 }
                             }
@@ -158,7 +141,9 @@ var errorMessage by remember { mutableStateOf("") }
                     contentDescription = "Google icon",
                     modifier = Modifier.size(24.dp)
                 )
+
                 Spacer(modifier = Modifier.width(8.dp))
+
                 Text("Google")
             }
         }
