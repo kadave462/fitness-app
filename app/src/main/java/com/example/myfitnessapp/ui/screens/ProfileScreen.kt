@@ -45,7 +45,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.credentials.CredentialManager
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.myfitnessapp.R
@@ -69,7 +68,6 @@ fun ProfileScreen(
     val coroutineScope = rememberCoroutineScope()
     var profileImageUri by remember { mutableStateOf(user.profilePictureUri?.let { Uri.parse(it) }) }
 
-    // State for delete confirmation dialog
     var showDeleteConfirmation by remember { mutableStateOf(false) }
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
@@ -188,15 +186,14 @@ fun ProfileScreen(
             }
         }
 
-        // Delete Account button - Made smaller and centered
         Button(
             onClick = { showDeleteConfirmation = true },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Red.copy(alpha = 0.8f)
             ),
             modifier = Modifier
-                .width(200.dp)  // Smaller width
-                .height(40.dp)  // Smaller height
+                .width(200.dp)
+                .height(40.dp)
                 .padding(vertical = 4.dp),
             shape = RoundedCornerShape(8.dp)
         ) {
@@ -208,7 +205,6 @@ fun ProfileScreen(
         }
     }
 
-    // Confirmation Dialog - Made smaller with more readable text
     if (showDeleteConfirmation) {
         AlertDialog(
             onDismissRequest = { showDeleteConfirmation = false },
@@ -221,7 +217,7 @@ fun ProfileScreen(
             },
             text = {
                 Text(
-                    "Cette action supprimera définitivement votre compte et toutes vos données. " +
+                    "Cette action supprimera définitivement votre compte et l'ensemble de vos données." +
                             "Cette action est irréversible.",
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
@@ -232,29 +228,14 @@ fun ProfileScreen(
                 Button(
                     onClick = {
                         showDeleteConfirmation = false
-                        // Delete user account
                         coroutineScope.launch {
-                            // Delete from the database
                             val userRepository = UserRepository(context, user)
                             userRepository.deleteUser(user.id)
 
-                            // Clear Google credentials if present
-                            try {
-                                // Clear stored Google user info
-                                clearGoogleUserInfo(context)
+                            clearGoogleUserInfo(context)
 
-                                // Clear credentials from Credential Manager
-                                val credentialManager = CredentialManager.create(context)
-                                // Note: There's no direct method to clear credentials, but we can
-                                // effectively invalidate them by clearing our stored info
-                            } catch (e: Exception) {
-                                // Log error but continue with deletion process
-                            }
-
-                            // Notify parent components about deletion
                             onUserDeleted()
 
-                            // Navigate back to auth screen
                             navController.navigate("auth_screen") {
                                 popUpTo("auth_screen") { inclusive = true }
                             }
@@ -285,7 +266,7 @@ fun ProfileScreen(
             },
             modifier = Modifier
                 .padding(16.dp)
-                .width(300.dp)  // Set a fixed width for the dialog
+                .width(300.dp)
         )
     }
 }
