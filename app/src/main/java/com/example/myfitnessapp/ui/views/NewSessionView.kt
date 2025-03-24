@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import com.example.myfitnessapp.ui.theme.Modifiers
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextStyle
+import com.example.myfitnessapp.viewmodels.repositories.ExerciseRepository
 
 @Composable
 fun NewSessionView(modifier: Modifier = Modifiers().containerModifier, onDismiss: () -> Unit, onAdd: (String) -> Unit) {
@@ -31,7 +32,11 @@ fun NewSessionView(modifier: Modifier = Modifiers().containerModifier, onDismiss
             )
         },
         confirmButton = {
-            Button(onClick = { onAdd(sessionName); onDismiss() }) {
+            Button(onClick = {
+                onAdd(sessionName);
+                onDismiss();
+                }
+            ) {
                 Text(
                     text = "Valider",
                     style = MaterialTheme.typography.headlineMedium
