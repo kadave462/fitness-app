@@ -96,7 +96,6 @@ fun ExerciseScreen(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun ExerciseScreenPreview() {

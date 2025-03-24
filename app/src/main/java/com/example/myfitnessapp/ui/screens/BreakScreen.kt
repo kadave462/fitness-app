@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
@@ -69,7 +67,7 @@ fun BreakScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
 
         Image(
             painter = painterResource(id = R.drawable.pause_image),
@@ -81,7 +79,7 @@ fun BreakScreen(
             contentScale = ContentScale.Crop
         )
 
-        Spacer(modifier = Modifier.fillMaxHeight(0.05f))
+        Spacer(modifier = Modifier.fillMaxHeight(0.02f))
 
         ProgressionBar(
             modifiers = modifiers,

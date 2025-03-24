@@ -117,7 +117,6 @@ fun AppNavigation(
                         navController = navController,
                         user = it,
                         onUserDeleted = {
-                            // Set the user to null in MainActivity
                             onUserAuthenticated(null)
                         }
                     )                }
