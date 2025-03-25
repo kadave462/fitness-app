@@ -38,7 +38,7 @@ fun AllSessionsScreen(modifiers: Modifiers, sessionRepository: SessionRepository
     }
 
     Column(modifier = modifiers.bigPaddingModifier(true)) {
-        Text("Sessions personnalisées", style = MaterialTheme.typography.titleLarge)
+        Text("Séances personnalisées", style = MaterialTheme.typography.titleLarge)
         LazyColumn(modifiers.containerModifier){
             items(allSessions){session ->
                 var isSelected by remember { mutableStateOf(false) }

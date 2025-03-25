@@ -8,7 +8,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,9 +23,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,7 +51,7 @@ import com.example.myfitnessapp.ui.components.EditableTextField
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.components.LevelSelector
 import com.example.myfitnessapp.ui.theme.Modifiers
-import com.example.myfitnessapp.ui.views.clearGoogleUserInfo
+import com.example.myfitnessapp.viewmodels.utils.clearGoogleUserInfo
 import com.example.myfitnessapp.viewmodels.repositories.UserRepository
 import kotlinx.coroutines.launch
 
@@ -189,18 +187,19 @@ fun ProfileScreen(
         Button(
             onClick = { showDeleteConfirmation = true },
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red.copy(alpha = 0.8f)
+                containerColor = MaterialTheme.colorScheme.error
             ),
             modifier = Modifier
                 .width(200.dp)
-                .height(40.dp)
-                .padding(vertical = 4.dp),
-            shape = RoundedCornerShape(8.dp)
+                .height(50.dp),
+            shape = Shapes().small
         ) {
             Text(
                 "Supprimer mon compte",
-                color = Color.White,
-                fontSize = 14.sp
+                style = MaterialTheme.typography.bodySmall.copy(
+                    textAlign = TextAlign.Center
+                ),
+                modifier = Modifier.fillMaxSize()
             )
         }
     }
@@ -211,17 +210,16 @@ fun ProfileScreen(
             title = {
                 Text(
                     "Supprimer votre compte ?",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+                    style = MaterialTheme.typography.headlineSmall,
+                    textAlign = TextAlign.Center
                 )
             },
             text = {
                 Text(
-                    "Cette action supprimera définitivement votre compte et l'ensemble de vos données." +
-                            "Cette action est irréversible.",
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
-                    textAlign = TextAlign.Center
+                    "Cette action supprimera définitivement votre compte et l'ensemble de vos données. Cette action est irréversible.",
+                    style = MaterialTheme.typography.bodySmall,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onError
                 )
             },
             confirmButton = {
@@ -229,9 +227,6 @@ fun ProfileScreen(
                     onClick = {
                         showDeleteConfirmation = false
                         coroutineScope.launch {
-                            val userRepository = UserRepository(context, user)
-                            userRepository.deleteUser(user.id)
-
                             clearGoogleUserInfo(context)
 
                             onUserDeleted()
@@ -239,34 +234,39 @@ fun ProfileScreen(
                             navController.navigate("auth_screen") {
                                 popUpTo("auth_screen") { inclusive = true }
                             }
+
+                            val userRepository = UserRepository(context, user)
+                            userRepository.deleteUser(user.id)
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Red
+                        containerColor = MaterialTheme.colorScheme.error
                     ),
                     modifier = Modifier
-                        .width(100.dp)
+                        .width(120.dp)
                         .height(36.dp)
                 ) {
-                    Text("Confirmer", fontSize = 12.sp)
+                    Text("Confirmer",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onError)
                 }
             },
             dismissButton = {
                 Button(
                     onClick = { showDeleteConfirmation = false },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Gray
+                        containerColor = MaterialTheme.colorScheme.onTertiary
                     ),
                     modifier = Modifier
-                        .width(100.dp)
+                        .width(120.dp)
                         .height(36.dp)
                 ) {
-                    Text("Annuler", fontSize = 12.sp)
+                    Text("Annuler",
+                        style = MaterialTheme.typography.bodySmall,)
                 }
             },
             modifier = Modifier
-                .padding(16.dp)
-                .width(300.dp)
+                .width(450.dp)
         )
     }
 }
