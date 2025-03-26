@@ -15,6 +15,8 @@ import androidx.navigation.navArgument
 import com.example.myfitnessapp.models.database.AppDatabase
 import com.example.myfitnessapp.models.entities.User
 import com.example.myfitnessapp.models.interfaces.SessionRepositoryInterface
+import com.example.myfitnessapp.ui.screens.AddFoodEntryScreen
+import com.example.myfitnessapp.ui.screens.AddFoodScreen
 import com.example.myfitnessapp.ui.screens.AdminDashboardScreen
 import com.example.myfitnessapp.ui.screens.AllSessionsScreen
 import com.example.myfitnessapp.ui.screens.AuthScreen
@@ -23,6 +25,8 @@ import com.example.myfitnessapp.viewmodels.utils.NavigationUtils
 import com.example.myfitnessapp.ui.screens.ExerciseScreen
 import com.example.myfitnessapp.ui.screens.HomeScreen
 import com.example.myfitnessapp.ui.screens.LoginScreen
+import com.example.myfitnessapp.ui.screens.NutritionDashboardScreen
+import com.example.myfitnessapp.ui.screens.NutritionGoalsScreen
 import com.example.myfitnessapp.ui.screens.ProfileScreen
 import com.example.myfitnessapp.ui.screens.RegistrationScreen
 import com.example.myfitnessapp.ui.screens.SessionDetailScreen
@@ -162,9 +166,7 @@ fun AppNavigation(
                 }
             }
 
-            // In AppNavigation.kt, add:
             composable("admin_dashboard") {
-                // Check if user is an admin before allowing access
                 user?.let { currentUser ->
                     val userRepo = UserRepository(LocalContext.current, currentUser)
                     LaunchedEffect(key1 = Unit) {
@@ -180,6 +182,35 @@ fun AppNavigation(
                         adminUser = currentUser,
                         userRepository = userRepo
                     )
+                }
+            }
+
+
+            composable("nutrition_dashboard") {
+                user?.let {
+                    NutritionDashboardScreen(modifiers, navController, it)
+                }
+            }
+
+            composable("add_food") {
+                user?.let {
+                    AddFoodScreen(modifiers, navController, it)
+                }
+            }
+
+            composable(
+                route = "add_food_entry/{foodId}",
+                arguments = listOf(navArgument("foodId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val foodId = backStackEntry.arguments?.getInt("foodId") ?: 0
+                user?.let {
+                    AddFoodEntryScreen(modifiers, navController, foodId, it)
+                }
+            }
+
+            composable("nutrition_goals") {
+                user?.let {
+                    NutritionGoalsScreen(modifiers, navController, it)
                 }
             }
 

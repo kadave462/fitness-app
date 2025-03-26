@@ -74,6 +74,17 @@ fun NavigationBar(navController: NavController){
                     modifier = Modifier.size(48.dp)
                 )
             }
+
+            IconButton(
+                onClick = { if (currentRoute != "nutrition_dashboard") navController.navigate("nutrition_dashboard") },
+                modifier = Modifier.weight(1f)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_nutrition), // Add this icon
+                    contentDescription = "Nutrition",
+                    modifier = Modifier.size(48.dp)
+                )
+            }
         }
     }
 }

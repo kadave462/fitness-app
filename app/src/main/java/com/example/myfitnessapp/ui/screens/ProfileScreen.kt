@@ -239,29 +239,20 @@ fun ProfileScreen(
                 Button(
                     onClick = {
                         showDeleteConfirmation = false
-                        // Delete user account
                         coroutineScope.launch {
-                            // Delete from the database
                             val userRepository = UserRepository(context, user)
                             userRepository.deleteUser(user.id)
 
-                            // Clear Google credentials if present
                             try {
-                                // Clear stored Google user info
                                 clearGoogleUserInfo(context)
 
-                                // Clear credentials from Credential Manager
                                 val credentialManager = CredentialManager.create(context)
-                                // Note: There's no direct method to clear credentials, but we can
-                                // effectively invalidate them by clearing our stored info
+
                             } catch (e: Exception) {
-                                // Log error but continue with deletion process
                             }
 
-                            // Notify parent components about deletion
                             onUserDeleted()
 
-                            // Navigate back to auth screen
                             navController.navigate("auth_screen") {
                                 popUpTo("auth_screen") { inclusive = true }
                             }
@@ -292,7 +283,7 @@ fun ProfileScreen(
             },
             modifier = Modifier
                 .padding(16.dp)
-                .width(300.dp)  // Set a fixed width for the dialog
+                .width(300.dp)
         )
     }
 }
