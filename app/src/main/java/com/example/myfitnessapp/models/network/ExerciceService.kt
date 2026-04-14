@@ -10,20 +10,19 @@ import java.io.File
 interface ExerciceService {
     @Headers(
         "Accept: */*",
-        "x-rapidapi-key: 0268a875e9msh2c903e8675fa394p14a505jsnac0cc5aa4181",
-
-    )
-
+       // "x-rapidapi-key: 0268a875e9msh2c903e8675fa394p14a505jsnac0cc5aa4181",
+        "x-rapidapi-key: 4a64a05b79msh89e0142002e9677p19c490jsnd2f1f1f3089b",
+        )
     @GET("/exercises")
     suspend fun getExercises(
-        @Query("limit") limit: Int = 0,
-        @Query("equipment") equipment: String = "body weight",
-        @Query("sortMethod") sortMethod: String = "target"
+        @Query("limit") limit: Int = 10,
+//        @Query("equipment") equipment: String = "body weight",
+//        @Query("sortMethod") sortMethod: String = "target"
     ): List<ExerciseResponse>
 
 
-    @GET("/exercises/image/{id}")
-    suspend fun getGif(
-        @Path("id") id: String
-    ): File?
+//    @GET("/exercises/image/{id}")
+//    suspend fun getGif(
+//        @Path("id") id: String
+//    ): File?
 }

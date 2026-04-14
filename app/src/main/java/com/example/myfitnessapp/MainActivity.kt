@@ -46,7 +46,22 @@ class MainActivity : ComponentActivity() {
                 val scope = rememberCoroutineScope()
                 val navController = rememberNavController()
                 val database = AppDatabase.getDatabase(LocalContext.current)
-                var user by remember { mutableStateOf<User?>(null) }
+                //var user by remember { mutableStateOf<User?>(null) }
+                var user by remember { mutableStateOf<User?>(
+                    User(
+                        id = 1,
+                        email = "test@test.com",
+                        passwordHash = "",
+                        pseudonym = "TestUser",
+                        firstName = "Test",
+                        lastName = "User",
+                        weight = 70.0,
+                        height = 175,
+                        birthdate = "1995-01-01",
+                        gender = "Homme",
+                        level = "Débutant"
+                    )
+                ) }
                 val exerciseRepository = remember { ExerciseRepository(this) }
                 val sessionRepository = remember {SessionRepository(this)}
                 val modifiers = Modifiers()
