@@ -8,7 +8,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,9 +23,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,7 +43,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.credentials.CredentialManager
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.myfitnessapp.R
@@ -54,7 +51,7 @@ import com.example.myfitnessapp.ui.components.EditableTextField
 import com.example.myfitnessapp.ui.components.FloatingButtonView
 import com.example.myfitnessapp.ui.components.LevelSelector
 import com.example.myfitnessapp.ui.theme.Modifiers
-import com.example.myfitnessapp.ui.views.clearGoogleUserInfo
+import com.example.myfitnessapp.viewmodels.utils.clearGoogleUserInfo
 import com.example.myfitnessapp.viewmodels.repositories.UserRepository
 import kotlinx.coroutines.launch
 
@@ -69,7 +66,6 @@ fun ProfileScreen(
     val coroutineScope = rememberCoroutineScope()
     var profileImageUri by remember { mutableStateOf(user.profilePictureUri?.let { Uri.parse(it) }) }
 
-    // State for delete confirmation dialog
     var showDeleteConfirmation by remember { mutableStateOf(false) }
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
@@ -188,104 +184,89 @@ fun ProfileScreen(
             }
         }
 
-        // Delete Account button - Made smaller and centered
         Button(
             onClick = { showDeleteConfirmation = true },
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red.copy(alpha = 0.8f)
+                containerColor = MaterialTheme.colorScheme.error
             ),
             modifier = Modifier
-                .width(200.dp)  // Smaller width
-                .height(40.dp)  // Smaller height
-                .padding(vertical = 4.dp),
-            shape = RoundedCornerShape(8.dp)
+                .width(200.dp)
+                .height(50.dp),
+            shape = Shapes().small
         ) {
             Text(
                 "Supprimer mon compte",
-                color = Color.White,
-                fontSize = 14.sp
+                style = MaterialTheme.typography.bodySmall.copy(
+                    textAlign = TextAlign.Center
+                ),
+                modifier = Modifier.fillMaxSize()
             )
         }
     }
 
-    // Confirmation Dialog - Made smaller with more readable text
     if (showDeleteConfirmation) {
         AlertDialog(
             onDismissRequest = { showDeleteConfirmation = false },
             title = {
                 Text(
                     "Supprimer votre compte ?",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+                    style = MaterialTheme.typography.headlineSmall,
+                    textAlign = TextAlign.Center
                 )
             },
             text = {
                 Text(
-                    "Cette action supprimera définitivement votre compte et toutes vos données. " +
-                            "Cette action est irréversible.",
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
-                    textAlign = TextAlign.Center
+                    "Cette action supprimera définitivement votre compte et l'ensemble de vos données. Cette action est irréversible.",
+                    style = MaterialTheme.typography.bodySmall,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onError
                 )
             },
             confirmButton = {
                 Button(
                     onClick = {
                         showDeleteConfirmation = false
-                        // Delete user account
                         coroutineScope.launch {
-                            // Delete from the database
-                            val userRepository = UserRepository(context, user)
-                            userRepository.deleteUser(user.id)
+                            clearGoogleUserInfo(context)
 
-                            // Clear Google credentials if present
-                            try {
-                                // Clear stored Google user info
-                                clearGoogleUserInfo(context)
-
-                                // Clear credentials from Credential Manager
-                                val credentialManager = CredentialManager.create(context)
-                                // Note: There's no direct method to clear credentials, but we can
-                                // effectively invalidate them by clearing our stored info
-                            } catch (e: Exception) {
-                                // Log error but continue with deletion process
-                            }
-
-                            // Notify parent components about deletion
                             onUserDeleted()
 
-                            // Navigate back to auth screen
                             navController.navigate("auth_screen") {
                                 popUpTo("auth_screen") { inclusive = true }
                             }
+
+                            val userRepository = UserRepository(context, user)
+                            userRepository.deleteUser(user.id)
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Red
+                        containerColor = MaterialTheme.colorScheme.error
                     ),
                     modifier = Modifier
-                        .width(100.dp)
+                        .width(120.dp)
                         .height(36.dp)
                 ) {
-                    Text("Confirmer", fontSize = 12.sp)
+                    Text("Confirmer",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onError)
                 }
             },
             dismissButton = {
                 Button(
                     onClick = { showDeleteConfirmation = false },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Gray
+                        containerColor = MaterialTheme.colorScheme.onTertiary
                     ),
                     modifier = Modifier
-                        .width(100.dp)
+                        .width(120.dp)
                         .height(36.dp)
                 ) {
-                    Text("Annuler", fontSize = 12.sp)
+                    Text("Annuler",
+                        style = MaterialTheme.typography.bodySmall,)
                 }
             },
             modifier = Modifier
-                .padding(16.dp)
-                .width(300.dp)  // Set a fixed width for the dialog
+                .width(450.dp)
         )
     }
 }

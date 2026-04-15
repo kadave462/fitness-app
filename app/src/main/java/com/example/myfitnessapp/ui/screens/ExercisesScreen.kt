@@ -81,17 +81,20 @@ fun ExerciseScreen(
                 }
 
             } else {
-                NewSessionView(onDismiss = { exerciseRepository.newSession.value = false }, onAdd = {
-                    rememberCoroutineScope.launch {
-                        sessionRepository.saveSession(it, selectedExercises)
-                        navController.navigate("all_sessions_screen")
-                    }
-                })
+                NewSessionView(
+                    onAdd = {
+                        rememberCoroutineScope.launch {
+                            sessionRepository.saveSession(it, selectedExercises)
+                            navController.navigate("all_sessions_screen")
+                            exerciseRepository.selectedExercises.clear()
+                        }
+                    },
+                    onDismiss = { exerciseRepository.newSession.value = false },
+                )
             }
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

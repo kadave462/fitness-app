@@ -38,16 +38,16 @@ class ExerciseRepository(context: Context) {
                 }
         }
 
-        private suspend fun fetchGif(gifUrl: String): File? {
-                val id = gifUrl.substringAfterLast("/")
-                return try {
-                        Log.d("ExerciseRepository", "Fetching GIF with ID: $id")
-                        api.getGif(id)
-                } catch (e: Exception) {
-                        showError(e)
-                        null
-                }
-        }
+//        private suspend fun fetchGif(gifUrl: String): File? {
+//                val id = gifUrl.substringAfterLast("/")
+//                return try {
+//                        Log.d("ExerciseRepository", "Fetching GIF with ID: $id")
+//                        api.getGif(id)
+//                } catch (e: Exception) {
+//                        showError(e)
+//                        null
+//                }
+//        }
 
         suspend fun makeExercisesList() {
                 if (allExercises == null) {
@@ -55,7 +55,6 @@ class ExerciseRepository(context: Context) {
                         val exercises = mutableListOf<Exercise>()
 
                         for (exerciseResponse in exerciseResponses) {
-                                val gif = fetchGif(exerciseResponse.id)
                                 exercises.add(
                                         Exercise(
                                                 exerciseResponse.id,
@@ -64,7 +63,7 @@ class ExerciseRepository(context: Context) {
                                                 exerciseResponse.target,
                                                 exerciseResponse.secondaryMuscles,
                                                 exerciseResponse.gifUrl,
-                                                gif
+
                                         )
                                 )
                         }

@@ -11,7 +11,7 @@ data class Exercise(
     val bodyPart: String,
     val target: String,
     val secondaryMuscles: List<String>,
-    val gifUrl: String,
+    val gifUrl: String?,
     var gif: File? = null
 )
 

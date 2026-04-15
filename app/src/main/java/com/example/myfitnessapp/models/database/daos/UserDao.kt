@@ -9,6 +9,8 @@ import com.example.myfitnessapp.models.entities.User
 
 @Dao
 interface UserDao {
+    @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
+    suspend fun getUserByEmail(email: String): User?
 
     @Query("SELECT MAX(id) FROM users")
     suspend fun getMaxUserId(): Int?
